@@ -1,0 +1,9 @@
+# ninja log v5
+3	1822	7267003202558790	secure-notes-ogranizer_autogen/timestamp	907acdb2421a0ecf
+3	1822	7267003202558790	secure-notes-ogranizer_autogen/mocs_compilation.cpp	907acdb2421a0ecf
+3	1822	7267003202558790	C:/Users/Ahmed hany/Desktop/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/secure-notes-ogranizer_autogen/timestamp	907acdb2421a0ecf
+3	1822	7267003202558790	C:/Users/Ahmed hany/Desktop/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/secure-notes-ogranizer_autogen/mocs_compilation.cpp	907acdb2421a0ecf
+1835	8236	7267003268008761	CMakeFiles/secure-notes-ogranizer.dir/main.cpp.obj	ad569a6debeebe9a
+1824	8317	7267003268838736	CMakeFiles/secure-notes-ogranizer.dir/secure-notes-ogranizer_autogen/mocs_compilation.cpp.obj	4ec1eec2093bb42b
+1829	8549	7267003271148760	CMakeFiles/secure-notes-ogranizer.dir/widget.cpp.obj	783b7a0db58a7b02
+8550	9291	7267003278488763	secure-notes-ogranizer.exe	7d8a0e3621e667ca
