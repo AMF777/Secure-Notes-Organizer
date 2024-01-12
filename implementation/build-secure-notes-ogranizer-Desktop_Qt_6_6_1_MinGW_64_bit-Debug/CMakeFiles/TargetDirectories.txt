@@ -1,9 +1,0 @@
-C:/Users/Ahmed hany/Desktop/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/secure-notes-ogranizer.dir
-C:/Users/Ahmed hany/Desktop/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
-C:/Users/Ahmed hany/Desktop/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
-C:/Users/Ahmed hany/Desktop/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
-C:/Users/Ahmed hany/Desktop/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/install.dir
-C:/Users/Ahmed hany/Desktop/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
-C:/Users/Ahmed hany/Desktop/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
-C:/Users/Ahmed hany/Desktop/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/secure-notes-ogranizer_autogen_timestamp_deps.dir
-C:/Users/Ahmed hany/Desktop/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/secure-notes-ogranizer_autogen.dir
