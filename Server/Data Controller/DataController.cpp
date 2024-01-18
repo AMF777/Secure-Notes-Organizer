@@ -13,14 +13,15 @@ void DataController::connect(std::string ip, std::string username, std::string p
         std::cout << "SQL State: " << e.getSQLState() << std::endl;
     }
 }
-bool DataController::Dc_signup(std::string username,std::string email ,std::string hashedPassword){
+bool DataController::Dc_signup(User& user){
     try{
         pstmt=con->prepareStatement("INSERT INTO users (username,email,password_hash) VALUES (?,?,?)");
-        pstmt->setString(1,username);
-        pstmt->setString(2,email);
-        pstmt->setString(3,hashedPassword);
+        pstmt->setString(1,user.getuserName());
+        pstmt->setString(2,user.getemail());
+        pstmt->setString(3,user.gethashedPassword());
         pstmt->execute();
         std::cout << "User added successfully" << std::endl;
+        user.setuserId(Dc_getUserId(user.getemail()));
         return true;
     }
     catch(sql::SQLException &e){
@@ -28,6 +29,27 @@ bool DataController::Dc_signup(std::string username,std::string email ,std::stri
         std::cout << "Error Code: " << e.getErrorCode() << std::endl;
         std::cout << "SQL State: " << e.getSQLState() << std::endl;
         return false;
+    }
+}
+// This function returns the user_id of the user with the specified email to be used in the login function
+int DataController::Dc_getUserId(std::string email){
+    try{
+        pstmt=con->prepareStatement("SELECT user_id FROM users WHERE email=?");
+        pstmt->setString(1,email);
+        res=pstmt->executeQuery();
+        if(res->next()){
+            return res->getInt("user_id");
+        }
+        else{
+            std::cout << "User not found" << std::endl;
+            return -1;
+        }
+    }
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        std::cout << "Error Code: " << e.getErrorCode() << std::endl;
+        std::cout << "SQL State: " << e.getSQLState() << std::endl;
+        return -1;
     }
 }
 bool DataController::Dc_login(std::string email,std::string hashedPassword){
@@ -52,6 +74,29 @@ bool DataController::Dc_login(std::string email,std::string hashedPassword){
             return false;
         }
     }
+bool DataController::Dc_login(User& user){
+    try{
+        pstmt=con->prepareStatement("SELECT * FROM users WHERE email=? AND password_hash=?");
+        pstmt->setString(1,user.getemail());
+        pstmt->setString(2,user.gethashedPassword());
+        res=pstmt->executeQuery();
+        if(res->next()){
+            std::cout << "User logged in successfully" << std::endl;
+            user.setuserId(res->getInt("user_id"));
+            return true;
+        }
+        else{
+            std::cout << "Email or Password provided is long" << std::endl;
+            return false;
+        }
+    }
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        std::cout << "Error Code: " << e.getErrorCode() << std::endl;
+        std::cout << "SQL State: " << e.getSQLState() << std::endl;
+        return false;
+    }
+}
 bool DataController::Dc_CreateNote(int userId, std::string title) {
     try {
         // Check if the specified user_id exists in the users table
