@@ -52,28 +52,6 @@ int DataController::Dc_getUserId(std::string email){
         return -1;
     }
 }
-bool DataController::Dc_login(std::string email,std::string hashedPassword){
-        try{
-            pstmt=con->prepareStatement("SELECT * FROM users WHERE email=? AND password_hash=?");
-            pstmt->setString(1,email);
-            pstmt->setString(2,hashedPassword);
-            res=pstmt->executeQuery();
-            if(res->next()){
-                std::cout << "User logged in successfully" << std::endl;
-                return true;
-            }
-            else{
-                std::cout << "User not found" << std::endl;
-                return false;
-            }
-        }
-        catch(sql::SQLException &e){
-            std::cout << "Error: " << e.what() << std::endl;
-            std::cout << "Error Code: " << e.getErrorCode() << std::endl;
-            std::cout << "SQL State: " << e.getSQLState() << std::endl;
-            return false;
-        }
-    }
 bool DataController::Dc_login(User& user){
     try{
         pstmt=con->prepareStatement("SELECT * FROM users WHERE email=? AND password_hash=?");
@@ -86,7 +64,7 @@ bool DataController::Dc_login(User& user){
             return true;
         }
         else{
-            std::cout << "Email or Password provided is long" << std::endl;
+            std::cout << "Email or Password provided is wrong" << std::endl;
             return false;
         }
     }
@@ -97,42 +75,110 @@ bool DataController::Dc_login(User& user){
         return false;
     }
 }
-bool DataController::Dc_CreateNote(int userId, std::string title) {
-    try {
+
+std::string DataController::Dc_getNoteCreatedAt(int noteId){
+    try{
+        pstmt=con->prepareStatement("SELECT created_at FROM notes WHERE note_id=?");
+        pstmt->setInt(1,noteId);
+        res=pstmt->executeQuery();
+        if(res->next()){
+            return res->getString("created_at");
+        }
+        else{
+            std::cout << "Note not found" << std::endl;
+            return "Error";
+        }
+    }
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        std::cout << "Error Code: " << e.getErrorCode() << std::endl;
+        std::cout << "SQL State: " << e.getSQLState() << std::endl;
+        return "Error";
+    }
+}
+std::string DataController::Dc_getNoteUpdatedAt(int noteId){
+    try{
+        pstmt=con->prepareStatement("SELECT updated_at FROM notes WHERE note_id=?");
+        pstmt->setInt(1,noteId);
+        res=pstmt->executeQuery();
+        if(res->next()){
+            return res->getString("updated_at");
+        }
+        else{
+            std::cout << "Note not found" << std::endl;
+            return "Error";
+        }
+    }
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        std::cout << "Error Code: " << e.getErrorCode() << std::endl;
+        std::cout << "SQL State: " << e.getSQLState() << std::endl;
+        return "Error";
+    }
+}
+int DataController::Dc_getNoteId(Note& note){
+    try{
+        pstmt=con->prepareStatement("SELECT note_id FROM notes WHERE user_id=? AND title=? AND created_at=?");
+        pstmt->setInt(1,note.getuserId());
+        pstmt->setString(2,note.gettitle());
+        pstmt->setString(3,note.getcreatedAt());
+        res=pstmt->executeQuery();
+        if(res->next()){
+            return res->getInt("note_id");
+        }
+        else{
+            std::cout << "Note not found" << std::endl;
+            return -1;
+        }
+    }
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        std::cout << "Error Code: " << e.getErrorCode() << std::endl;
+        std::cout << "SQL State: " << e.getSQLState() << std::endl;
+        return -1;
+    }
+}
+
+bool DataController::Dc_CreateNote(Note& note){
+    try{
         // Check if the specified user_id exists in the users table
         pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
-        pstmt->setInt(1, userId);
+        pstmt->setInt(1, note.getuserId());
 
         res = pstmt->executeQuery();
 
         if (!res->next()) {
-            std::cout << "Error: User with user_id " << userId << " does not exist." << std::endl;
+            std::cout << "Error: User with user_id " << note.getuserId() << " does not exist." << std::endl;
             return false;
         }
-
-        // Prepare a SQL statement with placeholders
-        pstmt = con->prepareStatement("INSERT INTO notes (user_id, title, created_at) VALUES (?, ?, NOW())");
-
-        // Set the values for the placeholders
-        pstmt->setInt(1, userId);
-        pstmt->setString(2, title);
-
-        // Execute the prepared statement
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("INSERT INTO notes (user_id,title,created_at) VALUES (?,?,NOW())");
+        pstmt->setInt(1,note.getuserId());
+        pstmt->setString(2,note.gettitle());
         pstmt->execute();
 
+        // Execute a new query to get the last inserted id
+        pstmt = con->prepareStatement("SELECT LAST_INSERT_ID()");
+        res = pstmt->executeQuery();
+        if(res->next()){
+            int noteId = res->getInt(1);
+            note.setnoteId(noteId);
+        }
         std::cout << "Note added successfully" << std::endl;
+        // set the note id and created at and updated at fields of the note object
+        
+        note.setcreatedAt(Dc_getNoteCreatedAt(note.getnoteId()));
+        note.setupdatedAt(Dc_getNoteUpdatedAt(note.getnoteId()));
         return true;
-    } catch (sql::SQLException &e) {
-        // Handle any exceptions that might occur during the note creation process
-
-        // Output error details to the console
+    }
+    catch(sql::SQLException &e){
         std::cout << "Error: " << e.what() << std::endl;
         std::cout << "Error Code: " << e.getErrorCode() << std::endl;
         std::cout << "SQL State: " << e.getSQLState() << std::endl;
-
         return false;
     }
 }
+
 std::vector<std::string> DataController::Dc_ListUsertNotes(int userId) {
     try {
         // Check if the specified user_id exists in the users table

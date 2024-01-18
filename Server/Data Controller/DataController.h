@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include "User.h"
+#include "Note.h"
 using namespace sql;
 class DataController{
     private:
@@ -21,9 +22,13 @@ class DataController{
         void connect(std::string ip, std::string username, std::string password, std::string schema);
         bool Dc_signup(User& user);
         int Dc_getUserId(std::string email);
-        bool Dc_login(std::string email,std::string hashedPassword);
         bool Dc_login(User& user);
         bool Dc_CreateNote(int userId,std::string title);
+        bool Dc_CreateNote(Note& note);
+        // this is a helper function to get the current time in the format of YYYY-MM-DD HH:MM:SS to be used in the create and update note functions
+        std::string Dc_getNoteCreatedAt(int noteId);
+        std::string Dc_getNoteUpdatedAt(int noteId);
+        int Dc_getNoteId(Note& note);
         std::vector<std::string> Dc_ListUsertNotes(int userId);
         std::vector<std::string> Dc_SearchByTitle(int userId,std::string title);
 };
