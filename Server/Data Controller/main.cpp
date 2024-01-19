@@ -7,7 +7,7 @@ int main(){
     Note* note=new Note();
     note->setuserId(29);
     note->setnoteId(10);
-    note->settitle("Note 1 updated2");
+    note->settitle("Note 1 updated3");
     user->setuserName("Ahmed");
     user->setemail("ahmedmegz@gmail.com");
     user->sethashedPassword("1234");

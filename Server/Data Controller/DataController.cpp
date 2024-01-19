@@ -178,6 +178,7 @@ bool DataController::Dc_CreateNote(Note& note){
         return false;
     }
 }
+
 bool DataController::Dc_UpdateNoteTitle(Note& note){
     try{
         // Check if the specified user_id exists in the users table
@@ -190,14 +191,15 @@ bool DataController::Dc_UpdateNoteTitle(Note& note){
             std::cout << "Error: User with user_id " << note.getuserId() << " does not exist." << std::endl;
             return false;
         }
-        // Check if the specified note_id exists in the notes table
-        pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ?");
+        // Check if the specified note_id exists in the notes table and belongs to the user
+        pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ? AND user_id = ?");
         pstmt->setInt(1, note.getnoteId());
+        pstmt->setInt(2, note.getuserId());
 
         res = pstmt->executeQuery();
 
         if (!res->next()) {
-            std::cout << "Error: Note with note_id " << note.getnoteId() << " does not exist." << std::endl;
+            std::cout << "Error: Note with note_id " << note.getnoteId() << " does not exist or does not belong to the user." << std::endl;
             return false;
         }
         // Prepare a SQL statement with placeholders and execute it
