@@ -15,6 +15,7 @@ int main(){
     std::cout << "User id: " << user->getuserId() << std::endl;
     dc->Dc_login(*user);
     std::cout << "User id of logged in user: " << user->getuserId() << std::endl;
+    std::cout << "User name of logged in user: " << user->getuserName() << std::endl;
     //dc->Dc_CreateNote(*note);
     //dc->Dc_UpdateNoteTitle(*note);
     //note->print();

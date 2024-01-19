@@ -61,6 +61,9 @@ bool DataController::Dc_login(User& user){
         if(res->next()){
             std::cout << "User logged in successfully" << std::endl;
             user.setuserId(res->getInt("user_id"));
+             // Get the username from the database and set it in the user object
+            std::string username = res->getString("username");
+            user.setuserName(username);
             return true;
         }
         else{
