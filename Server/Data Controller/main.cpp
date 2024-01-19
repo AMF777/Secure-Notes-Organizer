@@ -18,7 +18,8 @@ int main(){
     //dc->Dc_CreateNote(*note);
     //dc->Dc_UpdateNoteTitle(*note);
     //note->print();
-    std::vector<Note> notes=dc->Dc_ListUserNotes(user->getuserId());
+    //std::vector<Note> notes=dc->Dc_ListUserNotes(user->getuserId());
+    std::vector<Note> notes=dc->Dc_SearchByTitle(user->getuserId(),"not");
     for(int i=0;i<notes.size();i++){
         notes[i].print();
         std::cout << "/////////////////////////////"<<std::endl;
