@@ -4,10 +4,10 @@ int main(){
     DataController* dc=new DataController();
     dc->connect("tcp://127.0.0.1","root","root","securenoteorganizertest");
     User* user=new User();
-    Note* note=new Note();
+    /*Note* note=new Note();
     note->setuserId(29);
     note->setnoteId(10);
-    note->settitle("Note 1 updated3");
+    note->settitle("Note 1 updated3");*/
     user->setuserName("Ahmed");
     user->setemail("ahmedmegz@gmail.com");
     user->sethashedPassword("1234");
@@ -16,10 +16,15 @@ int main(){
     dc->Dc_login(*user);
     std::cout << "User id of logged in user: " << user->getuserId() << std::endl;
     //dc->Dc_CreateNote(*note);
-    dc->Dc_UpdateNoteTitle(*note);
-    note->print();
+    //dc->Dc_UpdateNoteTitle(*note);
+    //note->print();
+    std::vector<Note> notes=dc->Dc_ListUserNotes(user->getuserId());
+    for(int i=0;i<notes.size();i++){
+        notes[i].print();
+        std::cout << "/////////////////////////////"<<std::endl;
+    }
     delete dc;
     delete user;
-    delete note;
+    //delete note;
     return 0;
 }

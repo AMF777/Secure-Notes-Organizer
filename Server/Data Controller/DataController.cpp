@@ -75,6 +75,30 @@ bool DataController::Dc_login(User& user){
         return false;
     }
 }
+std::vector<Note> DataController::Dc_ListUserNotes(int userId){
+    try{
+        // get all the notes of the user with the specified user_id
+        pstmt=con->prepareStatement("SELECT * FROM notes WHERE user_id=?");
+        pstmt->setInt(1,userId);
+        res=pstmt->executeQuery();
+        std::vector<Note> notes;
+        // Iterate over the result set
+        while(res->next()){
+            Note note;
+            note.setnoteId(res->getInt("note_id"));
+            note.setuserId(res->getInt("user_id"));
+            note.settitle(res->getString("title"));
+            note.setcreatedAt(res->getString("created_at"));
+            note.setupdatedAt(res->getString("updated_at"));
+            notes.push_back(note);
+        }
+        return notes;
+    }
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return {};
+    }
+}
 
 std::string DataController::Dc_getNoteCreatedAt(int noteId){
     try{
