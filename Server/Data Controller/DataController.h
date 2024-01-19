@@ -29,6 +29,7 @@ class DataController{
         std::string Dc_getNoteCreatedAt(int noteId);
         std::string Dc_getNoteUpdatedAt(int noteId);
         int Dc_getNoteId(Note& note);
+        bool Dc_UpdateNoteTitle(Note& note);
         std::vector<std::string> Dc_ListUsertNotes(int userId);
         std::vector<std::string> Dc_SearchByTitle(int userId,std::string title);
 };
