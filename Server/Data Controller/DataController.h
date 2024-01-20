@@ -37,6 +37,7 @@ class DataController{
         bool Dc_CreateNoteComponent(NoteComponent& noteComponent,int userId);
         bool Dc_UpdateNoteComponent(NoteComponent& noteComponent,int userId);
         std::vector<NoteComponent> Dc_ListNoteComponents(Note& note);
-        bool Dc_DeleteNoteComponent(int componentId,int userId,int noteId);   
+        bool Dc_DeleteNoteComponent(int componentId,int userId,int noteId);
+        bool Dc_DeleteNote(int noteId,int userId);   
         
 };
