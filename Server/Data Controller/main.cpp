@@ -20,6 +20,9 @@ int main(){
     //dc->Dc_UpdateNoteTitle(*note);
     //note->print();
     //std::vector<Note> notes=dc->Dc_ListUserNotes(user->getuserId());
+    NoteComponent *noteComponent=new NoteComponent(10,"I am writing my second Note Component for Note 1 Updated3",12,"red","blue",true,true,false);
+    dc->Dc_CreateNoteComponent(*noteComponent,user->getuserId());
+    noteComponent->print();
     std::vector<Note> notes=dc->Dc_SearchByTitle(user->getuserId(),"not");
     for(int i=0;i<notes.size();i++){
         notes[i].print();
@@ -28,5 +31,6 @@ int main(){
     delete dc;
     delete user;
     //delete note;
+    delete noteComponent;
     return 0;
 }

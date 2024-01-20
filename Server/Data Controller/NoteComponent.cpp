@@ -66,6 +66,17 @@ bool NoteComponent::getisItalic(){
 bool NoteComponent::getisUnderlined(){
     return isUnderlined;
 }
+void NoteComponent::print(){
+    std::cout << "Component id: " << componentId << std::endl;
+    std::cout << "Note id: " << noteId << std::endl;
+    std::cout << "Component content: " << componentContent << std::endl;
+    std::cout << "Font size: " << fontSize << std::endl;
+    std::cout << "Font color: " << fontColor << std::endl;
+    std::cout << "Background color: " << backgroundColor << std::endl;
+    std::cout << "Is bold: " << isBold << std::endl;
+    std::cout << "Is italic: " << isItalic << std::endl;
+    std::cout << "Is underlined: " << isUnderlined << std::endl;
+}
 NoteComponent::~NoteComponent(){
     std::cout << "NoteComponent object destroyed" << std::endl;
 }

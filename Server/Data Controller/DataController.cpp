@@ -275,6 +275,60 @@ std:: vector<Note> DataController::Dc_SearchByTitle(int userId,std::string title
         return {};
     }
 }
+bool DataController::Dc_CreateNoteComponent(NoteComponent& noteComponent,int userId){
+    try{
+        // Check if the specified user_id exists in the users table
+        pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
+        pstmt->setInt(1, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: User with user_id " << userId << " does not exist." << std::endl;
+            return false;
+        }
+        // Check if the specified note_id exists in the notes table and belongs to the user
+        pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ? AND user_id = ?");
+        pstmt->setInt(1, noteComponent.getnoteId());
+        pstmt->setInt(2, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: Note with note_id " << noteComponent.getnoteId() << " does not exist or does not belong to the user." << std::endl;
+            return false;
+        }
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("INSERT INTO Component_note (note_id,Component_content,Font_size,Font_color,Background_color,Font_bold,Font_italic,Font_underlined) VALUES (?,?,?,?,?,?,?,?)");
+        pstmt->setInt(1,noteComponent.getnoteId());
+        pstmt->setString(2,noteComponent.getcomponentContent());
+        pstmt->setInt(3,noteComponent.getfontSize());
+        pstmt->setString(4,noteComponent.getfontColor());
+        pstmt->setString(5,noteComponent.getbackgroundColor());
+        pstmt->setBoolean(6,noteComponent.getisBold());
+        pstmt->setBoolean(7,noteComponent.getisItalic());
+        pstmt->setBoolean(8,noteComponent.getisUnderlined());
+        pstmt->execute();
+        std::cout << "Note component added successfully" << std::endl;
+        // Execute a new query to get the last inserted id
+        pstmt = con->prepareStatement("SELECT LAST_INSERT_ID()");
+        res = pstmt->executeQuery();
+        if(res->next()){
+            int componentId = res->getInt(1);
+            noteComponent.setcomponentId(componentId);
+        }
+        // Update the updated_at field in the notes table
+        pstmt = con->prepareStatement("UPDATE notes SET updated_at = NOW() WHERE note_id = ?");
+        pstmt->setInt(1, noteComponent.getnoteId());
+        pstmt->execute();
+        return true;
+    }
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return false;
+    }
+}
+
 
 DataController::~DataController(){
     std::cout << "Destructor called" << std::endl;

@@ -32,5 +32,7 @@ class NoteComponent{
         bool getisBold();
         bool getisItalic();
         bool getisUnderlined();
+        // for debugging purposes
+        void print();
         ~NoteComponent();    
 };
