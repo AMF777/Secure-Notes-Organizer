@@ -404,6 +404,36 @@ std::vector<NoteComponent> DataController::Dc_ListNoteComponents(Note& note){
         return {};
     }
 }
+bool DataController::Dc_DeleteNoteComponent(int componentId,int userId,int noteId){
+    try{
+        // Check if the specified note_id exists in the notes table and belongs to the user
+        pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ? AND user_id = ?");
+        pstmt->setInt(1, noteId);
+        pstmt->setInt(2, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: Note with note_id " << componentId << " does not exist or does not belong to the user." << std::endl;
+            return false;
+        }
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("DELETE FROM Component_note WHERE Component_id=? AND note_id=?");
+        pstmt->setInt(1,componentId);
+        pstmt->setInt(2,noteId);
+        pstmt->execute();
+        std::cout << "Note component deleted successfully" << std::endl;
+        // Update the updated_at field in the notes table
+        pstmt = con->prepareStatement("UPDATE notes SET updated_at = NOW() WHERE note_id = ?");
+        pstmt->setInt(1, noteId);
+        pstmt->execute();
+        return true;
+    }
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return false;
+    }
+}
 
 
 DataController::~DataController(){

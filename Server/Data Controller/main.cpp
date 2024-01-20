@@ -20,7 +20,7 @@ int main(){
     //dc->Dc_UpdateNoteTitle(*note);
     //note->print();
     //std::vector<Note> notes=dc->Dc_ListUserNotes(user->getuserId());
-    //NoteComponent *noteComponent=new NoteComponent(10,"I am writing my updated Note Component for Note 1 Updated3",20,"black","white",true,true,false);
+    //NoteComponent *noteComponent=new NoteComponent(10,"I am writing my Third Note Component for Note 1 Updated3",10,"black","purple",false,true,false);
     //noteComponent->setcomponentId(1);
     //dc->Dc_CreateNoteComponent(*noteComponent,user->getuserId());
     //dc->Dc_UpdateNoteComponent(*noteComponent,user->getuserId());
@@ -30,6 +30,7 @@ int main(){
         notes[i].print();
         std::cout << "/////////////////////////////"<<std::endl;
     }
+    dc->Dc_DeleteNoteComponent(4,user->getuserId(),note->getnoteId());
     std::cout << "Note Components of note id 10"<<std::endl;
     std::vector<NoteComponent> noteComponents=dc->Dc_ListNoteComponents(*note);
     for(int i=0;i<noteComponents.size();i++){
