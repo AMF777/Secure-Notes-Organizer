@@ -364,6 +364,46 @@ bool DataController::Dc_UpdateNoteComponent(NoteComponent& noteComponent,int use
         return false;
     }
 }
+std::vector<NoteComponent> DataController::Dc_ListNoteComponents(Note& note){
+    try{
+        // Check if the specified note_id exists in the notes table and belongs to the user
+        pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ? AND user_id = ?");
+        pstmt->setInt(1, note.getnoteId());
+        pstmt->setInt(2, note.getuserId());
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: Note with note_id " << note.getnoteId() << " does not exist or does not belong to the user." << std::endl;
+            return {};
+        }
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("SELECT * FROM Component_note WHERE note_id=?");
+        pstmt->setInt(1,note.getnoteId());
+        res=pstmt->executeQuery();
+        std::vector<NoteComponent> noteComponents;
+        // Iterate over the result set
+        while(res->next()){
+            NoteComponent noteComponent;
+            noteComponent.setcomponentId(res->getInt("Component_id"));
+            noteComponent.setnoteId(res->getInt("note_id"));
+            noteComponent.setcomponentContent(res->getString("Component_content"));
+            noteComponent.setfontSize(res->getInt("Font_size"));
+            noteComponent.setfontColor(res->getString("Font_color"));
+            noteComponent.setbackgroundColor(res->getString("Background_color"));
+            noteComponent.setisBold(res->getBoolean("Font_bold"));
+            noteComponent.setisItalic(res->getBoolean("Font_italic"));
+            noteComponent.setisUnderlined(res->getBoolean("Font_underlined"));
+            noteComponents.push_back(noteComponent);
+        }
+        return noteComponents;
+    }
+    // Handle any exceptions that might occur during the Search note listing process
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return {};
+    }
+}
 
 
 DataController::~DataController(){

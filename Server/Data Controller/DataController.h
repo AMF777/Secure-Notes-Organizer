@@ -36,5 +36,6 @@ class DataController{
         std::vector<std::string> Dc_ListUsertNotes(int userId);
         bool Dc_CreateNoteComponent(NoteComponent& noteComponent,int userId);
         bool Dc_UpdateNoteComponent(NoteComponent& noteComponent,int userId);
+        std::vector<NoteComponent> Dc_ListNoteComponents(Note& note);
         
 };

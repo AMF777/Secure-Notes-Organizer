@@ -4,10 +4,10 @@ int main(){
     DataController* dc=new DataController();
     dc->connect("tcp://127.0.0.1","root","root","securenoteorganizertest");
     User* user=new User();
-    /*Note* note=new Note();
+    Note* note=new Note();
     note->setuserId(29);
     note->setnoteId(10);
-    note->settitle("Note 1 updated3");*/
+    //note->settitle("Note 1 updated3");
     user->setuserName("Ahmed");
     user->setemail("ahmedmegz@gmail.com");
     user->sethashedPassword("1234");
@@ -20,19 +20,25 @@ int main(){
     //dc->Dc_UpdateNoteTitle(*note);
     //note->print();
     //std::vector<Note> notes=dc->Dc_ListUserNotes(user->getuserId());
-    NoteComponent *noteComponent=new NoteComponent(10,"I am writing my updated Note Component for Note 1 Updated3",20,"black","white",true,true,false);
-    noteComponent->setcomponentId(1);
+    //NoteComponent *noteComponent=new NoteComponent(10,"I am writing my updated Note Component for Note 1 Updated3",20,"black","white",true,true,false);
+    //noteComponent->setcomponentId(1);
     //dc->Dc_CreateNoteComponent(*noteComponent,user->getuserId());
-    dc->Dc_UpdateNoteComponent(*noteComponent,user->getuserId());
-    noteComponent->print();
+    //dc->Dc_UpdateNoteComponent(*noteComponent,user->getuserId());
+    //noteComponent->print();
     std::vector<Note> notes=dc->Dc_SearchByTitle(user->getuserId(),"not");
     for(int i=0;i<notes.size();i++){
         notes[i].print();
         std::cout << "/////////////////////////////"<<std::endl;
     }
+    std::cout << "Note Components of note id 10"<<std::endl;
+    std::vector<NoteComponent> noteComponents=dc->Dc_ListNoteComponents(*note);
+    for(int i=0;i<noteComponents.size();i++){
+        noteComponents[i].print();
+        std::cout << "/////////////////////////////"<<std::endl;
+    }
     delete dc;
     delete user;
     //delete note;
-    delete noteComponent;
+    //delete noteComponent;
     return 0;
 }
