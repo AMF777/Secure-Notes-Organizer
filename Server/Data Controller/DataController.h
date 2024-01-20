@@ -9,6 +9,7 @@
 #include <vector>
 #include "User.h"
 #include "Note.h"
+#include "NoteComponent.h"
 using namespace sql;
 class DataController{
     private:

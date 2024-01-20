@@ -13,13 +13,13 @@ LDFLAGS = -L/usr/lib -lmysqlcppconn
 TARGET = DataController
 
 # Source files
-SOURCES = DataController.cpp main.cpp User.cpp Note.cpp
+SOURCES = DataController.cpp main.cpp User.cpp Note.cpp NoteComponent.cpp
 
 # Object files
 OBJECTS = $(SOURCES:.cpp=.o)
 
 # Header files
-HEADERS = User.h Note.h
+HEADERS = User.h Note.h DataController.h NoteComponent.h
 
 all: $(TARGET)
 
