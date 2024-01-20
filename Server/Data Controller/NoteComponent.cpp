@@ -2,12 +2,14 @@
 NoteComponent::NoteComponent(){
     std::cout << "NoteComponent object created" << std::endl;
 }
-NoteComponent::NoteComponent(int noteId,std::string componentContent,int fontSize,std::string fontColor,std::string backgroundColor,bool isBold,bool isItalic,bool isUnderlined){
+NoteComponent::NoteComponent(int noteId,std::string componentContent,int fontSize,std::string fontColor,std::string backgroundColor,std::string fontFamily,std::string fontStyle,bool isBold,bool isItalic,bool isUnderlined){
     this->noteId=noteId;
     this->componentContent=componentContent;
     this->fontSize=fontSize;
     this->fontColor=fontColor;
     this->backgroundColor=backgroundColor;
+    this->fontFamily=fontFamily;
+    this->fontStyle=fontStyle;
     this->isBold=isBold;
     this->isItalic=isItalic;
     this->isUnderlined=isUnderlined;
@@ -29,6 +31,12 @@ void NoteComponent::setfontColor(std::string color){
 }
 void NoteComponent::setbackgroundColor(std::string color){
     backgroundColor=color;
+}
+void NoteComponent::setfontFamily(std::string family){
+    fontFamily=family;
+}
+void NoteComponent::setfontStyle(std::string style){
+    fontStyle=style;
 }
 void NoteComponent::setisBold(bool bold){
     isBold=bold;
@@ -57,6 +65,12 @@ std::string NoteComponent::getfontColor(){
 std::string NoteComponent::getbackgroundColor(){
     return backgroundColor;
 }
+std::string NoteComponent::getfontFamily(){
+    return fontFamily;
+}
+std::string NoteComponent::getfontStyle(){
+    return fontStyle;
+}
 bool NoteComponent::getisBold(){
     return isBold;
 }
@@ -73,6 +87,8 @@ void NoteComponent::print(){
     std::cout << "Font size: " << fontSize << std::endl;
     std::cout << "Font color: " << fontColor << std::endl;
     std::cout << "Background color: " << backgroundColor << std::endl;
+    std::cout << "Font family: " << fontFamily << std::endl;
+    std::cout << "Font style: " << fontStyle << std::endl;
     std::cout << "Is bold: " << isBold << std::endl;
     std::cout << "Is italic: " << isItalic << std::endl;
     std::cout << "Is underlined: " << isUnderlined << std::endl;

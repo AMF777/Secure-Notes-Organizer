@@ -299,15 +299,17 @@ bool DataController::Dc_CreateNoteComponent(NoteComponent& noteComponent,int use
             return false;
         }
         // Prepare a SQL statement with placeholders and execute it
-        pstmt=con->prepareStatement("INSERT INTO Component_note (note_id,Component_content,Font_size,Font_color,Background_color,Font_bold,Font_italic,Font_underlined) VALUES (?,?,?,?,?,?,?,?)");
+        pstmt=con->prepareStatement("INSERT INTO Component_note (note_id,Component_content,Font_size,Font_color,Background_color,Font_family,Font_style,Font_bold,Font_italic,Font_underlined) VALUES (?,?,?,?,?,?,?,?,?,?)");
         pstmt->setInt(1,noteComponent.getnoteId());
         pstmt->setString(2,noteComponent.getcomponentContent());
         pstmt->setInt(3,noteComponent.getfontSize());
         pstmt->setString(4,noteComponent.getfontColor());
         pstmt->setString(5,noteComponent.getbackgroundColor());
-        pstmt->setBoolean(6,noteComponent.getisBold());
-        pstmt->setBoolean(7,noteComponent.getisItalic());
-        pstmt->setBoolean(8,noteComponent.getisUnderlined());
+        pstmt->setString(6,noteComponent.getfontFamily());
+        pstmt->setString(7,noteComponent.getfontStyle());
+        pstmt->setBoolean(8,noteComponent.getisBold());
+        pstmt->setBoolean(9,noteComponent.getisItalic());
+        pstmt->setBoolean(10,noteComponent.getisUnderlined());
         pstmt->execute();
         std::cout << "Note component added successfully" << std::endl;
         // Execute a new query to get the last inserted id
@@ -342,15 +344,17 @@ bool DataController::Dc_UpdateNoteComponent(NoteComponent& noteComponent,int use
             return false;
         }
         // Prepare a SQL statement with placeholders and execute it
-        pstmt=con->prepareStatement("UPDATE Component_note SET Component_content=?,Font_size=?,Font_color=?,Background_color=?,Font_bold=?,Font_italic=?,Font_underlined=? WHERE Component_id=?");
+        pstmt=con->prepareStatement("UPDATE Component_note SET Component_content=?,Font_size=?,Font_color=?,Background_color=?,Font_family=?,Font_style=?,Font_bold=?,Font_italic=?,Font_underlined=? WHERE Component_id=?");
         pstmt->setString(1,noteComponent.getcomponentContent());
         pstmt->setInt(2,noteComponent.getfontSize());
         pstmt->setString(3,noteComponent.getfontColor());
         pstmt->setString(4,noteComponent.getbackgroundColor());
-        pstmt->setBoolean(5,noteComponent.getisBold());
-        pstmt->setBoolean(6,noteComponent.getisItalic());
-        pstmt->setBoolean(7,noteComponent.getisUnderlined());
-        pstmt->setInt(8,noteComponent.getcomponentId());
+        pstmt->setString(5,noteComponent.getfontFamily());
+        pstmt->setString(6,noteComponent.getfontStyle());
+        pstmt->setBoolean(7,noteComponent.getisBold());
+        pstmt->setBoolean(8,noteComponent.getisItalic());
+        pstmt->setBoolean(9,noteComponent.getisUnderlined());
+        pstmt->setInt(10,noteComponent.getcomponentId());
         pstmt->execute();
         std::cout << "Note component updated successfully" << std::endl;
         // Update the updated_at field in the notes table
@@ -391,6 +395,8 @@ std::vector<NoteComponent> DataController::Dc_ListNoteComponents(Note& note){
             noteComponent.setfontSize(res->getInt("Font_size"));
             noteComponent.setfontColor(res->getString("Font_color"));
             noteComponent.setbackgroundColor(res->getString("Background_color"));
+            noteComponent.setfontFamily(res->getString("Font_family"));
+            noteComponent.setfontStyle(res->getString("Font_style"));
             noteComponent.setisBold(res->getBoolean("Font_bold"));
             noteComponent.setisItalic(res->getBoolean("Font_italic"));
             noteComponent.setisUnderlined(res->getBoolean("Font_underlined"));
