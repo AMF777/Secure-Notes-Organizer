@@ -328,6 +328,42 @@ bool DataController::Dc_CreateNoteComponent(NoteComponent& noteComponent,int use
         return false;
     }
 }
+bool DataController::Dc_UpdateNoteComponent(NoteComponent& noteComponent,int userId){
+    try{
+        // Check if the specified note_id exists in the notes table and belongs to the user
+        pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ? AND user_id = ?");
+        pstmt->setInt(1, noteComponent.getnoteId());
+        pstmt->setInt(2, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: Note with note_id " << noteComponent.getnoteId() << " does not exist or does not belong to the user." << std::endl;
+            return false;
+        }
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("UPDATE Component_note SET Component_content=?,Font_size=?,Font_color=?,Background_color=?,Font_bold=?,Font_italic=?,Font_underlined=? WHERE Component_id=?");
+        pstmt->setString(1,noteComponent.getcomponentContent());
+        pstmt->setInt(2,noteComponent.getfontSize());
+        pstmt->setString(3,noteComponent.getfontColor());
+        pstmt->setString(4,noteComponent.getbackgroundColor());
+        pstmt->setBoolean(5,noteComponent.getisBold());
+        pstmt->setBoolean(6,noteComponent.getisItalic());
+        pstmt->setBoolean(7,noteComponent.getisUnderlined());
+        pstmt->setInt(8,noteComponent.getcomponentId());
+        pstmt->execute();
+        std::cout << "Note component updated successfully" << std::endl;
+        // Update the updated_at field in the notes table
+        pstmt = con->prepareStatement("UPDATE notes SET updated_at = NOW() WHERE note_id = ?");
+        pstmt->setInt(1, noteComponent.getnoteId());
+        pstmt->execute();
+        return true;
+    }
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return false;
+    }
+}
 
 
 DataController::~DataController(){
