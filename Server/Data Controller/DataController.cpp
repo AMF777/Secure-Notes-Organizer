@@ -609,6 +609,61 @@ std::vector<Note> DataController::Dc_FilterByTagName(std::string tagName,int use
         return {};
     }
 }
+bool DataController::Dc_DeleteTag(Tag &tag,int userId){
+    try{
+        // Check if the specified user_id exists in the users table
+        pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
+        pstmt->setInt(1, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: User with user_id " << userId << " does not exist." << std::endl;
+            return false;
+        }
+        // Check if the specified note_id exists in the notes table and belongs to the user
+        pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ? AND user_id = ?");
+        pstmt->setInt(1, tag.getnoteId());
+        pstmt->setInt(2, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: Note with note_id " << tag.getnoteId() << " does not exist or does not belong to the user." << std::endl;
+            return false;
+        }
+        // Check if the specified tag_id exists in the tags table
+        pstmt = con->prepareStatement("SELECT 1 FROM tags WHERE tag_id = ?");
+        pstmt->setInt(1, tag.gettagId());
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: Tag with tag_id " << tag.gettagId() << " does not exist." << std::endl;
+            return false;
+        }
+        // Delete the note_id and tag_id from the note_tags table
+        pstmt = con->prepareStatement("DELETE FROM note_tags WHERE note_id = ? AND tag_id = ?");
+        pstmt->setInt(1, tag.getnoteId());
+        pstmt->setInt(2, tag.gettagId());
+        pstmt->execute();
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("DELETE FROM tags WHERE tag_id=?");
+        pstmt->setInt(1,tag.gettagId());
+        pstmt->execute();
+        std::cout << "Tag deleted successfully" << std::endl;
+        // Update the updated_at field in the notes table
+        pstmt = con->prepareStatement("UPDATE notes SET updated_at = NOW() WHERE note_id = ?");
+        pstmt->setInt(1, tag.getnoteId());
+        pstmt->execute();
+        return true;
+
+    }
+catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return false;
+    }
+}
 DataController::~DataController(){
     std::cout << "Destructor called" << std::endl;
     delete res;

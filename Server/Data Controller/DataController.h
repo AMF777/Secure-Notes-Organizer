@@ -42,6 +42,7 @@ class DataController{
         bool Dc_DeleteNote(int noteId,int userId);
         bool Dc_AddTag(Tag& tag,int userId);
         bool Dc_UpdateTag(Tag& tag,int userId);
-        std::vector<Note> Dc_FilterByTagName(std::string tagName,int userId);  
+        std::vector<Note> Dc_FilterByTagName(std::string tagName,int userId);
+        bool Dc_DeleteTag(Tag& tag,int userId);  
         
 };
