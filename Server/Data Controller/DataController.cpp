@@ -573,6 +573,42 @@ bool DataController::Dc_UpdateTag(Tag& tag,int userId){
         return false;
     }
 }
+std::vector<Note> DataController::Dc_FilterByTagName(std::string tagName,int userId){
+    try{
+        // Check if the specified user_id exists in the users table
+        pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
+        pstmt->setInt(1, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: User with user_id " << userId << " does not exist." << std::endl;
+            return {};
+        }
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("SELECT * FROM notes WHERE note_id IN (SELECT note_id FROM note_tags WHERE tag_id IN (SELECT tag_id FROM tags WHERE tag_name=?)) AND user_id=?");
+        pstmt->setString(1,tagName);
+        pstmt->setInt(2,userId);
+        res=pstmt->executeQuery();
+        std::vector<Note> notes;
+        // Iterate over the result set
+        while(res->next()){
+            Note note;
+            note.setnoteId(res->getInt("note_id"));
+            note.setuserId(res->getInt("user_id"));
+            note.settitle(res->getString("title"));
+            note.setcreatedAt(res->getString("created_at"));
+            note.setupdatedAt(res->getString("updated_at"));
+            notes.push_back(note);
+        }
+        return notes;
+    }
+    // Handle any exceptions that might occur during the Search note listing process
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return {};
+    }
+}
 DataController::~DataController(){
     std::cout << "Destructor called" << std::endl;
     delete res;

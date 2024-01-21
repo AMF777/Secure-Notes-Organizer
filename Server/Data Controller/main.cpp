@@ -10,10 +10,15 @@ int main(){
     //dc->Dc_signup(*user);
     dc->Dc_login(*user);
     std::cout << "User id of logged in user: " << user->getuserId() << std::endl;
-    Tag *tag=new Tag("History updated",2);
+    /*Tag *tag=new Tag("History updated",2);
     tag->settagId(10);
     dc->Dc_UpdateTag(*tag,user->getuserId());
-    tag->print();
+    tag->print();*/
+    std::vector<Note> notes=dc->Dc_FilterByTagName("Art",user->getuserId());
+    for(int i=0;i<notes.size();i++){
+        notes[i].print();
+        std::cout << "/////////////////////////////"<<std::endl;
+    }
     /*Note* note=new Note();
     note->setuserId(user->getuserId());
     note->settitle("Note 1 for mary updated");
