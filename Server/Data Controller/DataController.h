@@ -10,6 +10,7 @@
 #include "User.h"
 #include "Note.h"
 #include "NoteComponent.h"
+#include "Tag.h"
 using namespace sql;
 class DataController{
     private:
