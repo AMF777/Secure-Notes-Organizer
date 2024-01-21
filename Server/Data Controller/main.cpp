@@ -10,8 +10,9 @@ int main(){
     //dc->Dc_signup(*user);
     dc->Dc_login(*user);
     std::cout << "User id of logged in user: " << user->getuserId() << std::endl;
-    Tag *tag=new Tag("Art",1);
-    dc->Dc_AddTag(*tag,user->getuserId());
+    Tag *tag=new Tag("History updated",2);
+    tag->settagId(10);
+    dc->Dc_UpdateTag(*tag,user->getuserId());
     tag->print();
     /*Note* note=new Note();
     note->setuserId(user->getuserId());
