@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/res">
+        <file>img/siemens-logo.png</file>
+        <file>styles/styles.qss</file>
+    </qresource>
+</RCC>

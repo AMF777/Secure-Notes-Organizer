@@ -1,0 +1,9 @@
+.white-background{
+    background-color: #FFFFFF;
+}
+.blue-label {
+    background-color: blue;
+}
+.big-font{
+    font-size:30px;
+}
