@@ -23,6 +23,14 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         signin.h signin.cpp
         constants.h constants.cpp
         res.qrc
+        label_input_vlayout.h label_input_vlayout.cpp
+        img_msg_vlayout.h img_msg_vlayout.cpp
+        clickable_label.h clickable_label.cpp
+        signup.h signup.cpp
+        switcher_widget.h switcher_widget.cpp
+
+
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET secure-notes-ogranizer APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

@@ -1,64 +1,120 @@
 #include "constants.h"
+#include "label_input_vlayout.h"
+#include "img_msg_vlayout.h"
+#include "clickable_label.h"
 
 #include "signin.h"
 #include <QMessageBox>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QFrame>
 
-const QString signin::SIGNIN_TITLE = "Sign in";
-const int signin::SIGNIN_WIDTH = 520;
-const int signin::SIGNIN_HEIGHT = 620;
-const int signin::SIEMENS_LOGO_WIDTH = 180;
-const int signin::SIEMENS_LOGO_HEIGHT = 55;
-
+// const QString signin::SIGNIN_TITLE = "Sign in";
+// const int signin::SIGNIN_WIDTH = 520;
+// const int signin::SIGNIN_HEIGHT = 620;
+// const int signin::SIEMENS_LOGO_WIDTH = 260;
+// const int signin::SIEMENS_LOGO_HEIGHT = 55;
+// const int INPUT_WIDTH=260;
+// const int LOGIN_BUTTON_WIDTH=80;
+// const int LOGIN_BUTTON_HEIGHT=32;
 signin::signin(QWidget *parent)
     : QWidget{parent}
 {
-    // use resize function instead to have a dynamic window/widget
-    // cannot apply width or height through qss styles
+    // create window set the desired properties and styles
     setWindowTitle(SIGNIN_TITLE);
     setFixedSize(SIGNIN_WIDTH, SIGNIN_HEIGHT);
-    setProperty("class", "white-background");
+    // setProperty("class", "white-background");
 
-    QLabel *imageLabel = new QLabel(this);
+    img_msg_vlayout *logoLayout=new img_msg_vlayout(
+        ":/res/img/siemens-logo.png",
+        SIEMENS_LOGO_WIDTH,
+        SIEMENS_LOGO_HEIGHT,
+        "margin-bottom-8px",
+        "Welcome! Login to your account",
+        "user-label margin-bottom-16px",
+        Qt::AlignCenter
+    );
 
-    // now use res to load any file including images
-    // this is how to upload image in qt
-    QPixmap image(":/res/img/siemens-logo.png");
-    // specify aspect ratio?
-    imageLabel->setPixmap(image.scaled(SIEMENS_LOGO_WIDTH, SIEMENS_LOGO_HEIGHT, Qt::KeepAspectRatio) );
+    label_input_vlayout *emailLayout=new label_input_vlayout(
+        "Email Address:",
+        "user-label",
+        INPUT_WIDTH,
+        "user-input"
+    );
 
-    // Set the label alignment to center
-    imageLabel->setAlignment(Qt::AlignCenter);
+    label_input_vlayout *passwordLayout=new label_input_vlayout(
+        "Password:",
+        "user-label",
+        INPUT_WIDTH,
+        "user-input",
+        QLineEdit::Password
+    );
 
-    // Set the QLabel alignment within the parent widget
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->addWidget(imageLabel);
-    layout->setAlignment(Qt::AlignCenter);
+    QPushButton *loginButton = new QPushButton("Login");
+    // loginButton->setFixedWidth(LOGIN_BUTTON_WIDTH);
+    // loginButton->setFixedHeight(LOGIN_BUTTON_HEIGHT);mmmm
+    loginButton->setProperty("class", "login-button margin-bottom-8px");
+    loginButton->setCursor(Qt::PointingHandCursor);
+    connect(loginButton, &QPushButton::clicked, this, [=]() {
+        loginButtonClicked(emailLayout->getInputText(), passwordLayout->getInputText() );  // Replace with your actual arguments
+    });
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
+    buttonLayout->addWidget(loginButton, 0, Qt::AlignLeft);
 
-    // QLabel* label=new QLabel(this);
-    // label->setText("this is first label ever");
-    // label->move(50,50);
+    QFrame *separatorLabel = new QFrame();
+    separatorLabel->setFrameShape(QFrame::HLine);
+    separatorLabel->setProperty("class", "separator-line");
 
-    // QLabel *label1 = new QLabel(this);
-    // label1->setText("This is the first label ever");
-    // label1->move(50, 50);
+    clickable_label *forgotPasswordLabel = new clickable_label("Forgot Password?", "clickable-label");
+    connect(forgotPasswordLabel, &clickable_label::clicked, this, [=]() {
+        forgotPasswordClicked();
+    });
 
-    // QLabel *label2 = new QLabel(this);
-    // label2->setText("Blue Background Label");
-    // label2->move(255, 50);
+    clickable_label *createAccountLabel  = new clickable_label("Don't have an account? Create an account!", "clickable-label");
+    connect(createAccountLabel, &clickable_label::clicked, this, [=]() {
+        createAccountClicked();
+    });
+    QVBoxLayout *clickableLabelsLayout = new QVBoxLayout();
+    clickableLabelsLayout->addWidget(separatorLabel);
+    clickableLabelsLayout->addWidget(forgotPasswordLabel,0,Qt::AlignLeft);
+    clickableLabelsLayout->addWidget(createAccountLabel,0,Qt::AlignLeft);
 
-    // how to style using css:
-    // first define all css classes you would link in styles.qss
-    // this is how to assign a css class to qt component
-    // label2->setProperty("class", "blue-label");
-    // you can assign mul classes as follows
-    // label2->setProperty("class", "blue-label big-font");
+    QVBoxLayout *centerLayout = new QVBoxLayout();
+
+    centerLayout->addLayout(logoLayout);
+    centerLayout->addLayout(emailLayout);
+    centerLayout->addLayout(passwordLayout);
+    centerLayout->addLayout(buttonLayout);
+    centerLayout->addLayout(clickableLabelsLayout);
+
+    // Set margins to zero to minimize spacing in the inner layout
+    centerLayout->setAlignment(Qt::AlignCenter);
+    centerLayout->setContentsMargins(0, 0, 0, 0);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    // Add the inner center layout to the main layout
+    mainLayout->addLayout(centerLayout);
+
 }
 
-void signin::buttonClicked()
+void signin::loginButtonClicked(const QString email, const QString password)
 {
-    QMessageBox::information(this,"message","hello world");
+    qDebug()<<email<<" "<<password;
+}
+
+void signin::forgotPasswordClicked()
+{
+    qDebug()<<"forgotPasswordClicked";
+    QMessageBox::information(this,"Restore password","what should i do?");
+}
+
+void signin::createAccountClicked()
+{
+    qDebug()<<"createAccountClicked";
+    emit switchWidgets();
 }
 // this gives a hint and might not give widget desired width and height
 QSize signin::sizeHint() const

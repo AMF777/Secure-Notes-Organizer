@@ -1,4 +1,7 @@
 #include "signin.h"
+#include "signup.h"
+#include "switcher_widget.h"
+
 #include <QApplication>
 #include <QFile>
 #include <QTextStream>
@@ -11,7 +14,12 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     load_style_sheet();
 
-    signin w;
+    // signin w;
+    // w.show();
+
+    // signup w;
+    // w.show();
+    switcher_widget w;
     w.show();
 
     // type width and height

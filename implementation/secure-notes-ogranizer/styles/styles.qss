@@ -1,7 +1,40 @@
+.user-input{
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+}
+.user-label{
+    color:#2B2B2B;
+    font-weight:lighter;
+}
+.login-button{
+    background-color:#008D87;
+    color:#FFFFFF;
+    font-size:18px;
+    border-radius: 8px;
+    font-weight:bold;
+    padding:6px 14px;
+}
+.clickable-label{
+    color: #008D87;
+    text-decoration: underline;
+}
+.link-label{
+}
+.separator-line {
+    color:#E5E5E5;
+}
+.margin-bottom-8px{
+    margin-bottom: 8px;
+}
+.margin-bottom-16px{
+    margin-bottom: 16px;
+}
 .white-background{
     background-color: #FFFFFF;
 }
-.blue-label {
+.blue-background{
     background-color: blue;
 }
 .big-font{
