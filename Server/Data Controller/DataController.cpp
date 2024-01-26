@@ -14,9 +14,38 @@ void DataController::connect(std::string ip, std::string username, std::string p
         std::cout << "SQL State: " << e.getSQLState() << std::endl;
     }
 }
+/*bool DataController::Dc_signup(User& user){
+    std::lock_guard<std::mutex> lock(mtx);
+    try{
+        pstmt=con->prepareStatement("INSERT INTO users (username,email,password_hash) VALUES (?,?,?)");
+        pstmt->setString(1,user.getuserName());
+        pstmt->setString(2,user.getemail());
+        pstmt->setString(3,user.gethashedPassword());
+        pstmt->execute();
+        std::cout << "User added successfully" << std::endl;
+        user.setuserId(Dc_getUserId(user.getemail()));
+        return true;
+    }
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        std::cout << "Error Code: " << e.getErrorCode() << std::endl;
+        std::cout << "SQL State: " << e.getSQLState() << std::endl;
+        return false;
+    }
+}*/
 bool DataController::Dc_signup(User& user){
     std::lock_guard<std::mutex> lock(mtx);
     try{
+        // Check if the email is already in use
+        std::unique_ptr<sql::PreparedStatement> checkStmt(con->prepareStatement("SELECT * FROM users WHERE email = ?"));
+        checkStmt->setString(1, user.getemail());
+        std::unique_ptr<sql::ResultSet> res(checkStmt->executeQuery());
+        if (res->next()) {
+            std::cout << "Email is already in use" << std::endl;
+            return false;
+        }
+
+        // If the email is not in use, insert the new user
         pstmt=con->prepareStatement("INSERT INTO users (username,email,password_hash) VALUES (?,?,?)");
         pstmt->setString(1,user.getuserName());
         pstmt->setString(2,user.getemail());
