@@ -11,6 +11,7 @@
 #include "Note.h"
 #include "NoteComponent.h"
 #include "Tag.h"
+#include <mutex>
 using namespace sql;
 class DataController{
     private:
@@ -19,6 +20,7 @@ class DataController{
         Statement *stmt;
         ResultSet *res;
         PreparedStatement *pstmt;
+        std::mutex mtx;
     public:
         ~DataController();
         void connect(std::string ip, std::string username, std::string password, std::string schema);

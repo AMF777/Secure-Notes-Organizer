@@ -1,5 +1,6 @@
 #include "DataController.h"
 void DataController::connect(std::string ip, std::string username, std::string password, std::string schema){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         driver = get_driver_instance();
         con = driver->connect(ip,username,password);
@@ -14,6 +15,7 @@ void DataController::connect(std::string ip, std::string username, std::string p
     }
 }
 bool DataController::Dc_signup(User& user){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         pstmt=con->prepareStatement("INSERT INTO users (username,email,password_hash) VALUES (?,?,?)");
         pstmt->setString(1,user.getuserName());
@@ -33,6 +35,8 @@ bool DataController::Dc_signup(User& user){
 }
 // This function returns the user_id of the user with the specified email to be used in the login function
 int DataController::Dc_getUserId(std::string email){
+    std::lock_guard<std::mutex> lock(mtx);
+    
     try{
         pstmt=con->prepareStatement("SELECT user_id FROM users WHERE email=?");
         pstmt->setString(1,email);
@@ -53,6 +57,7 @@ int DataController::Dc_getUserId(std::string email){
     }
 }
 bool DataController::Dc_login(User& user){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         pstmt=con->prepareStatement("SELECT * FROM users WHERE email=? AND password_hash=?");
         pstmt->setString(1,user.getemail());
@@ -79,6 +84,7 @@ bool DataController::Dc_login(User& user){
     }
 }
 std::vector<Note> DataController::Dc_ListUserNotes(int userId){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         // get all the notes of the user with the specified user_id
         pstmt=con->prepareStatement("SELECT * FROM notes WHERE user_id=?");
@@ -104,6 +110,7 @@ std::vector<Note> DataController::Dc_ListUserNotes(int userId){
 }
 
 std::string DataController::Dc_getNoteCreatedAt(int noteId){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         pstmt=con->prepareStatement("SELECT created_at FROM notes WHERE note_id=?");
         pstmt->setInt(1,noteId);
@@ -124,6 +131,7 @@ std::string DataController::Dc_getNoteCreatedAt(int noteId){
     }
 }
 std::string DataController::Dc_getNoteUpdatedAt(int noteId){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         pstmt=con->prepareStatement("SELECT updated_at FROM notes WHERE note_id=?");
         pstmt->setInt(1,noteId);
@@ -144,6 +152,7 @@ std::string DataController::Dc_getNoteUpdatedAt(int noteId){
     }
 }
 int DataController::Dc_getNoteId(Note& note){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         pstmt=con->prepareStatement("SELECT note_id FROM notes WHERE user_id=? AND title=? AND created_at=?");
         pstmt->setInt(1,note.getuserId());
@@ -167,6 +176,7 @@ int DataController::Dc_getNoteId(Note& note){
 }
 
 bool DataController::Dc_CreateNote(Note& note){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         // Check if the specified user_id exists in the users table
         pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
@@ -193,7 +203,9 @@ bool DataController::Dc_CreateNote(Note& note){
         }
         std::cout << "Note added successfully" << std::endl;
         // set the note id and created at and updated at fields of the note object
-        
+        // Release the mutex before calling Dc_getNoteCreatedAt and Dc_getNoteUpdatedAt
+        mtx.unlock();
+
         note.setcreatedAt(Dc_getNoteCreatedAt(note.getnoteId()));
         note.setupdatedAt(Dc_getNoteUpdatedAt(note.getnoteId()));
         return true;
@@ -207,6 +219,7 @@ bool DataController::Dc_CreateNote(Note& note){
 }
 
 bool DataController::Dc_UpdateNoteTitle(Note& note){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         // Check if the specified user_id exists in the users table
         pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
@@ -236,6 +249,8 @@ bool DataController::Dc_UpdateNoteTitle(Note& note){
         pstmt->execute();
         std::cout << "Note updated successfully" << std::endl;
         // set the note id and created at and updated at fields of the note object
+        // Release the mutex before calling Dc_getNoteCreatedAt and Dc_getNoteUpdatedAt
+        mtx.unlock();
         note.setupdatedAt(Dc_getNoteUpdatedAt(note.getnoteId()));
         note.setcreatedAt(Dc_getNoteCreatedAt(note.getnoteId()));
         return true;
@@ -249,6 +264,7 @@ bool DataController::Dc_UpdateNoteTitle(Note& note){
 }
 
 std:: vector<Note> DataController::Dc_SearchByTitle(int userId,std::string title){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         // Check if the specified user_id exists in the users table
         pstmt=con->prepareStatement("SELECT * FROM notes WHERE user_id=? AND title LIKE ?");
@@ -276,6 +292,7 @@ std:: vector<Note> DataController::Dc_SearchByTitle(int userId,std::string title
     }
 }
 bool DataController::Dc_CreateNoteComponent(NoteComponent& noteComponent,int userId){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         // Check if the specified user_id exists in the users table
         pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
@@ -331,6 +348,7 @@ bool DataController::Dc_CreateNoteComponent(NoteComponent& noteComponent,int use
     }
 }
 bool DataController::Dc_UpdateNoteComponent(NoteComponent& noteComponent,int userId){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         // Check if the specified note_id exists in the notes table and belongs to the user
         pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ? AND user_id = ?");
@@ -369,6 +387,7 @@ bool DataController::Dc_UpdateNoteComponent(NoteComponent& noteComponent,int use
     }
 }
 std::vector<NoteComponent> DataController::Dc_ListNoteComponents(Note& note){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         // Check if the specified note_id exists in the notes table and belongs to the user
         pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ? AND user_id = ?");
@@ -411,6 +430,7 @@ std::vector<NoteComponent> DataController::Dc_ListNoteComponents(Note& note){
     }
 }
 bool DataController::Dc_DeleteNoteComponent(int componentId,int userId,int noteId){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         // Check if the specified note_id exists in the notes table and belongs to the user
         pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ? AND user_id = ?");
@@ -441,6 +461,7 @@ bool DataController::Dc_DeleteNoteComponent(int componentId,int userId,int noteI
     }
 }
 bool DataController::Dc_DeleteNote(int noteId,int userId){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         // Check if the specified note_id exists in the notes table and belongs to the user
         pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ? AND user_id = ?");
@@ -472,6 +493,7 @@ bool DataController::Dc_DeleteNote(int noteId,int userId){
     }
 }
 bool DataController::Dc_AddTag(Tag& tag,int userId){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         // Check if the specified user_id exists in the users table
         pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
@@ -524,6 +546,7 @@ bool DataController::Dc_AddTag(Tag& tag,int userId){
     }
 }
 bool DataController::Dc_UpdateTag(Tag& tag,int userId){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         // Check if the specified user_id exists in the users table
         pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
@@ -574,6 +597,7 @@ bool DataController::Dc_UpdateTag(Tag& tag,int userId){
     }
 }
 std::vector<Note> DataController::Dc_FilterByTagName(std::string tagName,int userId){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         // Check if the specified user_id exists in the users table
         pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
@@ -610,6 +634,7 @@ std::vector<Note> DataController::Dc_FilterByTagName(std::string tagName,int use
     }
 }
 bool DataController::Dc_DeleteTag(Tag &tag,int userId){
+    std::lock_guard<std::mutex> lock(mtx);
     try{
         // Check if the specified user_id exists in the users table
         pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
@@ -665,6 +690,7 @@ catch(sql::SQLException &e){
     }
 }
 DataController::~DataController(){
+    std::lock_guard<std::mutex> lock(mtx);
     std::cout << "Destructor called" << std::endl;
     delete res;
     delete stmt;
