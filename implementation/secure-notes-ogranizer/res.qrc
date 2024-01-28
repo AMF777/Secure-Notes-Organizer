@@ -2,5 +2,9 @@
     <qresource prefix="/res">
         <file>img/siemens-logo.png</file>
         <file>styles/styles.qss</file>
+        <file>img/edit.png</file>
+        <file>img/logout.png</file>
+        <file>img/plus.png</file>
+        <file>img/profile.png</file>
     </qresource>
 </RCC>

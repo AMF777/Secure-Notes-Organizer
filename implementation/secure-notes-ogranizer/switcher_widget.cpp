@@ -1,5 +1,6 @@
 #include "signin.h"
 #include "signup.h"
+#include "main_window.h"
 #include "switcher_widget.h"
 
 switcher_widget::switcher_widget(QWidget *parent)
@@ -10,6 +11,7 @@ switcher_widget::switcher_widget(QWidget *parent)
     curIdx=1;
     widgets.append(new signin() );
     widgets.append(new signup() );
+
     // the signal must be of same class of sender
     connect(static_cast<signin*>(widgets[0]), &signin::switchWidgets, this, &switcher_widget::switchWidgets);
     connect(static_cast<signup*>(widgets[1]), &signup::switchWidgets, this, &switcher_widget::switchWidgets);

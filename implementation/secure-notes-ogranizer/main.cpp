@@ -1,6 +1,7 @@
 #include "signin.h"
 #include "signup.h"
 #include "switcher_widget.h"
+#include "main_window.h"
 
 #include <QApplication>
 #include <QFile>
@@ -19,13 +20,16 @@ int main(int argc, char *argv[])
 
     // signup w;
     // w.show();
-    switcher_widget w;
+    // switcher_widget w;
+    // w.show();
+
+    main_window w;
     w.show();
 
     // type width and height
-    int initialWidth = w.width();
-    int initialHeight = w.height();
-    std::cout << "Initial: Width = " << initialWidth << ", Height = " << initialHeight << std::endl;
+    // int initialWidth = w.width();
+    // int initialHeight = w.height();
+    // std::cout << "Initial: Width = " << initialWidth << ", Height = " << initialHeight << std::endl;
     return a.exec();
 }
 

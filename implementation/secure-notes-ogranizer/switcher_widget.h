@@ -1,7 +1,5 @@
 #ifndef SWITCHER_WIDGET_H
 #define SWITCHER_WIDGET_H
-#include "signin.h"
-#include "signup.h"
 
 #include <QWidget>
 #include <QVBoxLayout>

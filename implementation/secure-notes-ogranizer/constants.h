@@ -13,5 +13,7 @@ extern const int SIEMENS_LOGO_HEIGHT;
 extern const int INPUT_WIDTH;
 extern const int LOGIN_BUTTON_WIDTH;
 extern const int LOGIN_BUTTON_HEIGHT;
+extern const int SIDEBAR_BUTTON_WIDTH;
+extern const int SIDEBAR_BUTTON_HEIGHT;
 
 #endif // CONSTANTS_H

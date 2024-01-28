@@ -28,6 +28,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         clickable_label.h clickable_label.cpp
         signup.h signup.cpp
         switcher_widget.h switcher_widget.cpp
+        main_window.h main_window.cpp
+        sidebar_vlayout.h sidebar_vlayout.cpp
+        button_icon_vlayout.h button_icon_vlayout.cpp
 
 
 
