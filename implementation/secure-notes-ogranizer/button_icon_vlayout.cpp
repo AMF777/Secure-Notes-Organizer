@@ -1,16 +1,16 @@
 #include "button_icon_vlayout.h"
 
-button_icon_vlayout::button_icon_vlayout(const QString &iconPath, const QString &className,
-                                         QSize iconSize, Qt::Alignment alignment, const std::function<void ()> &onClick)
+button_icon_vlayout::button_icon_vlayout(const QString &iconPath, const QString &className, const QSize iconSize,
+                                         Qt::Alignment alignment, const std::function<void()> &onClick)
 {
 
-    QPushButton *button = new QPushButton();
-    button->setIcon(QIcon(iconPath));
+    button = new QPushButton();
+    icon = new QIcon(iconPath);
+
+    button->setIcon(*icon);
     button->setIconSize(iconSize);
 
     connect(button, &QPushButton::clicked, onClick);
-
-    setButtonSizePolicy();
 
     button->setProperty("class", className);
 
@@ -19,8 +19,8 @@ button_icon_vlayout::button_icon_vlayout(const QString &iconPath, const QString 
 
 void button_icon_vlayout::setButtonSizePolicy()
 {
-    QSizePolicy buttonSizePolicy = this->btn->sizePolicy();
+    QSizePolicy buttonSizePolicy = this->button->sizePolicy();
     buttonSizePolicy.setHorizontalPolicy(QSizePolicy::Fixed);
     buttonSizePolicy.setVerticalPolicy(QSizePolicy::Minimum);
-    this->btn->setSizePolicy(buttonSizePolicy);
+    this->button->setSizePolicy(buttonSizePolicy);
 }

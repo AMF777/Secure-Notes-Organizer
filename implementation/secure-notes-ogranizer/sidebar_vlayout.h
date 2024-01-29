@@ -6,18 +6,22 @@
 
 using namespace std;
 
-class SidebarLayout : public QVBoxLayout
+class sidebar_vlayout : public QVBoxLayout
 {
     Q_OBJECT
 public:
-    explicit SidebarLayout(QWidget *parent = nullptr);
+    explicit sidebar_vlayout(QWidget *parent = nullptr);
     QPushButton *createButton(const QString &iconPath, const QString &className,
                              Qt::Alignment alignment = Qt::AlignLeft, const function<void()> &onClick = nullptr);
 
 private:
-
     static const QSize iconSize;
+private slots:
     void setButtonSizePolicy(QPushButton *button);
+    void profileButtonClicked();
+    void addNewNoteButtonClicked();
+    void editNoteButtonClicked();
+    void logoutButtonClicked();
 };
 
 #endif // SIDEBAR_LAYOUT_H

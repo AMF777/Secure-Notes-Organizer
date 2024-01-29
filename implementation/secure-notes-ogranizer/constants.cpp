@@ -9,3 +9,5 @@ const int SIEMENS_LOGO_HEIGHT = 55;
 const int INPUT_WIDTH = 260;
 const int LOGIN_BUTTON_WIDTH = 80;
 const int LOGIN_BUTTON_HEIGHT = 32;
+extern const int SIDEBAR_ICON_WIDTH = 20;
+extern const int SIDEBAR_ICON_HEIGHT = 20;

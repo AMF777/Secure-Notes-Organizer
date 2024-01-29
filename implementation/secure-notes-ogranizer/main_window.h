@@ -13,11 +13,6 @@ class main_window : public QMainWindow
 public:
     explicit main_window(QWidget *parent = nullptr);
 
-private slots:
-    void profileButtonClicked();
-    void addNewNoteButtonClicked();
-    void editNoteButtonClicked();
-    void logoutButtonClicked();
 };
 
 #endif // MAIN_WINDOW_H

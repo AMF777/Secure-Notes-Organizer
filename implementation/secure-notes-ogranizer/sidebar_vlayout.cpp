@@ -1,36 +1,55 @@
 // sidebar_layout.cpp
 #include "sidebar_vlayout.h"
+#include "button_icon_vlayout.h"
+#include "constants.h"
 
-const QSize SidebarLayout::iconSize = QSize(20, 20);
+const QSize sidebar_vlayout::iconSize = QSize(SIDEBAR_ICON_WIDTH, SIDEBAR_ICON_HEIGHT);
 
-SidebarLayout::SidebarLayout(QWidget *parent) : QVBoxLayout(parent)
-{
-}
-
-QPushButton *SidebarLayout::createButton(const QString &iconPath, const QString &className,
-                                         Qt::Alignment alignment, const std::function<void()> &onClick)
+sidebar_vlayout::sidebar_vlayout(QWidget *parent) : QVBoxLayout(parent)
 {
 
-    QPushButton *button = new QPushButton();
-    button->setIcon(QIcon(iconPath));
-    button->setIconSize(iconSize);
+    button_icon_vlayout* profileButton = new button_icon_vlayout(":/res/img/profile.png", "sidebar-button", iconSize,
+                                                             Qt::AlignLeft, [this](){profileButtonClicked();} );
+    button_icon_vlayout* plusButton = new button_icon_vlayout(":/res/img/plus.png", "sidebar-button", iconSize,
+                                                                 Qt::AlignLeft, [this](){addNewNoteButtonClicked();} );
+    button_icon_vlayout* editButton = new button_icon_vlayout(":/res/img/edit.png", "sidebar-button", iconSize,
+                                                                 Qt::AlignLeft, [this](){editNoteButtonClicked();} );
+    button_icon_vlayout* logoutButton = new button_icon_vlayout(":/res/img/logout.png", "sidebar-button", iconSize,
+                                                                Qt::AlignLeft, [this](){logoutButtonClicked();} );
+    setButtonSizePolicy(profileButton->button);
+    setButtonSizePolicy(plusButton->button);
+    setButtonSizePolicy(editButton->button);
+    setButtonSizePolicy(logoutButton->button);
 
-    connect(button, &QPushButton::clicked, onClick);
-
-    setButtonSizePolicy(button);
-
-    button->setProperty("class", className);
-
-    addWidget(button, 0, alignment);
-
-    return button;
+    addLayout(profileButton);
+    addLayout(plusButton);
+    addLayout(editButton);
+    addLayout(logoutButton);
 }
 
-void SidebarLayout::setButtonSizePolicy(QPushButton *button)
+void sidebar_vlayout::setButtonSizePolicy(QPushButton *button)
 {
     QSizePolicy buttonSizePolicy = button->sizePolicy();
     buttonSizePolicy.setHorizontalPolicy(QSizePolicy::Fixed);
     buttonSizePolicy.setVerticalPolicy(QSizePolicy::Minimum);
     button->setSizePolicy(buttonSizePolicy);
 }
+void sidebar_vlayout::profileButtonClicked()
+{
+    qDebug() << "Profile Button clicked";
+}
 
+void sidebar_vlayout::addNewNoteButtonClicked()
+{
+    qDebug() << "Add New Note Button clicked";
+}
+
+void sidebar_vlayout::editNoteButtonClicked()
+{
+    qDebug() << "Edit Note Button clicked";
+}
+
+void sidebar_vlayout::logoutButtonClicked()
+{
+    qDebug() << "Logout Button clicked";
+}
