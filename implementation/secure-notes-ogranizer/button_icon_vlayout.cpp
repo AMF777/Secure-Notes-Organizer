@@ -16,11 +16,3 @@ button_icon_vlayout::button_icon_vlayout(const QString &iconPath, const QString 
 
     addWidget(button, 0, alignment);
 }
-
-void button_icon_vlayout::setButtonSizePolicy()
-{
-    QSizePolicy buttonSizePolicy = this->button->sizePolicy();
-    buttonSizePolicy.setHorizontalPolicy(QSizePolicy::Fixed);
-    buttonSizePolicy.setVerticalPolicy(QSizePolicy::Minimum);
-    this->button->setSizePolicy(buttonSizePolicy);
-}

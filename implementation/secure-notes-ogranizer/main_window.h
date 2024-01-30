@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QSplitter>
+#include <QLabel>
 
 class main_window : public QMainWindow
 {

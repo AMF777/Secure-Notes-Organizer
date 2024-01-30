@@ -22,7 +22,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         signin.h signin.cpp
         constants.h constants.cpp
-        res.qrc
+
         label_input_vlayout.h label_input_vlayout.cpp
         img_msg_vlayout.h img_msg_vlayout.cpp
         clickable_label.h clickable_label.cpp
@@ -31,6 +31,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         main_window.h main_window.cpp
         sidebar_vlayout.h sidebar_vlayout.cpp
         button_icon_vlayout.h button_icon_vlayout.cpp
+        custom_widget.h custom_widget.cpp
+        text_edit_component.h text_edit_component.cpp
+        res.qrc
 
 
 

@@ -16,6 +16,7 @@ public:
 
 private:
     static const QSize iconSize;
+
 private slots:
     void setButtonSizePolicy(QPushButton *button);
     void profileButtonClicked();

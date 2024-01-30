@@ -14,9 +14,6 @@ public:
                                  Qt::Alignment alignment, const std::function<void()> &onClick);
     QPushButton* button;
     QIcon* icon;
-signals:
-
-private:
     void setButtonSizePolicy();
 };
 
