@@ -15,5 +15,7 @@ extern const int LOGIN_BUTTON_WIDTH;
 extern const int LOGIN_BUTTON_HEIGHT;
 extern const int SIDEBAR_ICON_WIDTH;
 extern const int SIDEBAR_ICON_HEIGHT;
-
+extern const int MAIN_WINDOW_MIN_WIDTH;
+extern const int MAIN_WINDOW_MIN_HEIGHT;
+extern const int FILEPATH_INPUT_WIDTH;
 #endif // CONSTANTS_H

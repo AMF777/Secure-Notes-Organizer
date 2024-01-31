@@ -15,7 +15,6 @@ public:
                                  QLineEdit::EchoMode echoMode = QLineEdit::Normal,
                                  Qt::Alignment alignment = Qt::Alignment());
     QString getInputText();
-private:
     QLabel *label;
     QLineEdit *input;
 

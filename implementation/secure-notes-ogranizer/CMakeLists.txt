@@ -34,6 +34,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         custom_widget.h custom_widget.cpp
         text_edit_component.h text_edit_component.cpp
         res.qrc
+        add_note_dialog.h add_note_dialog.cpp
 
 
 

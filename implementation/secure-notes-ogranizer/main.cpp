@@ -2,7 +2,9 @@
 #include "signup.h"
 #include "switcher_widget.h"
 #include "main_window.h"
+#include "add_note_dialog.h"
 
+#include <QWidget>
 #include <QApplication>
 #include <QFile>
 #include <QTextStream>
@@ -23,9 +25,24 @@ int main(int argc, char *argv[])
     // switcher_widget w;
     // w.show();
 
+
     main_window w;
     w.show();
 
+    QWidget mainWindow;
+    QVBoxLayout *mainLayout = new QVBoxLayout(&mainWindow);
+
+    // Create a button to open the dialog
+    QPushButton *openDialogButton = new QPushButton("Open Dialog");
+    mainLayout->addWidget(openDialogButton);
+
+    // Create the custom dialog
+    add_note_dialog *addNoteDialog = new add_note_dialog(&mainWindow);
+
+    // Connect the button click to show the dialog
+    QObject::connect(openDialogButton, &QPushButton::clicked, addNoteDialog, &add_note_dialog::exec);
+
+    // mainWindow.show();
     // type width and height
     // int initialWidth = w.width();
     // int initialHeight = w.height();

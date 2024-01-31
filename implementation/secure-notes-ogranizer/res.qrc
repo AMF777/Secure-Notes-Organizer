@@ -10,5 +10,6 @@
         <file>img/select_column.png</file>
         <file>img/share.png</file>
         <file>styles/styles.qss</file>
+        <file>img/file.png</file>
     </qresource>
 </RCC>

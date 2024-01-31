@@ -2,6 +2,7 @@
 #include "sidebar_vlayout.h"
 #include "button_icon_vlayout.h"
 #include "constants.h"
+#include "add_note_dialog.h"
 
 const QSize sidebar_vlayout::iconSize = QSize(SIDEBAR_ICON_WIDTH, SIDEBAR_ICON_HEIGHT);
 
@@ -42,6 +43,8 @@ void sidebar_vlayout::profileButtonClicked()
 void sidebar_vlayout::addNewNoteButtonClicked()
 {
     qDebug() << "Add New Note Button clicked";
+    add_note_dialog *addNoteDialog = new add_note_dialog(parentWidget() );
+    addNoteDialog->show();
 }
 
 void sidebar_vlayout::editNoteButtonClicked()
