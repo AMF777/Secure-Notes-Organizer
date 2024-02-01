@@ -1,69 +1,103 @@
 // custom_widget.cpp
 #include "custom_widget.h"
-#include "text_edit_component.h"
+#include "component.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPixmap>
+#include <QScrollArea>
 
-CustomWidget::CustomWidget(QWidget *parent) : QVBoxLayout(parent),
-    shareButton(new button_icon_vlayout(":/res/img/share.png", "horizontalButton", QSize(20, 20),
-                                         Qt::AlignRight, [this]() {
-                                             qDebug() << "Share button clicked!";
-                                         })),
-    dotsButton(new button_icon_vlayout(":/res/img/dots.png", "horizontalButton", QSize(20, 20),
-                                        Qt::AlignRight, [this]() {
-                                            qDebug() << "Dots button clicked!";
-                                        }))
-
+CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
 {
+    // Set the outermost widget's margins to zero
     setContentsMargins(0, 0, 0, 0);
-    setSpacing(10);
 
-    QHBoxLayout *horizontalLayout1 = new QHBoxLayout();
-    horizontalLayout1->setContentsMargins(0, 0, 0, 0);
-    horizontalLayout1->setSpacing(10);
-
-    timeAgoLabel = new QLabel("Edited 2h ago");
-    timeAgoLabel->setAlignment(Qt::AlignRight);
-    timeAgoLabel->setObjectName("timeAgoLabel");
-
-    horizontalLayout1->addWidget(timeAgoLabel);
-    horizontalLayout1->addWidget(shareButton->button);
-    horizontalLayout1->addWidget(dotsButton->button);
-
-    QHBoxLayout *horizontalLayout2 = new QHBoxLayout();
-    horizontalLayout2->setContentsMargins(0, 0, 0, 0);
-    horizontalLayout2->setSpacing(10);
-
-    QTextEdit *titleNote = new QTextEdit("Untitled");
-    titleNote->setAlignment(Qt::AlignLeft);
-    titleNote->setProperty("class", "title");
-    titleNote->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-    horizontalLayout2->addWidget(titleNote);
-
+    // Create the layout for text edits and initialize the first component
     verticalLayoutTextEdits = new QVBoxLayout();
 
-    createComponent(parent);
-    createComponent(parent);
-    createComponent(parent);
-    createComponent(parent);
+    // Wrap the verticalLayoutTextEdits in a QScrollArea
+    QScrollArea *scrollArea = new QScrollArea(this);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setWidget(new QWidget()); // Set an empty widget as the scroll area's widget
+    scrollArea->setFrameShape(QFrame::NoFrame);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);  // Set the vertical scroll bar policy
 
-    // Set up the overall layout
-    addLayout(horizontalLayout1);
-    addLayout(horizontalLayout2);
-    addLayout(verticalLayoutTextEdits);
+    // Set the inner layout for the scroll area's widget
+    scrollArea->widget()->setLayout(verticalLayoutTextEdits);
+
+    createComponent(0);
+
+    // Create the main layout that includes all the sub-layouts
+    QVBoxLayout *mainLayout = createMainLayout();
+    mainLayout->addWidget(scrollArea);
+
+    // Set the overall layout for the CustomWidget
+    setLayout(mainLayout);
 }
 
-void CustomWidget::createComponent(QWidget *parent)
+QVBoxLayout* CustomWidget::createMainLayout()
+{
+    // Create a vertical layout for the main layout
+    QVBoxLayout *layout = new QVBoxLayout(this);
+
+    // Add the sub-layouts for time and buttons, title note, and text edits
+    layout->addLayout(verticalLayoutTextEdits);
+
+    return layout;
+}
+
+void CustomWidget::createComponent(int index)
 {
     // Create a new TextEditComponent
-    TextEditComponent *newComponent = new TextEditComponent(parent);
+    TextEditComponent *newComponent = new TextEditComponent(index, this);
 
-    // Add the new component to the vector
-    componentVector.push_back(newComponent);
+    // Connect signals for creating a new component and backspacing when empty
+    connect(newComponent, &TextEditComponent::createNewComponent, this, &CustomWidget::createComponent);
+    connect(newComponent, &TextEditComponent::backspaceEmpty, this, &CustomWidget::deleteComponent);
+
+    // Special Case For index 0: Insert the new component at the beginning
+    if (componentVector.isEmpty()) {
+        componentVector.push_back(newComponent);
+        verticalLayoutTextEdits->insertWidget(index, newComponent);
+        return;
+    }
+
+    // Use const_iterator to iterate through the vector
+    auto it = componentVector.cbegin();
+    std::advance(it, index + 1);
+
+    // Add the new component to the vector using const_iterator
+    componentVector.insert(it, newComponent);
+
+    // Update indices for components after the inserted one
+    for (int i = index + 1; i < componentVector.size(); i++)
+        componentVector[i]->index++;
 
     // Add the new component to the layout
-    verticalLayoutTextEdits->addWidget(newComponent);
+    verticalLayoutTextEdits->insertWidget(index + 1, newComponent);
+}
+
+void CustomWidget::deleteComponent(int index)
+{
+    // Check if the component is not the first one
+    if (index > 0) {
+        // Update indices for components after the deleted one
+        for (int i = index + 1; i < componentVector.size(); ++i)
+            componentVector[i]->index = i - 1;
+
+        // Use const_iterator to iterate through the vector
+        auto it = componentVector.cbegin();
+        std::advance(it, index);
+
+        // Remove the component from the vector using const_iterator
+        componentVector.erase(it);
+
+        // Remove the component from the layout
+        QLayoutItem *item = verticalLayoutTextEdits->takeAt(index);
+        if (item) {
+            // Delete the widget and layout item
+            delete item->widget();
+            delete item;
+        }
+    }
 }

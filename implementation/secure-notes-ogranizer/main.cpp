@@ -3,12 +3,10 @@
 #include "switcher_widget.h"
 #include "main_window.h"
 #include "add_note_dialog.h"
-
 #include <QWidget>
 #include <QApplication>
 #include <QFile>
 #include <QTextStream>
-#include <iostream>
 
 void load_style_sheet();
 

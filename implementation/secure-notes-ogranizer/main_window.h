@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QSplitter>
 #include <QLabel>
+#include "button_icon_vlayout.h"
 
 class main_window : public QMainWindow
 {
@@ -14,6 +15,13 @@ class main_window : public QMainWindow
 public:
     explicit main_window(QWidget *parent = nullptr);
 
+private:
+    QLabel *timeAgoLabel;
+    button_icon_vlayout *saveNoteButton;
+    button_icon_vlayout *shareButton;
+
+    QHBoxLayout* createTimeAndButtonsLayout();
+    QHBoxLayout* createTitleNoteLayout();
 };
 
 #endif // MAIN_WINDOW_H

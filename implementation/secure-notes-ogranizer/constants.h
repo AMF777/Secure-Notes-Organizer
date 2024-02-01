@@ -6,8 +6,12 @@
 
 extern const QString SIGNIN_TITLE;
 extern const QString SIGNUP_TITLE;
+extern const QString SIGNOUT_TITLE;
+extern const QString SIDEBAR_ICON_CLASSNAME;
 extern const int SIGNIN_WIDTH;
 extern const int SIGNIN_HEIGHT;
+extern const int SIGNOUT_WIDTH;
+extern const int SIGNOUT_HEIGHT;
 extern const int SIEMENS_LOGO_WIDTH;
 extern const int SIEMENS_LOGO_HEIGHT;
 extern const int INPUT_WIDTH;

@@ -5,11 +5,11 @@
         <file>img/plus.png</file>
         <file>img/profile.png</file>
         <file>img/siemens-logo.png</file>
-        <file>img/dots.png</file>
         <file>img/g.png</file>
         <file>img/select_column.png</file>
         <file>img/share.png</file>
         <file>styles/styles.qss</file>
         <file>img/file.png</file>
+        <file>img/saveNote.png</file>
     </qresource>
 </RCC>

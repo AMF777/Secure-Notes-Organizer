@@ -32,10 +32,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         sidebar_vlayout.h sidebar_vlayout.cpp
         button_icon_vlayout.h button_icon_vlayout.cpp
         custom_widget.h custom_widget.cpp
-        text_edit_component.h text_edit_component.cpp
+        component.h component.cpp
         res.qrc
         add_note_dialog.h add_note_dialog.cpp
-
+        dropdown_label.h dropdown_label.cpp
+        textedit_template.h textedit_template.cpp
+        signout.h signout.cpp
 
 
     )

@@ -2,25 +2,24 @@
 #define CUSTOMWIDGET_H
 
 #include <QWidget>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QIcon>
+#include <QVBoxLayout>
 #include <QVector>
-#include "button_icon_vlayout.h"
-#include "text_edit_component.h"
+#include "component.h"
 
-class CustomWidget : public QVBoxLayout  {
+class CustomWidget : public QWidget {
     Q_OBJECT
 public:
     CustomWidget(QWidget *parent = nullptr);
-private:
-    QLabel *timeAgoLabel;
-    button_icon_vlayout *shareButton;
-    button_icon_vlayout *dotsButton;
-    QVBoxLayout *verticalLayoutTextEdits;
-    QVector<TextEditComponent*> componentVector;
 
-    void createComponent(QWidget *parent);
+private slots:
+    void createComponent(int index);
+    void deleteComponent(int index);
+
+private:
+    QVector<TextEditComponent*> componentVector;
+    QVBoxLayout *verticalLayoutTextEdits;
+
+    QVBoxLayout *createMainLayout();
 };
 
 #endif // CUSTOMWIDGET_H

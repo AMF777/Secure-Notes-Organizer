@@ -3,6 +3,7 @@
 
 #include <QGraphicsBlurEffect>
 #include <QFileDialog>
+
 add_note_dialog::add_note_dialog(QWidget *parent)
     : QDialog{parent}
 {
@@ -10,6 +11,7 @@ add_note_dialog::add_note_dialog(QWidget *parent)
 
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     setProperty("class","white-background");
+    setModal(true);
     // parentWidget()->setGraphicsEffect(blurEffect);
     // Create overlay widget
     // overlayWidget = new QWidget(this);

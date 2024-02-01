@@ -4,10 +4,12 @@
     margin-bottom: 5px;
     border-radius: 3px;
 }
+
 .user-label{
     color:#2B2B2B;
     font-weight:lighter;
 }
+
 .login-button{
     background-color:#008D87;
     color:#FFFFFF;
@@ -16,30 +18,66 @@
     font-weight:bold;
     padding:6px 14px;
 }
+
+
+.signout-button{
+    background-color:#B52A22;
+    color:#FFFFFF;
+    font-size:18px;
+    border-radius: 8px;
+    font-weight:bold;
+    padding:6px 14px;
+}
+
+.cancel-button{
+    background-color:#FFFFFF;
+    color:#000000;
+    font-size:20px;
+    border-radius: 8px;
+    border-color: #000000;
+    font-weight:bold;
+    padding:6px 14px;
+}
+
+.blur-effect{
+    background-color: rgba(0, 0, 0, 0.7); /* Black with 70% opacity */
+    color: #FFFFFF; /* Text color on the black overlay */
+    font-size: 20px;
+    border-radius: 8px;
+    border-color: #FFFFFF; /* Border color for the overlay */
+    font-weight: bold;
+    padding: 6px 14px;
+}
+
 .clickable-label{
     color: #008D87;
     text-decoration: underline;
 }
-.link-label{
-}
+
 .separator-line {
     color:#E5E5E5;
 }
+
 .margin-bottom-8px{
     margin-bottom: 8px;
 }
+
 .margin-bottom-16px{
     margin-bottom: 16px;
 }
+
 .white-background{
     background-color: #FFFFFF;
 }
+
 .blue-background{
     background-color: blue;
 }
+
 .big-font{
     font-size:30px;
 }
+
 .sidebar-button{
     color: black;
     background-color: #ebeff4;
@@ -53,22 +91,24 @@
     top: 0;
     left: 0;
 }
+
 .sidebar-button:hover{
     background-color: #d9d9d9;
 }
 
 .horizontalButton  {
-    min-width: 30px;
-    min-height: 30px;
-    max-width: 50px;
-    max-height: 50px;
+    min-width: 10px;
+    min-height: 10px;
+    max-width: 20px;
+    max-height: 20px;
+    margin: 20px 20px 0 0;
     border: none;
 }
 
 #timeAgoLabel{
     color: #000000;
     font-size: 16px;
-    margin-top : 13px;
+    margin: 20px 20px 0 0;
 }
 
 .textComponents{
@@ -80,11 +120,12 @@
     font-weight: bold;
     max-height: 40px;
     font-size: 30px;
-    margin-left: 80px;
+    margin: 20px 0 0 80px;
     border: none;
     color: #d9d9d9;
     background-color: #f0f0f0;
 }
+
 .save-filepath-button{
     color:white;
     font-weight:lighter;
@@ -92,9 +133,37 @@
     padding:6px 14px;
     border-radius: 2px;
 }
+
 .cancel-filepath-button{
     font-weight:lighter;
     padding:6px 14px;
     border-radius: 2px;
     border: 1px solid #008D87;
 }
+
+QScrollBar:vertical {
+    border: 1px solid #808080; /* Grey border */
+    background: #808080; /* Grey background */
+    width: 10px;
+    margin: 0px 0px 0px 0px;
+}
+QScrollBar::handle:vertical {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+    stop: 0 #606060, stop: 0.5 #808080, stop: 1 #606060); /* Grey gradient */
+    min-height: 0px;
+}
+QScrollBar::add-line:vertical {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+    stop: 0 #606060, stop: 0.5 #808080, stop: 1 #606060); /* Grey gradient */
+    height: 0px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+}
+QScrollBar::sub-line:vertical {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+    stop: 0 #606060, stop: 0.5 #808080, stop: 1 #606060); /* Grey gradient */
+    height: 0 px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+

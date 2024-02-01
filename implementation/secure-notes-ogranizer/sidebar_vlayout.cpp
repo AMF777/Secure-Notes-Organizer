@@ -3,38 +3,31 @@
 #include "button_icon_vlayout.h"
 #include "constants.h"
 #include "add_note_dialog.h"
+#include "signout.h"
 
 const QSize sidebar_vlayout::iconSize = QSize(SIDEBAR_ICON_WIDTH, SIDEBAR_ICON_HEIGHT);
 
 sidebar_vlayout::sidebar_vlayout(QWidget *parent) : QVBoxLayout(parent)
 {
-
-    button_icon_vlayout* profileButton = new button_icon_vlayout(":/res/img/profile.png", "sidebar-button", iconSize,
-                                                             Qt::AlignLeft, [this](){profileButtonClicked();} );
-    button_icon_vlayout* plusButton = new button_icon_vlayout(":/res/img/plus.png", "sidebar-button", iconSize,
-                                                                 Qt::AlignLeft, [this](){addNewNoteButtonClicked();} );
-    button_icon_vlayout* editButton = new button_icon_vlayout(":/res/img/edit.png", "sidebar-button", iconSize,
-                                                                 Qt::AlignLeft, [this](){editNoteButtonClicked();} );
-    button_icon_vlayout* logoutButton = new button_icon_vlayout(":/res/img/logout.png", "sidebar-button", iconSize,
-                                                                Qt::AlignLeft, [this](){logoutButtonClicked();} );
-    setButtonSizePolicy(profileButton->button);
-    setButtonSizePolicy(plusButton->button);
-    setButtonSizePolicy(editButton->button);
-    setButtonSizePolicy(logoutButton->button);
-
-    addLayout(profileButton);
-    addLayout(plusButton);
-    addLayout(editButton);
-    addLayout(logoutButton);
+    createButton(":/res/img/profile.png", SIDEBAR_ICON_CLASSNAME, iconSize,
+                                                            Qt::AlignLeft, [this](){profileButtonClicked();} );
+    createButton(":/res/img/plus.png", SIDEBAR_ICON_CLASSNAME, iconSize,
+                                                            Qt::AlignLeft, [this](){addNewNoteButtonClicked();} );
+    createButton(":/res/img/edit.png", SIDEBAR_ICON_CLASSNAME, iconSize,
+                                                            Qt::AlignLeft, [this](){editNoteButtonClicked();} );
+    createButton(":/res/img/logout.png", SIDEBAR_ICON_CLASSNAME, iconSize,
+                                                            Qt::AlignLeft, [this](){logoutButtonClicked();} );
 }
 
-void sidebar_vlayout::setButtonSizePolicy(QPushButton *button)
+void sidebar_vlayout::createButton(const QString &iconPath, const QString &className, const QSize iconSize,
+                                   Qt::Alignment alignment, const std::function<void()> &onClick)
 {
-    QSizePolicy buttonSizePolicy = button->sizePolicy();
-    buttonSizePolicy.setHorizontalPolicy(QSizePolicy::Fixed);
-    buttonSizePolicy.setVerticalPolicy(QSizePolicy::Minimum);
-    button->setSizePolicy(buttonSizePolicy);
+    button_icon_vlayout* button = new button_icon_vlayout(iconPath, className, iconSize, alignment, onClick);
+    button->setButtonSizePolicy();
+    buttons.push_back(button);
+    addLayout(button);
 }
+
 void sidebar_vlayout::profileButtonClicked()
 {
     qDebug() << "Profile Button clicked";
@@ -54,5 +47,9 @@ void sidebar_vlayout::editNoteButtonClicked()
 
 void sidebar_vlayout::logoutButtonClicked()
 {
+    signout *signoutbutton = new signout(parentWidget());
+    signoutbutton->show();
+    signoutbutton->setGraphicsEffect(nullptr);
+
     qDebug() << "Logout Button clicked";
 }
