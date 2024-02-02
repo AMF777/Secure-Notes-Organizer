@@ -17,14 +17,19 @@ class TextEditComponent : public QWidget
 public:
     TextEditComponent(QWidget *parent = nullptr);
     TextEditComponent(int index, QWidget *parent = nullptr);
+    textEdit *textEdit;
     int index;
 
 signals:
     void createNewComponent(int index);
+    void middleEnterKeyPressed(int index, const QString textToRight);
     void backspaceEmpty(int index);
+    void backspaceNotEmpty(int index, const QString textToRight);
+    void tabKeyPressed(int index);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
+    bool handleKeyPressEvent(QKeyEvent *keyEvent);
 
 private slots:
     void updateHeight();
@@ -37,12 +42,13 @@ private slots:
     void handleBackgroundColorOption();
     void setupDropDownIcon();
 
+
 private:
-    textEdit *textEdit;
     DropdownLabel *selectColumnIcon;
     QHBoxLayout *layout;
-    void handleDropdownItemSelected(const QString &itemText);
     void setActions();
+    void deleteRightText(const int cursorPostion);
+    void handleDropdownItemSelected(const QString &itemText);
     void handleOptionSelected(const QString &selectedOption);
 
 };

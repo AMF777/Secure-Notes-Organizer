@@ -153,3 +153,25 @@ void textEdit::setText(const QString &text)
 {
     setPlainText(text);
 }
+
+void textEdit::appendText(const QString &text)
+{
+    setPlainText(getText() + text);
+}
+
+void textEdit::focusAndMoveCursor(int position)
+{
+    // Set focus to the textEdit
+    setFocus();
+
+    // Move the cursor to the specified position or the end if position is -1
+    QTextCursor cursor = textCursor();
+
+    if (position >= 0)
+        cursor.setPosition(position);
+    else
+        cursor.movePosition(QTextCursor::End);
+
+
+    setTextCursor(cursor);
+}

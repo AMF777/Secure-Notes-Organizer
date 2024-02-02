@@ -40,7 +40,9 @@ public:
 
     QString getText() const;
     void setText(const QString &text);
+    void appendText(const QString &text);
 
+    void focusAndMoveCursor(int position = -1);
 
 private:
     int fontSize;

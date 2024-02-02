@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-83e7f24381bb1e9c1ab3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "secure-notes-ogranizer",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "secure-notes-ogranizer::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-secure-notes-ogranizer-Debug-7112047049feec674783.json",
+					"name" : "secure-notes-ogranizer",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "secure-notes-ogranizer_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-secure-notes-ogranizer_autogen-Debug-6b91fc7dee73f74146d1.json",
+					"name" : "secure-notes-ogranizer_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "secure-notes-ogranizer_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-secure-notes-ogranizer_autogen_timestamp_deps-Debug-3b6cdd02cceceb85e2a2.json",
+					"name" : "secure-notes-ogranizer_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug",
+		"source" : "E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

@@ -1,0 +1,27 @@
+# ninja log v5
+1	1525	7285941080798564	secure-notes-ogranizer_autogen/timestamp	e05ea6e27b405e32
+1	1525	7285941080798564	secure-notes-ogranizer_autogen/mocs_compilation.cpp	e05ea6e27b405e32
+1	1525	7285941080798564	E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/secure-notes-ogranizer_autogen/timestamp	e05ea6e27b405e32
+1	1525	7285941080798564	E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/secure-notes-ogranizer_autogen/mocs_compilation.cpp	e05ea6e27b405e32
+1526	1605	7285941082198047	secure-notes-ogranizer_autogen/EWIEGA46WW/qrc_res.cpp	4f6c46e84b8d5f15
+1526	1605	7285941082198047	E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/secure-notes-ogranizer_autogen/EWIEGA46WW/qrc_res.cpp	4f6c46e84b8d5f15
+1610	4871	7285941114690948	CMakeFiles/secure-notes-ogranizer.dir/constants.cpp.obj	395f0206c69af521
+1615	5025	7285941113923066	CMakeFiles/secure-notes-ogranizer.dir/signin.cpp.obj	d12e3acaac7d0eaf
+1619	5292	7285941116034423	CMakeFiles/secure-notes-ogranizer.dir/label_input_vlayout.cpp.obj	9ffb43ea9f78eea6
+1651	5298	7285941116034423	CMakeFiles/secure-notes-ogranizer.dir/button_icon_vlayout.cpp.obj	8fee5b060a7ead74
+1629	5304	7285941117494057	CMakeFiles/secure-notes-ogranizer.dir/img_msg_vlayout.cpp.obj	2bba9433f8d4ee68
+1638	5389	7285941119982876	CMakeFiles/secure-notes-ogranizer.dir/main_window.cpp.obj	e3ccd57ac0794920
+1646	5390	7285941119997948	CMakeFiles/secure-notes-ogranizer.dir/custom_widget.cpp.obj	368d80d87064c7be
+1670	5409	7285941120048115	CMakeFiles/secure-notes-ogranizer.dir/dropdown_label.cpp.obj	7dca5b8b591d4618
+1624	5449	7285941120449274	CMakeFiles/secure-notes-ogranizer.dir/clickable_label.cpp.obj	9567db199b4b7c33
+1657	5468	7285941120845452	CMakeFiles/secure-notes-ogranizer.dir/sidebar_vlayout.cpp.obj	3d613861bbe625a
+1633	5555	7285941121642598	CMakeFiles/secure-notes-ogranizer.dir/signup.cpp.obj	9ed433dfe81b1f4f
+1642	5572	7285941121908333	CMakeFiles/secure-notes-ogranizer.dir/switcher_widget.cpp.obj	454e325c78fd9452
+1683	5573	7285941121893141	CMakeFiles/secure-notes-ogranizer.dir/component.cpp.obj	e538db54becc254a
+5293	5574	7285941121928418	CMakeFiles/secure-notes-ogranizer.dir/secure-notes-ogranizer_autogen/EWIEGA46WW/qrc_res.cpp.obj	3c0634fdb32f11c0
+1605	5608	7285941122274190	CMakeFiles/secure-notes-ogranizer.dir/main.cpp.obj	167aa1878f155bca
+5298	8153	7285941147733970	CMakeFiles/secure-notes-ogranizer.dir/signout.cpp.obj	660fee0abc885b77
+5304	8222	7285941148422970	CMakeFiles/secure-notes-ogranizer.dir/textedit_template.cpp.obj	f24d39b237375284
+5018	8293	7285941149125240	CMakeFiles/secure-notes-ogranizer.dir/add_note_dialog.cpp.obj	bc292ba7974122b2
+5287	8740	7285941153600435	CMakeFiles/secure-notes-ogranizer.dir/secure-notes-ogranizer_autogen/mocs_compilation.cpp.obj	f7f4928cdf26e9f0
+8740	9537	7285941161494108	secure-notes-ogranizer.exe	6d168f48aa2e4e54

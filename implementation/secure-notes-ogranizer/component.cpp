@@ -158,6 +158,69 @@ void TextEditComponent::onFocusChanged(bool hasFocus)
         textEdit->setStyleSheet("border: none;");  // Change the border color when out of focus
 }
 
+bool TextEditComponent::handleKeyPressEvent(QKeyEvent *keyEvent)
+{
+    // Check if Tab key is pressed
+    if (keyEvent->key() == Qt::Key_Tab)
+    {
+        // Emit a signal with the index when Tab is pressed
+        emit tabKeyPressed(index);
+
+        // Consume the event to prevent it from being processed further
+        keyEvent->accept();
+        return true;
+    }
+    // Check if Enter key is pressed without the Shift modifier
+    else if ((keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) &&
+        !(keyEvent->modifiers() & Qt::ShiftModifier))
+    {
+        // Get the cursor position
+        int cursorPosition = textEdit->textCursor().position();
+
+        // Check if the cursor is in the middle of the text
+        if (cursorPosition > 0 && cursorPosition < textEdit->toPlainText().length())
+        {
+            // Extract text to the right of the cursor
+            QString textToRight = textEdit->toPlainText().mid(cursorPosition);
+
+            deleteRightText(cursorPosition);
+
+            // Emit a signal with the extracted text
+            emit middleEnterKeyPressed(index, textToRight);
+        }
+        else
+            // Emit the createNewComponent signal with the updated index
+            emit createNewComponent(index);
+
+        // Consume the event to prevent it from being processed further
+        keyEvent->accept();
+        return true;
+    }
+    // Check if Backspace key is pressed and the text edit is empty
+    else if (keyEvent->key() == Qt::Key_Backspace && textEdit->toPlainText().isEmpty() && index > 0)
+    {
+        // Emit the backspaceEmpty signal
+        emit backspaceEmpty(index);
+
+        // Consume the event to prevent it from being processed further
+        keyEvent->accept();
+        return true;
+    }
+    // Check if Backspace key is pressed and the text edit isn't empty to send it in the previous component
+    else if (keyEvent->key() == Qt::Key_Backspace && textEdit->textCursor().position() == 0 && index > 0)
+    {
+        // Emit the backspaceNotEmpty signal
+        emit backspaceNotEmpty(index, textEdit->toPlainText());
+
+        // Consume the event to prevent it from being processed further
+        keyEvent->accept();
+        return true;
+    }
+
+    // If none of the conditions are met, return false
+    return false;
+}
+
 bool TextEditComponent::eventFilter(QObject *obj, QEvent *event)
 {
     // Check if the event is related to the textEdit object
@@ -179,32 +242,26 @@ bool TextEditComponent::eventFilter(QObject *obj, QEvent *event)
             // Cast the event to QKeyEvent to access key-specific information
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-            // Check if Enter key is pressed without the Shift modifier
-            if ((keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) &&
-                !(keyEvent->modifiers() & Qt::ShiftModifier))
-            {
-                // Emit the createNewComponent signal with the updated index
-                emit createNewComponent(index);
-
-                // Consume the event to prevent it from being processed further
-                event->accept();
-                return true;
-            }
-            // Check if Backspace key is pressed and the text edit is empty
-            else if (keyEvent->key() == Qt::Key_Backspace && textEdit->toPlainText().isEmpty())
-            {
-                // Emit the backspaceEmpty signal
-                emit backspaceEmpty(index);
-
-                // Consume the event to prevent it from being processed further
-                event->accept();
-                return true;
-            }
+            // Call the new function to handle the KeyPress event
+            return handleKeyPressEvent(keyEvent);
         }
     }
 
     // Allow the event to be processed further by returning false
     return false;
+}
+
+void TextEditComponent::deleteRightText(const int cursorPosition){
+    // Move the cursor to the desired index
+    QTextCursor cursor = textEdit->textCursor();
+    cursor.setPosition(cursorPosition);
+
+    // Move the cursor to the end of the document
+    cursor.movePosition(QTextCursor::End);
+
+    // Set the cursor anchor to the desired index and remove the selected text
+    cursor.setPosition(cursorPosition, QTextCursor::KeepAnchor);
+    cursor.removeSelectedText();
 }
 
 void TextEditComponent::updateHeight()

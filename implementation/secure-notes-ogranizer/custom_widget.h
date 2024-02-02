@@ -14,6 +14,10 @@ public:
 private slots:
     void createComponent(int index);
     void deleteComponent(int index);
+    void createComponentWithText(int index, const QString &text);
+    void deleteComponentAppendText(int index, const QString &text);
+    void focusNextComponent(int index);
+
 
 private:
     QVector<TextEditComponent*> componentVector;

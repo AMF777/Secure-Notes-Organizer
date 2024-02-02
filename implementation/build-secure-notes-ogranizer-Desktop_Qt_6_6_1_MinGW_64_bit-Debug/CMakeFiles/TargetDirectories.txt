@@ -1,0 +1,9 @@
+E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/secure-notes-ogranizer.dir
+E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
+E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
+E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
+E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/install.dir
+E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
+E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
+E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/secure-notes-ogranizer_autogen_timestamp_deps.dir
+E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/secure-notes-ogranizer_autogen.dir
