@@ -10,7 +10,7 @@ add_note_dialog::add_note_dialog(QWidget *parent)
 
 
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    setProperty("class","white-background");
+    setProperty("class","white-background round-corners profile-dialog-border");
     setModal(true);
     // parentWidget()->setGraphicsEffect(blurEffect);
     // Create overlay widget

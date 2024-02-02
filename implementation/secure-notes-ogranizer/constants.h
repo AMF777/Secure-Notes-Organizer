@@ -22,4 +22,5 @@ extern const int SIDEBAR_ICON_HEIGHT;
 extern const int MAIN_WINDOW_MIN_WIDTH;
 extern const int MAIN_WINDOW_MIN_HEIGHT;
 extern const int FILEPATH_INPUT_WIDTH;
+extern const int PROFILE_INPUT_WIDTH;
 #endif // CONSTANTS_H

@@ -38,6 +38,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         dropdown_label.h dropdown_label.cpp
         textedit_template.h textedit_template.cpp
         signout.h signout.cpp
+        round_img_label.h round_img_label.cpp
+        profile_dialog.h profile_dialog.cpp
 
 
     )

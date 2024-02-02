@@ -3,6 +3,8 @@
     padding: 5px;
     margin-bottom: 5px;
     border-radius: 3px;
+    background-color: #e8f4f8;
+    margin-bottom: 5px;
 }
 
 .user-label{
@@ -165,5 +167,24 @@ QScrollBar::sub-line:vertical {
     height: 0 px;
     subcontrol-position: top;
     subcontrol-origin: margin;
+}
+.round-corners{
+    border-radius: 4px;
+}
+.avatar-widget-label{
+    color:#CDCDCD;
+    font-size:18px;
+}
+.avatar-widget{
+    border: 2px solid #FFFFF0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color:#008D87;
+}
+.black-border{
+    border:1px solid black;
+}
+.profile-dialog-border{
+    border:1px solid #008D87;
 }
 
