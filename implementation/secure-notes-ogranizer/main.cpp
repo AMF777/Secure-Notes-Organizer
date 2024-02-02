@@ -23,7 +23,6 @@ int main(int argc, char *argv[])
     // switcher_widget w;
     // w.show();
 
-
     main_window w;
     w.show();
 

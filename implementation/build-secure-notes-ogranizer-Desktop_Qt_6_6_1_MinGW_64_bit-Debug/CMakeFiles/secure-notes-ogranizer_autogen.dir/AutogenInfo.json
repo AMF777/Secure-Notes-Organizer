@@ -378,6 +378,18 @@
 			null
 		],
 		[
+			"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/profile_dialog.h",
+			"MU",
+			"EWIEGA46WW/moc_profile_dialog.cpp",
+			null
+		],
+		[
+			"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/round_img_label.h",
+			"MU",
+			"EWIEGA46WW/moc_round_img_label.cpp",
+			null
+		],
+		[
 			"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/sidebar_vlayout.h",
 			"MU",
 			"EWIEGA46WW/moc_sidebar_vlayout.cpp",
@@ -536,6 +548,16 @@
 		],
 		[
 			"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/main_window.cpp",
+			"MU",
+			null
+		],
+		[
+			"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/profile_dialog.cpp",
+			"MU",
+			null
+		],
+		[
+			"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/round_img_label.cpp",
 			"MU",
 			null
 		],

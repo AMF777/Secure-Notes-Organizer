@@ -26,7 +26,11 @@ secure-notes-ogranizer_autogen/timestamp: \
 	E:/Courses/Siemens/Project/Secure-Notes-Organizer\ Front-end/implementation/secure-notes-ogranizer/main.cpp \
 	E:/Courses/Siemens/Project/Secure-Notes-Organizer\ Front-end/implementation/secure-notes-ogranizer/main_window.cpp \
 	E:/Courses/Siemens/Project/Secure-Notes-Organizer\ Front-end/implementation/secure-notes-ogranizer/main_window.h \
+	E:/Courses/Siemens/Project/Secure-Notes-Organizer\ Front-end/implementation/secure-notes-ogranizer/profile_dialog.cpp \
+	E:/Courses/Siemens/Project/Secure-Notes-Organizer\ Front-end/implementation/secure-notes-ogranizer/profile_dialog.h \
 	E:/Courses/Siemens/Project/Secure-Notes-Organizer\ Front-end/implementation/secure-notes-ogranizer/res.qrc \
+	E:/Courses/Siemens/Project/Secure-Notes-Organizer\ Front-end/implementation/secure-notes-ogranizer/round_img_label.cpp \
+	E:/Courses/Siemens/Project/Secure-Notes-Organizer\ Front-end/implementation/secure-notes-ogranizer/round_img_label.h \
 	E:/Courses/Siemens/Project/Secure-Notes-Organizer\ Front-end/implementation/secure-notes-ogranizer/sidebar_vlayout.cpp \
 	E:/Courses/Siemens/Project/Secure-Notes-Organizer\ Front-end/implementation/secure-notes-ogranizer/sidebar_vlayout.h \
 	E:/Courses/Siemens/Project/Secure-Notes-Organizer\ Front-end/implementation/secure-notes-ogranizer/signin.cpp \
@@ -165,6 +169,7 @@ secure-notes-ogranizer_autogen/timestamp: \
 	E:/QT/6.6.1/mingw_64/include/QtCore/qvector.h \
 	E:/QT/6.6.1/mingw_64/include/QtCore/qversiontagging.h \
 	E:/QT/6.6.1/mingw_64/include/QtCore/qxptype_traits.h \
+	E:/QT/6.6.1/mingw_64/include/QtGui/QBitmap \
 	E:/QT/6.6.1/mingw_64/include/QtGui/QIcon \
 	E:/QT/6.6.1/mingw_64/include/QtGui/QKeyEvent \
 	E:/QT/6.6.1/mingw_64/include/QtGui/QPixmap \

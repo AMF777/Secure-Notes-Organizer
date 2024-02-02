@@ -8,6 +8,8 @@
 #include "EWIEGA46WW/moc_img_msg_vlayout.cpp"
 #include "EWIEGA46WW/moc_label_input_vlayout.cpp"
 #include "EWIEGA46WW/moc_main_window.cpp"
+#include "EWIEGA46WW/moc_profile_dialog.cpp"
+#include "EWIEGA46WW/moc_round_img_label.cpp"
 #include "EWIEGA46WW/moc_sidebar_vlayout.cpp"
 #include "EWIEGA46WW/moc_signin.cpp"
 #include "EWIEGA46WW/moc_signout.cpp"

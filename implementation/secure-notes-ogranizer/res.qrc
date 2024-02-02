@@ -11,5 +11,8 @@
         <file>styles/styles.qss</file>
         <file>img/file.png</file>
         <file>img/saveNote.png</file>
+        <file>img/avatar.png</file>
+        <file>img/camera.png</file>
+        <file>img/kitten.jpeg</file>
     </qresource>
 </RCC>
