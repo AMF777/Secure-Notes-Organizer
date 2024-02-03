@@ -17,7 +17,7 @@ class TextEditComponent : public QWidget
 public:
     TextEditComponent(QWidget *parent = nullptr);
     TextEditComponent(int index, QWidget *parent = nullptr);
-    textEdit *textEdit;
+    textEdit *text;
     int index;
 
 signals:

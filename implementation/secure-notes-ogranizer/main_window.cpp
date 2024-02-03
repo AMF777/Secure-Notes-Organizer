@@ -21,6 +21,12 @@ main_window::main_window(QWidget *parent)
     sidebar_vlayout *sidebar = new sidebar_vlayout();
     mainHorizontalLayout->addLayout(sidebar);
 
+
+    TagsLayout *tagsLayout = new TagsLayout();
+    tagsLayout->setAlignment(Qt::AlignLeft);
+    tagsLayout->setContentsMargins(50, 50, 0, 0);
+
+
     // Create a widget for the right side containing other layouts
     QWidget *rightSideWidget = new QWidget(centralWidget);
     QVBoxLayout *rightSideLayout = new QVBoxLayout(rightSideWidget);
@@ -28,6 +34,7 @@ main_window::main_window(QWidget *parent)
     // Add the layouts to the right widget
     rightSideLayout->addLayout(createTimeAndButtonsLayout());
     rightSideLayout->addLayout(createTitleNoteLayout());
+    rightSideLayout->addLayout(tagsLayout);
     rightSideLayout->addWidget(new CustomWidget());
 
     // Add the right widget to the right side of the central widget

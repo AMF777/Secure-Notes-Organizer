@@ -40,6 +40,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         signout.h signout.cpp
         round_img_label.h round_img_label.cpp
         profile_dialog.h profile_dialog.cpp
+        tags_hlayout.h tags_hlayout.cpp
+        tag.h tag.cpp
 
 
     )

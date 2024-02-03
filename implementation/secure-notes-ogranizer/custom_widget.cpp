@@ -80,7 +80,7 @@ void CustomWidget::createComponent(int index)
     verticalLayoutTextEdits->insertWidget(index + 1, newComponent);
 
     // To focus on new component and Move Cursor to first postion
-    newComponent->textEdit->focusAndMoveCursor(0);
+    newComponent->text->focusAndMoveCursor(0);
 }
 
 void CustomWidget::createComponentWithText(int index, const QString &text)
@@ -89,10 +89,10 @@ void CustomWidget::createComponentWithText(int index, const QString &text)
     createComponent(index);
 
     // Set the text of the newly created component
-    componentVector[index + 1]->textEdit->setText(text);
+    componentVector[index + 1]->text->setText(text);
 
     // To focus on new component and Move Cursor to last postion
-    componentVector[index + 1]->textEdit->focusAndMoveCursor();
+    componentVector[index + 1]->text->focusAndMoveCursor();
 }
 
 
@@ -100,10 +100,10 @@ void CustomWidget::createComponentWithText(int index, const QString &text)
 void CustomWidget::deleteComponentAppendText(int index, const QString &text)
 {
     // To focus on previous component and Move Cursor to last postion
-    componentVector[index - 1]->textEdit->focusAndMoveCursor();
+    componentVector[index - 1]->text->focusAndMoveCursor();
 
     // Append Text to the previous component
-    componentVector[index - 1]->textEdit->appendText(text);
+    componentVector[index - 1]->text->appendText(text);
 
     // Delete Component With text
     deleteComponent(index);
@@ -131,7 +131,7 @@ void CustomWidget::deleteComponent(int index)
     }
 
     // To focus on previous component and Move Cursor to last postion
-    componentVector[index - 1]->textEdit->focusAndMoveCursor();
+    componentVector[index - 1]->text->focusAndMoveCursor();
 }
 
 void CustomWidget::focusNextComponent(int index)
@@ -139,5 +139,5 @@ void CustomWidget::focusNextComponent(int index)
     // Check if the index is within the valid range
     if (index < componentVector.size() - 1)
         // Change focus to the next component's textEdit
-        componentVector[index + 1]->textEdit->focusAndMoveCursor(0);
+        componentVector[index + 1]->text->focusAndMoveCursor(0);
 }

@@ -188,3 +188,25 @@ QScrollBar::sub-line:vertical {
     border:1px solid #008D87;
 }
 
+.tagText {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    font-style: normal;
+    color: black;
+    padding: 3px 8px;
+    border: 1px solid black;
+    border-radius: 7px;
+}
+
+.tagButtons {
+    border: none;
+}
+
+.textInput{
+    max-width:80px;
+    max-height:20px;
+    border: 0;
+}
+
+

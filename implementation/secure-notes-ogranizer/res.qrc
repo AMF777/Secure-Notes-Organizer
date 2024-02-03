@@ -14,5 +14,6 @@
         <file>img/avatar.png</file>
         <file>img/camera.png</file>
         <file>img/kitten.jpeg</file>
+        <file>img/cancel.png</file>
     </qresource>
 </RCC>

@@ -9,16 +9,16 @@ TextEditComponent::TextEditComponent(QWidget *parent) : QWidget(parent)
 {
     index = -1;
     // Create QTextEdit
-    textEdit = new class textEdit(this);
-    textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff); // Disable vertical scrollbar
-    textEdit->setProperty("class", "textComponents");  // Set the class name as a custom property
+    text = new class textEdit(this);
+    text->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff); // Disable vertical scrollbar
+    text->setProperty("class", "textComponents");  // Set the class name as a custom property
 
     setupDropDownIcon();
 
     // Set up layout
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->addWidget(selectColumnIcon);
-    layout->addWidget(textEdit);
+    layout->addWidget(text);
 
     // Set minimum height
     setMinimumHeight(50);
@@ -27,8 +27,8 @@ TextEditComponent::TextEditComponent(QWidget *parent) : QWidget(parent)
     updateHeight();
 
     // Connect a slot to update height when text changes
-    connect(textEdit->document(), &QTextDocument::contentsChanged, this, &TextEditComponent::updateHeight);
-    textEdit->installEventFilter(this);
+    connect(text->document(), &QTextDocument::contentsChanged, this, &TextEditComponent::updateHeight);
+    text->installEventFilter(this);
 
 }
 
@@ -71,52 +71,52 @@ void TextEditComponent::handleOptionSelected(const QString &selectedOption)
 void TextEditComponent::handleFontOption()
 {
     bool ok;
-    QFont font = QFontDialog::getFont(&ok, textEdit->font(), this);
+    QFont font = QFontDialog::getFont(&ok, text->font(), this);
 
     if (ok)
     {
-        textEdit->setFontFamily(font.family());
-        textEdit->setFontStyle(font.styleName());
-        textEdit->setFontSize(font.pointSize());
+        text->setFontFamily(font.family());
+        text->setFontStyle(font.styleName());
+        text->setFontSize(font.pointSize());
     }
 }
 
 void TextEditComponent::handleBoldOption()
 {
     // Toggle boldness
-    bool isBold = !textEdit->isBold();
-    textEdit->setBold(isBold);
+    bool isBold = !text->isBold();
+    text->setBold(isBold);
 }
 
 void TextEditComponent::handleItalicOption()
 {
     // Toggle italic
-    bool isItalic = !textEdit->isItalic();
-    textEdit->setItalic(isItalic);
+    bool isItalic = !text->isItalic();
+    text->setItalic(isItalic);
 }
 
 void TextEditComponent::handleUnderlinedOption()
 {
     // Toggle underlined
-    bool isUnderlined = !textEdit->isUnderlined();
-    textEdit->setUnderlined(isUnderlined);
+    bool isUnderlined = !text->isUnderlined();
+    text->setUnderlined(isUnderlined);
 }
 
 void TextEditComponent::handleFontColorOption()
 {
     // Get the current text content
-    QString currentText = textEdit->toPlainText();
+    QString currentText = text->toPlainText();
 
     // Prompt the user to choose a new font color
-    QColor chosenFontColor = QColorDialog::getColor(textEdit->textColor(), this, "Choose Font Color");
+    QColor chosenFontColor = QColorDialog::getColor(text->textColor(), this, "Choose Font Color");
 
     if (chosenFontColor.isValid())
     {
         // Set the new font color
-        textEdit->setFontColor(chosenFontColor.name(QColor::HexRgb));
+        text->setFontColor(chosenFontColor.name(QColor::HexRgb));
 
         // Set the text again after changing the font color
-        textEdit->setText(currentText);
+        text->setText(currentText);
     }
 }
 
@@ -124,10 +124,10 @@ void TextEditComponent::handleFontColorOption()
 void TextEditComponent::handleBackgroundColorOption()
 {
     // Get the current text content
-    QString currentText = textEdit->toPlainText();
+    QString currentText = text->toPlainText();
 
     // Get the current background color
-    QPalette palette = textEdit->palette();
+    QPalette palette = text->palette();
     QColor backgroundColor = palette.color(QPalette::Window);
 
     // Prompt the user to choose a new background color
@@ -136,11 +136,11 @@ void TextEditComponent::handleBackgroundColorOption()
     if (chosenBackgroundColor.isValid())
     {
         // Set the new background color
-        textEdit->setBackgroundColor(chosenBackgroundColor.name());
-        textEdit->setTextBackgroundColor(chosenBackgroundColor);
+        text->setBackgroundColor(chosenBackgroundColor.name());
+        text->setTextBackgroundColor(chosenBackgroundColor);
 
         // Set the text again after changing the background color
-        textEdit->setText(currentText);
+        text->setText(currentText);
     }
 }
 
@@ -153,9 +153,9 @@ TextEditComponent::TextEditComponent(int index, QWidget *parent) : TextEditCompo
 void TextEditComponent::onFocusChanged(bool hasFocus)
 {
     if (hasFocus)
-        textEdit->setStyleSheet("border: 2px solid black;");  // Change the border color when in focus
+        text->setStyleSheet("border: 2px solid black;");  // Change the border color when in focus
     else
-        textEdit->setStyleSheet("border: none;");  // Change the border color when out of focus
+        text->setStyleSheet("border: none;");  // Change the border color when out of focus
 }
 
 bool TextEditComponent::handleKeyPressEvent(QKeyEvent *keyEvent)
@@ -175,13 +175,13 @@ bool TextEditComponent::handleKeyPressEvent(QKeyEvent *keyEvent)
         !(keyEvent->modifiers() & Qt::ShiftModifier))
     {
         // Get the cursor position
-        int cursorPosition = textEdit->textCursor().position();
+        int cursorPosition = text->textCursor().position();
 
         // Check if the cursor is in the middle of the text
-        if (cursorPosition > 0 && cursorPosition < textEdit->toPlainText().length())
+        if (cursorPosition > 0 && cursorPosition < text->toPlainText().length())
         {
             // Extract text to the right of the cursor
-            QString textToRight = textEdit->toPlainText().mid(cursorPosition);
+            QString textToRight = text->toPlainText().mid(cursorPosition);
 
             deleteRightText(cursorPosition);
 
@@ -197,7 +197,7 @@ bool TextEditComponent::handleKeyPressEvent(QKeyEvent *keyEvent)
         return true;
     }
     // Check if Backspace key is pressed and the text edit is empty
-    else if (keyEvent->key() == Qt::Key_Backspace && textEdit->toPlainText().isEmpty() && index > 0)
+    else if (keyEvent->key() == Qt::Key_Backspace && text->toPlainText().isEmpty() && index > 0)
     {
         // Emit the backspaceEmpty signal
         emit backspaceEmpty(index);
@@ -207,10 +207,10 @@ bool TextEditComponent::handleKeyPressEvent(QKeyEvent *keyEvent)
         return true;
     }
     // Check if Backspace key is pressed and the text edit isn't empty to send it in the previous component
-    else if (keyEvent->key() == Qt::Key_Backspace && textEdit->textCursor().position() == 0 && index > 0)
+    else if (keyEvent->key() == Qt::Key_Backspace && text->textCursor().position() == 0 && index > 0)
     {
         // Emit the backspaceNotEmpty signal
-        emit backspaceNotEmpty(index, textEdit->toPlainText());
+        emit backspaceNotEmpty(index, text->toPlainText());
 
         // Consume the event to prevent it from being processed further
         keyEvent->accept();
@@ -224,7 +224,7 @@ bool TextEditComponent::handleKeyPressEvent(QKeyEvent *keyEvent)
 bool TextEditComponent::eventFilter(QObject *obj, QEvent *event)
 {
     // Check if the event is related to the textEdit object
-    if (obj == textEdit)
+    if (obj == text)
     {
         // Handle the FocusIn event
         if (event->type() == QEvent::FocusIn)
@@ -253,7 +253,7 @@ bool TextEditComponent::eventFilter(QObject *obj, QEvent *event)
 
 void TextEditComponent::deleteRightText(const int cursorPosition){
     // Move the cursor to the desired index
-    QTextCursor cursor = textEdit->textCursor();
+    QTextCursor cursor = text->textCursor();
     cursor.setPosition(cursorPosition);
 
     // Move the cursor to the end of the document
@@ -267,7 +267,7 @@ void TextEditComponent::deleteRightText(const int cursorPosition){
 void TextEditComponent::updateHeight()
 {
     // Get the document height
-    int docHeight = textEdit->document()->size().height() + 20;
+    int docHeight = text->document()->size().height() + 20;
 
     // Set the height based on the maximum of the document height and the minimum height
     setFixedHeight(qMax(docHeight, 50));

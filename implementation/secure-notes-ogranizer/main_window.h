@@ -8,6 +8,7 @@
 #include <QSplitter>
 #include <QLabel>
 #include "button_icon_vlayout.h"
+#include "tags_hlayout.h"
 
 class main_window : public QMainWindow
 {
