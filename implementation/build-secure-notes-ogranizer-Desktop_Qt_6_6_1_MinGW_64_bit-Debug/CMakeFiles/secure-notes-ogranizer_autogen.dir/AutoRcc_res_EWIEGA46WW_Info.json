@@ -1,0 +1,36 @@
+{
+	"BUILD_DIR" : "E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/secure-notes-ogranizer_autogen",
+	"CMAKE_BINARY_DIR" : "E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer",
+	"CMAKE_SOURCE_DIR" : "E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer",
+	"INCLUDE_DIR" : "E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/secure-notes-ogranizer_autogen/include",
+	"INPUTS" : 
+	[
+		"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/img/cancel.png",
+		"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/img/camera.png",
+		"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/img/plus.png",
+		"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/img/select_column.png",
+		"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/img/kitten.jpeg",
+		"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/img/logout.png",
+		"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/img/siemens-logo.png",
+		"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/img/file.png",
+		"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/img/avatar.png",
+		"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/img/g.png",
+		"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/img/profile.png",
+		"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/img/edit.png",
+		"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/img/share.png",
+		"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/img/saveNote.png",
+		"E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/styles/styles.qss"
+	],
+	"LOCK_FILE" : "E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/secure-notes-ogranizer_autogen.dir/AutoRcc_res_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "res" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_res.cpp",
+	"RCC_EXECUTABLE" : "E:/QT/6.6.1/mingw_64/./bin/rcc.exe",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/build-secure-notes-ogranizer-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/CMakeFiles/secure-notes-ogranizer_autogen.dir/AutoRcc_res_EWIEGA46WW_Used.txt",
+	"SOURCE" : "E:/Courses/Siemens/Project/Secure-Notes-Organizer Front-end/implementation/secure-notes-ogranizer/res.qrc",
+	"VERBOSITY" : 0
+}
