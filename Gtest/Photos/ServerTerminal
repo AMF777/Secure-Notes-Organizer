@@ -1,0 +1,542 @@
+youssef@youssef-computer:~/Mary/Server$ ./Server
+Server listening 
+New Client Connected 
+Server listening 
+
+
+Server received: message 1, with action signup
+Connected to database Successfully
+User added successfully
+Destructor called
+
+
+Server received: message 1, with action signup
+Connected to database Successfully
+Email is already in use
+Destructor called
+
+
+Server received: message 1, with action signup
+Connected to database Successfully
+Key 'Data' not found in the message.
+Destructor called
+
+
+Server received: message 1, with action signup
+Connected to database Successfully
+key 'Data' not have an object of type user.
+Destructor called
+
+
+Server received: message 2, with action login
+Connected to database Successfully
+User logged in successfully
+Destructor called
+
+
+Server received: message 2, with action login
+Connected to database Successfully
+Email or Password provided is wrong
+Destructor called
+
+
+Server received: message 2, with action login
+Connected to database Successfully
+Email or Password provided is wrong
+Destructor called
+
+
+Server received: message 2, with action login
+Connected to database Successfully
+Key 'Data' not found in the message.
+Destructor called
+
+
+Server received: message 2, with action login
+Connected to database Successfully
+key 'Data' not have an object of type user.
+Destructor called
+
+
+Server received: message 3, with action create note
+Connected to database Successfully
+Note added successfully
+Destructor called
+
+
+Server received: message 3, with action create note
+Connected to database Successfully
+Error: User with user_id 1 does not exist.
+Destructor called
+
+
+Server received: message 3, with action create note
+Connected to database Successfully
+Key 'Data' not found in the message.
+Destructor called
+
+
+Server received: message 3, with action create note
+Connected to database Successfully
+key 'Data' not have an object of type note.
+Destructor called
+
+
+Server received: message 4, with action update note title
+Connected to database Successfully
+Note updated successfully
+Destructor called
+
+
+Server received: message 4, with action update note title
+Connected to database Successfully
+Error: User with user_id 1 does not exist.
+Destructor called
+
+
+Server received: message 4, with action update note title
+Connected to database Successfully
+Error: Note with note_id 1 does not exist or does not belong to the user.
+Destructor called
+
+
+Server received: message 4, with action update note title
+Connected to database Successfully
+Key 'Data' not found in the message.
+Destructor called
+
+
+Server received: message 4, with action update note title
+Connected to database Successfully
+key 'Data' not have an object of type note.
+Destructor called
+
+
+Server received: message 5, with action delete note
+Connected to database Successfully
+Note components deleted successfully
+Note deleted successfully
+Destructor called
+
+
+Server received: message 5, with action delete note
+Connected to database Successfully
+Error: Note with note_id 15 does not exist or does not belong to the user.
+Destructor called
+
+
+Server received: message 5, with action delete note
+Connected to database Successfully
+Error: Note with note_id 1 does not exist or does not belong to the user.
+Destructor called
+
+
+Server received: message 5, with action delete note
+Connected to database Successfully
+Key 'Data' not found in the message.
+Destructor called
+
+
+Server received: message 5, with action delete note
+Connected to database Successfully
+key 'Data' not have an object of type note.
+Destructor called
+
+
+Server received: message 6, with action list notes
+Connected to database Successfully
+Destructor called
+
+
+Server received: message 6, with action list notes
+Connected to database Successfully
+Destructor called
+
+
+Server received: message 6, with action list notes
+Connected to database Successfully
+Key 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 6, with action list notes
+Connected to database Successfully
+Key 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 7, with action search by note title
+Connected to database Successfully
+Destructor called
+
+
+Server received: message 7, with action search by note title
+Connected to database Successfully
+Destructor called
+
+
+Server received: message 7, with action search by note title
+Connected to database Successfully
+Key 'Data' not found in the message.
+Destructor called
+
+
+Server received: message 7, with action search by note title
+Connected to database Successfully
+key 'Data' not have an object of type note.
+Destructor called
+
+
+Server received: message 8, with action create component
+Connected to database Successfully
+Note component added successfully
+Destructor called
+
+
+Server received: message 8, with action create component
+Connected to database Successfully
+Error: User with user_id 1 does not exist.
+Destructor called
+
+
+Server received: message 8, with action create component
+Connected to database Successfully
+Error: Note with note_id 1 does not exist or does not belong to the user.
+Destructor called
+
+
+Server received: message 8, with action create component
+Connected to database Successfully
+Key 'Data' or 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 8, with action create component
+Connected to database Successfully
+[json.exception.type_error.302] type must be number, but is string
+Destructor called
+
+
+Server received: message 8, with action create component
+Connected to database Successfully
+Key 'Data' or 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 8, with action create component
+Connected to database Successfully
+key 'Data' not have an object of type NoteComponent.
+Destructor called
+
+
+Server received: message 9, with action update component
+Connected to database Successfully
+Note component updated successfully
+Destructor called
+
+
+Server received: message 9, with action update component
+Connected to database Successfully
+Error: Note with note_id 16 does not exist or does not belong to the user.
+Destructor called
+
+
+Server received: message 9, with action update component
+Connected to database Successfully
+Error: Note with note_id 1 does not exist or does not belong to the user.
+Destructor called
+
+
+Server received: message 9, with action update component
+Connected to database Successfully
+Note component updated successfully
+Destructor called
+
+
+Server received: message 9, with action update component
+Connected to database Successfully
+Key 'Data' or 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 9, with action update component
+Connected to database Successfully
+[json.exception.type_error.302] type must be number, but is string
+Destructor called
+
+
+Server received: message 9, with action update component
+Connected to database Successfully
+Key 'Data' or 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 9, with action update component
+Connected to database Successfully
+key 'Data' not have an object of type NoteComponent.
+Destructor called
+
+
+Server received: message 10, with action delete component
+Connected to database Successfully
+Note component deleted successfully
+Destructor called
+
+
+Server received: message 10, with action delete component
+Connected to database Successfully
+Error: Note with note_id 2 does not exist or does not belong to the user.
+Destructor called
+
+
+Server received: message 10, with action delete component
+Connected to database Successfully
+Error: Note with note_id 2 does not exist or does not belong to the user.
+Destructor called
+
+
+Server received: message 10, with action delete component
+Connected to database Successfully
+Note component deleted successfully
+Destructor called
+
+
+Server received: message 10, with action delete component
+Connected to database Successfully
+Key 'Data' or 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 10, with action delete component
+Connected to database Successfully
+[json.exception.type_error.302] type must be number, but is string
+Destructor called
+
+
+Server received: message 10, with action delete component
+Connected to database Successfully
+Key 'Data' or 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 10, with action delete component
+Connected to database Successfully
+key 'Data' not have an object of type NoteComponent.
+Destructor called
+
+
+Server received: message 11, with action list components
+Connected to database Successfully
+Destructor called
+
+
+Server received: message 11, with action list components
+Connected to database Successfully
+Error: Note with note_id 16 does not exist or does not belong to the user.
+Destructor called
+
+
+Server received: message 11, with action list components
+Connected to database Successfully
+Error: Note with note_id 1 does not exist or does not belong to the user.
+Destructor called
+
+
+Server received: message 11, with action list components
+Connected to database Successfully
+Key 'Data' not found in the message.
+Destructor called
+
+
+Server received: message 11, with action list components
+Connected to database Successfully
+key 'Data' not have an object of type note.
+Destructor called
+
+
+Server received: message 12, with action add tag
+Connected to database Successfully
+Tag added successfully
+Note tag added successfully
+Destructor called
+
+
+Server received: message 12, with action add tag
+Connected to database Successfully
+Error: User with user_id 1 does not exist.
+Destructor called
+
+
+Server received: message 12, with action add tag
+Connected to database Successfully
+Error: Note with note_id 1 does not exist or does not belong to the user.
+Destructor called
+
+
+Server received: message 12, with action add tag
+Connected to database Successfully
+Key 'Data' or 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 12, with action add tag
+Connected to database Successfully
+[json.exception.type_error.302] type must be number, but is string
+Destructor called
+
+
+Server received: message 12, with action add tag
+Connected to database Successfully
+Key 'Data' or 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 12, with action add tag
+Connected to database Successfully
+key 'Data' not have an object of type Tag.
+Destructor called
+
+
+Server received: message 13, with action update tag
+Connected to database Successfully
+Tag updated successfully
+Destructor called
+
+
+Server received: message 13, with action update tag
+Connected to database Successfully
+Error: User with user_id 1 does not exist.
+Destructor called
+
+
+Server received: message 13, with action update tag
+Connected to database Successfully
+Error: Note with note_id 1 does not exist or does not belong to the user.
+Destructor called
+
+
+Server received: message 13, with action update tag
+Connected to database Successfully
+Error: Tag with tag_id 1 does not exist.
+Destructor called
+
+
+Server received: message 13, with action update tag
+Connected to database Successfully
+Key 'Data' or 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 13, with action update tag
+Connected to database Successfully
+[json.exception.type_error.302] type must be number, but is string
+Destructor called
+
+
+Server received: message 13, with action update tag
+Connected to database Successfully
+Key 'Data' or 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 13, with action update tag
+Connected to database Successfully
+key 'Data' not have an object of type Tag.
+Destructor called
+
+
+Server received: message 14, with action delete tag
+Connected to database Successfully
+Tag deleted successfully
+Destructor called
+
+
+Server received: message 14, with action delete tag
+Connected to database Successfully
+Error: User with user_id 1 does not exist.
+Destructor called
+
+
+Server received: message 14, with action delete tag
+Connected to database Successfully
+Error: Note with note_id 1 does not exist or does not belong to the user.
+Destructor called
+
+
+Server received: message 14, with action delete tag
+Connected to database Successfully
+Error: Tag with tag_id 1 does not exist.
+Destructor called
+
+
+Server received: message 14, with action delete tag
+Connected to database Successfully
+Key 'Data' or 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 14, with action delete tag
+Connected to database Successfully
+[json.exception.type_error.302] type must be number, but is string
+Destructor called
+
+
+Server received: message 14, with action delete tag
+Connected to database Successfully
+Key 'Data' or 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 14, with action delete tag
+Connected to database Successfully
+key 'Data' not have an object of type Tag.
+Destructor called
+
+
+Server received: message 15, with action filter by tag name
+Connected to database Successfully
+Destructor called
+
+
+Server received: message 15, with action filter by tag name
+Connected to database Successfully
+Error: User with user_id 1 does not exist.
+Destructor called
+
+
+Server received: message 15, with action filter by tag name
+Connected to database Successfully
+Key 'tag name' or 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 15, with action filter by tag name
+Connected to database Successfully
+[json.exception.type_error.302] type must be number, but is string
+Destructor called
+
+
+Server received: message 15, with action filter by tag name
+Connected to database Successfully
+Key 'tag name' or 'user id' not found in the message.
+Destructor called
+
+
+Server received: message 15, with action filter by tag name
+Connected to database Successfully
+[json.exception.type_error.302] type must be string, but is number
+Destructor called
+
+message is empty
+
+
+Server received: message 0, with action sign up
+wrong action was sent
+[json.exception.type_error.302] type must be string, but is number
+[json.exception.type_error.302] type must be string, but is null
+Key 'ID' not found in the message.
+
+Client closed the connection.
+
+
+
