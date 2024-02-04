@@ -15,27 +15,30 @@ sidebar_vlayout::sidebar_vlayout(QWidget *parent) : QVBoxLayout(parent)
     // Create profile button
     createButton(":/res/img/profile.png", SIDEBAR_ICON_CLASSNAME, iconSize,
                  Qt::AlignLeft, [this](){profileButtonClicked();});
-
     // Create add new note button
     createButton(":/res/img/plus.png", SIDEBAR_ICON_CLASSNAME, iconSize,
                  Qt::AlignLeft, [this](){addNewNoteButtonClicked();});
-
-    // Create edit note button
+    // Create view note button
+    createButton(":/res/img/note-icon.png", SIDEBAR_ICON_CLASSNAME, iconSize,
+                 Qt::AlignLeft, [this](){viewNotesClicked();});
     createButton(":/res/img/edit.png", SIDEBAR_ICON_CLASSNAME, iconSize,
                  Qt::AlignLeft, [this](){editNoteButtonClicked();});
-
     // Create logout button
     createButton(":/res/img/logout.png", SIDEBAR_ICON_CLASSNAME, iconSize,
                  Qt::AlignLeft, [this](){logoutButtonClicked();});
 }
+// to do
+sidebar_vlayout::sidebar_vlayout(const std::function<void ()> &swapToEdit, const std::function<void ()> &swapToShow, QWidget *parent)
+{
 
+}
 // Function to create a button and add it to the layout
 void sidebar_vlayout::createButton(const QString &iconPath, const QString &className, const QSize iconSize,
                                    Qt::Alignment alignment, const std::function<void()> &onClick)
 {
     // Create a button with the specified properties
     button_icon_vlayout* button = new button_icon_vlayout(iconPath, className, iconSize, alignment, onClick);
-
+    button->button->setCursor(Qt::PointingHandCursor);
     // Set the button size policy
     button->setButtonSizePolicy();
 
@@ -80,4 +83,9 @@ void sidebar_vlayout::logoutButtonClicked()
     signoutbutton->setGraphicsEffect(nullptr);
 
     qDebug() << "Logout Button clicked";
+}
+
+void sidebar_vlayout::viewNotesClicked()
+{
+    qDebug() << "View notes clicked";
 }

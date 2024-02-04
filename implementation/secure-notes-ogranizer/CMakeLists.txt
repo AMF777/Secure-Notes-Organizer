@@ -42,6 +42,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         profile_dialog.h profile_dialog.cpp
         tags_hlayout.h tags_hlayout.cpp
         tag.h tag.cpp
+        note_widget.h note_widget.cpp
+        edit_notes_vlayout.h edit_notes_vlayout.cpp
 
 
     )

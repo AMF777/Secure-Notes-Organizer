@@ -100,3 +100,92 @@ QHBoxLayout* main_window::createTitleNoteLayout()
     return layout;
 }
 
+// #include "main_window.h"
+// #include "sidebar_vlayout.h"
+// #include "custom_widget.h"
+// #include "constants.h"
+// #include "edit_notes_vlayout.h"
+// #include "note_widget.h"
+
+// #include <QHBoxLayout>
+
+// main_window::main_window(QWidget *parent)
+//     : QMainWindow(parent)
+// {
+//     setMinimumSize(MAIN_WINDOW_MIN_WIDTH, MAIN_WINDOW_MIN_HEIGHT);
+
+//     // Create the central widget that contains all layouts and widgets
+//     QWidget *centralWidget = new QWidget(this);
+
+//     // Create layouts for the central widget
+//     QHBoxLayout *mainHorizontalLayout = new QHBoxLayout(centralWidget);
+
+//     // Add the sidebar layout to the left side of the central widget
+//     sidebar_vlayout *sidebar = new sidebar_vlayout();
+//     edit_notes_vlayout *en = new edit_notes_vlayout();
+
+//     en->setAlignment(Qt::AlignTop);
+//     mainHorizontalLayout->addLayout(sidebar);
+//     // mainHorizontalLayout->addLayout(new note_widget() );
+//     // mainHorizontalLayout->addLayout(new note_widget() );
+//     mainHorizontalLayout->addLayout(en);
+//     // Create a widget for the right side containing other layouts
+
+//     // Set the overall layout for the central widget
+//     mainHorizontalLayout->setAlignment(Qt::AlignLeft);
+//     centralWidget->setLayout(mainHorizontalLayout);
+
+//     // Set the central widget for the main window
+//     setCentralWidget(centralWidget);
+// }
+
+
+// QHBoxLayout* main_window::createTimeAndButtonsLayout()
+// {
+//     // Create a horizontal layout for time, buttons, and labels
+//     QHBoxLayout *layout = new QHBoxLayout();
+//     layout->setContentsMargins(0, 0, 0, 0);
+//     layout->setSpacing(10);
+
+//     // Create and set up the time label
+//     timeAgoLabel = new QLabel("Edited 2h ago");
+//     timeAgoLabel->setAlignment(Qt::AlignRight);
+//     timeAgoLabel->setObjectName("timeAgoLabel");
+
+//     layout->addWidget(timeAgoLabel);
+
+
+//     // Initialize and set up the dots button with a lambda expression
+//     saveNoteButton = new button_icon_vlayout(":/res/img/saveNote.png", "horizontalButton", QSize(SIDEBAR_ICON_WIDTH, SIDEBAR_ICON_HEIGHT),
+//                                              Qt::AlignRight, [this]() {
+//                                                  qDebug() << "Dots button clicked!";
+//                                              });
+
+//     // Initialize and set up the share button with a lambda expression
+//     shareButton = new button_icon_vlayout(":/res/img/share.png", "horizontalButton", QSize(SIDEBAR_ICON_WIDTH, SIDEBAR_ICON_HEIGHT),
+//                                           Qt::AlignRight, [this]() {
+//                                               qDebug() << "Share button clicked!";
+//                                           });
+
+//     layout->addWidget(saveNoteButton->button);
+//     layout->addWidget(shareButton->button);
+
+//     return layout;
+// }
+
+// QHBoxLayout* main_window::createTitleNoteLayout()
+// {
+//     // Create a horizontal layout for the title note
+//     QHBoxLayout *layout = new QHBoxLayout();
+
+//     // Create and set up the title note text edit
+//     QTextEdit *titleNote = new QTextEdit("Untitled");
+//     titleNote->setAlignment(Qt::AlignLeft);
+//     titleNote->setProperty("class", "title");
+//     titleNote->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+//     layout->addWidget(titleNote);
+
+//     return layout;
+// }
+

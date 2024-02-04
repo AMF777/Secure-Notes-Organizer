@@ -208,5 +208,30 @@ QScrollBar::sub-line:vertical {
     max-height:20px;
     border: 0;
 }
-
-
+.edit-notes-label{
+    font-size:22px;
+    font-weight:bold;
+}
+.note-widget{
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding:8px;
+    border:2px solid #cdcdcd;
+    background-color: #d3d7db;
+}
+.note-widget-title{
+    font-size:18px;
+    font-weight:bold;
+    padding:0px;
+    margin-bottom:0px;
+}
+.note-widget-tags{
+    font-size:16px;
+    margin-bottom:8px;
+    padding:0px;
+    margin-top:0px;
+}
+.note-widget-preview{
+    font-size:12px;
+    padding:0px;
+}
