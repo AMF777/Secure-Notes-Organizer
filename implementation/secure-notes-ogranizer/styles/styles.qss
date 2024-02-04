@@ -4,7 +4,7 @@
     margin-bottom: 5px;
     border-radius: 3px;
     background-color: #e8f4f8;
-    margin-bottom: 5px;
+    margin-left: 3px;
 }
 
 .user-label{
@@ -185,7 +185,6 @@ QScrollBar::sub-line:vertical {
     border:1px solid black;
 }
 .profile-dialog-border{
-    border:1px solid #008D87;
 }
 
 .tagText {

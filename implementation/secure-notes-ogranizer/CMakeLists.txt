@@ -43,7 +43,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         tags_hlayout.h tags_hlayout.cpp
         tag.h tag.cpp
 
-        edit_notes_vlayout.h edit_notes_vlayout.cpp
+        show_notes_vlayout.h show_notes_vlayout.cpp
         note_editor.h note_editor.cpp
         note_widget.h note_widget.cpp
 

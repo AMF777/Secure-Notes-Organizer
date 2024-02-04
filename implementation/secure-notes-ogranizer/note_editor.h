@@ -11,7 +11,7 @@ class NoteEditor : public QVBoxLayout
 {
 public:
     NoteEditor();
-
+    NoteEditor(QStringList& lines);
 private:
     QLabel *timeAgoLabel;
     button_icon_vlayout *saveNoteButton;

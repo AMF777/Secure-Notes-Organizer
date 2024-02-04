@@ -1,4 +1,4 @@
-#include "edit_notes_vlayout.h"
+#include "show_notes_vlayout.h"
 #include "note_widget.h"
 
 #include <QLabel>
@@ -49,5 +49,5 @@ edit_notes_vlayout::edit_notes_vlayout(QWidget *parent)
     b3->addLayout(new note_widget() );
     // b3->setAlignment(Qt::AlignCenter);
     addLayout(b3);
-    setAlignment(Qt::AlignCenter);
+    setAlignment(Qt::AlignTop);
 }

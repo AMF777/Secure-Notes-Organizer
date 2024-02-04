@@ -14,6 +14,19 @@ NoteEditor::NoteEditor() {
     this->addWidget(noteComponentsLayout);
 }
 
+NoteEditor::NoteEditor(QStringList& lines)
+{
+    tagsLayout = new TagsLayout();
+    tagsLayout->setAlignment(Qt::AlignLeft);
+    tagsLayout->setContentsMargins(50, 50, 0, 0);
+
+    noteComponentsLayout = new CustomWidget(lines);
+    this->addLayout(createTimeAndButtonsLayout());
+    this->addLayout(createTitleNoteLayout());
+    this->addLayout(tagsLayout);
+    this->addWidget(noteComponentsLayout);
+}
+
 QHBoxLayout* NoteEditor::createTimeAndButtonsLayout()
 {
     // Create a horizontal layout for time, buttons, and labels

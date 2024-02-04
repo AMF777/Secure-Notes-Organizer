@@ -1,5 +1,5 @@
-#ifndef EDIT_NOTES_VLAYOUT_H
-#define EDIT_NOTES_VLAYOUT_H
+#ifndef SHOW_NOTES_VLAYOUT_H
+#define SHOW_NOTES_VLAYOUT_H
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -13,4 +13,4 @@ public:
 signals:
 };
 
-#endif // EDIT_NOTES_VLAYOUT_H
+#endif // SHOW_NOTES_VLAYOUT_H

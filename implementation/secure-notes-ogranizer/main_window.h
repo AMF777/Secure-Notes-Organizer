@@ -8,7 +8,7 @@
 #include <QSplitter>
 #include <QLabel>
 #include <QStackedWidget>
-#include "edit_notes_vlayout.h"
+#include "show_notes_vlayout.h"
 #include "constants.h"
 #include "note_editor.h"
 #include "sidebar_vlayout.h"
@@ -22,11 +22,12 @@ public:
     edit_notes_vlayout* editNotesLayout;
     sidebar_vlayout* sidebarLayout;
     QStackedWidget* stackedWidget;
-
+    QWidget* pageOne;
+    QWidget* pageTwo;
 private slots:
     void swapToEditNote();
     void swapToShowNotes();
-
+    void initEditorFromFile(QString filePath);
 private:
     QVBoxLayout *mainVerticalLayout;
     QHBoxLayout *mainHorizontalLayout;

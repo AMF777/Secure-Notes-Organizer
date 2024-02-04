@@ -35,6 +35,39 @@ CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
     setLayout(mainLayout);
 }
 
+CustomWidget::CustomWidget(QStringList &lines, QWidget *parent)
+{
+    // Set the outermost widget's margins to zero
+    setContentsMargins(0, 0, 0, 0);
+
+    // Create the layout for text edits and initialize the first component
+    verticalLayoutTextEdits = new QVBoxLayout();
+
+    // Wrap the verticalLayoutTextEdits in a QScrollArea
+    QScrollArea *scrollArea = new QScrollArea(this);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setWidget(new QWidget()); // Set an empty widget as the scroll area's widget
+    scrollArea->setFrameShape(QFrame::NoFrame);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);  // Set the vertical scroll bar policy
+
+    // Set the inner layout for the scroll area's widget
+    // qDebug()<<"im inside my custom widget constructor";
+    scrollArea->widget()->setLayout(verticalLayoutTextEdits);
+    int cid=-1;
+    for (auto& line:lines){
+        initComponentWithLine(cid,line);
+        // qDebug()<<cid;n
+        cid++;
+    }
+
+    // Create the main layout that includes all the sub-layouts
+    QVBoxLayout *mainLayout = createMainLayout();
+    mainLayout->addWidget(scrollArea);
+
+    // Set the overall layout for the CustomWidget
+    setLayout(mainLayout);
+}
+
 QVBoxLayout* CustomWidget::createMainLayout()
 {
     // Create a vertical layout for the main layout
@@ -140,4 +173,16 @@ void CustomWidget::focusNextComponent(int index)
     if (index < componentVector.size() - 1)
         // Change focus to the next component's textEdit
         componentVector[index + 1]->text->focusAndMoveCursor(0);
+}
+
+void CustomWidget::initComponentWithLine(int index, QString &line)
+{
+    // Create new component
+    createComponent(index);
+
+    // Set the text of the newly created component
+    componentVector[index+1]->text->setText(line);
+
+    // To focus on new component and Move Cursor to last postion
+    componentVector[index+1]->text->focusAndMoveCursor();
 }

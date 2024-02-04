@@ -19,7 +19,10 @@ note_widget::note_widget(QWidget *parent)
     title->setProperty("class","note-widget-title");
     tags = new QLabel("Tags: Sports, School, Work, ...");
     tags->setProperty("class","note-widget-tags");
-    preview = new QLabel("this is how content look like");
+    preview = new QLabel("this is how content look like this is how content look likethis \nis how content look likethis is how content look likethis is how content look like");
+    preview->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+    preview->setWordWrap(true);
+
     tags->setProperty("class","note-widget-preview");
     // Load the image
 

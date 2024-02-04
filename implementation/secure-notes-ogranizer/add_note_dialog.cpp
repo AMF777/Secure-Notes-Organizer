@@ -27,13 +27,22 @@ add_note_dialog::add_note_dialog(QWidget *parent)
         "user-input",
         QLineEdit::Normal
     );
+    fileName = new label_input_vlayout(
+        "File Name:",
+        "user-label",
+        FILEPATH_INPUT_WIDTH,
+        "user-input",
+        QLineEdit::Normal
+    );
+    fileName->input->setEnabled(false);
+
     QAction *openFileAction = filePathLayout->input->addAction(QIcon(":/res/img/file.png"), QLineEdit::TrailingPosition);
     connect(openFileAction, &QAction::triggered, this, &add_note_dialog::openFileDialog);
 
     saveButton = new QPushButton("Save");
     saveButton->setProperty("class","save-filepath-button");
     saveButton->setCursor(Qt::PointingHandCursor);
-    connect(saveButton, &QPushButton::clicked, this, &QDialog::reject);
+    connect(saveButton, &QPushButton::clicked, this, &add_note_dialog::saveButtonClicked);
 
     cancelButton = new QPushButton("Cancel");
     cancelButton->setProperty("class","cancel-filepath-button white-background");
@@ -46,9 +55,15 @@ add_note_dialog::add_note_dialog(QWidget *parent)
     buttonLayout->setAlignment(Qt::AlignRight);
 
     mainLayout->addLayout(filePathLayout);
+    mainLayout->addLayout(fileName);
     mainLayout->addLayout(buttonLayout);
     mainLayout->setAlignment(Qt::AlignCenter);
 
+}
+
+add_note_dialog::add_note_dialog(const std::function<void (QString)> initEditorFromFile, QWidget *parent) : add_note_dialog(parent)
+{
+    this->initEditorFromFile=initEditorFromFile;
 }
 
 void add_note_dialog::openFileDialog()
@@ -59,10 +74,9 @@ void add_note_dialog::openFileDialog()
         QDir::homePath(),
         tr("Text Files (*.txt);;All Files (*)")
         );
-    if (!filePath.isEmpty()) {
-        // Process the selected file path, e.g., update UI with the file path
-        filePathLayout->input->setText(filePath);
-    }
+    if(filePath.isEmpty() ) return;
+    filePathLayout->input->setText(filePath);
+    fileName->input->setText(filePath.mid(filePath.lastIndexOf('/') + 1) );
 }
 void add_note_dialog::showEvent(QShowEvent *event){
     // Calculate the desired width and height based on the parent widget's size
@@ -96,4 +110,29 @@ void add_note_dialog::hideEvent(QHideEvent *event)
     }
     // Call the base class implementation of hideEvent
     QDialog::hideEvent(event);
+}
+void add_note_dialog::saveButtonClicked()
+{
+    qDebug()<<"i clicked save button";
+    QString filePath = filePathLayout->input->text();
+
+    QFile file(filePath);
+    if(!QFile::exists(filePath) ){
+        qDebug()<<"file dne";
+        return;
+    }
+    close();
+    initEditorFromFile(filePath);
+    // if (file.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+        // QTextStream in(&file);
+        // QString fileContents = in.readAll();
+
+        // QStringList lines = fileContents.split("\n", Qt::SkipEmptyParts);
+        // Print the contents using qDebug
+        // qDebug() << "Number of lines:" << lines.size();
+        // for (const QString &line : lines) {
+        //     qDebug() << line;
+        // }
+        // file.close();
+    // }
 }

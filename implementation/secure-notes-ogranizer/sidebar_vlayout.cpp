@@ -35,6 +35,15 @@ sidebar_vlayout::sidebar_vlayout(std::function<void ()> swapToEdit, std::functio
     buttons[3]->setClickHandler(swapToShow);
 }
 
+sidebar_vlayout::sidebar_vlayout(const std::function<void ()> swapToEdit, const std::function<void ()> swapToShow,
+                                 const std::function<void (QString)> initEditorFromFile, QWidget *parent) : sidebar_vlayout(parent)
+{
+    // buttons[1]->setClickHandler(initEditorFromFile);
+    this->initEditorFromFile=initEditorFromFile;
+    buttons[2]->setClickHandler(swapToEdit);
+    buttons[3]->setClickHandler(swapToShow);
+}
+
 // Function to create a button and add it to the layout
 void sidebar_vlayout::createButton(const QString &iconPath, const QString &className, const QSize iconSize,
                                    Qt::Alignment alignment, const std::function<void()> &onClick)
@@ -66,7 +75,8 @@ void sidebar_vlayout::addNewNoteButtonClicked()
     qDebug() << "Add New Note Button clicked";
 
     // Create and show the add note dialog
-    add_note_dialog *addNoteDialog = new add_note_dialog(parentWidget());
+    // add_note_dialog *addNoteDialog = new add_note_dialog(parentWidget());
+    add_note_dialog *addNoteDialog = new add_note_dialog(initEditorFromFile, parentWidget());
     addNoteDialog->show();
 }
 
