@@ -20,18 +20,21 @@ sidebar_vlayout::sidebar_vlayout(QWidget *parent) : QVBoxLayout(parent)
                  Qt::AlignLeft, [this](){addNewNoteButtonClicked();});
     // Create view note button
     createButton(":/res/img/note-icon.png", SIDEBAR_ICON_CLASSNAME, iconSize,
-                 Qt::AlignLeft, [this](){viewNotesClicked();});
+                 Qt::AlignLeft, nullptr);
     createButton(":/res/img/edit.png", SIDEBAR_ICON_CLASSNAME, iconSize,
-                 Qt::AlignLeft, [this](){editNoteButtonClicked();});
+                 Qt::AlignLeft, nullptr);
     // Create logout button
     createButton(":/res/img/logout.png", SIDEBAR_ICON_CLASSNAME, iconSize,
                  Qt::AlignLeft, [this](){logoutButtonClicked();});
 }
-// to do
-sidebar_vlayout::sidebar_vlayout(const std::function<void ()> &swapToEdit, const std::function<void ()> &swapToShow, QWidget *parent)
-{
 
+sidebar_vlayout::sidebar_vlayout(std::function<void ()> swapToEdit, std::function<void ()> swapToShow, QWidget *parent)
+    : sidebar_vlayout(parent)
+{
+    buttons[2]->setClickHandler(swapToEdit);
+    buttons[3]->setClickHandler(swapToShow);
 }
+
 // Function to create a button and add it to the layout
 void sidebar_vlayout::createButton(const QString &iconPath, const QString &className, const QSize iconSize,
                                    Qt::Alignment alignment, const std::function<void()> &onClick)
@@ -67,12 +70,12 @@ void sidebar_vlayout::addNewNoteButtonClicked()
     addNoteDialog->show();
 }
 
-// Function to handle edit note button click
-void sidebar_vlayout::editNoteButtonClicked()
-{
-    qDebug() << "Edit Note Button clicked";
-    // Add the implementation for editing a note here
-}
+// // Function to handle edit note button click
+// void sidebar_vlayout::editNoteButtonClicked()
+// {
+//     qDebug() << "Edit Note Button clicked";
+//     // Add the implementation for editing a note here
+// }
 
 // Function to handle logout button click
 void sidebar_vlayout::logoutButtonClicked()
@@ -85,7 +88,7 @@ void sidebar_vlayout::logoutButtonClicked()
     qDebug() << "Logout Button clicked";
 }
 
-void sidebar_vlayout::viewNotesClicked()
-{
-    qDebug() << "View notes clicked";
-}
+// void sidebar_vlayout::viewNotesClicked()
+// {
+//     qDebug() << "View notes clicked";
+// }

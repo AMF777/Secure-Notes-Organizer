@@ -24,6 +24,16 @@ button_icon_vlayout::button_icon_vlayout(const QString &iconPath, const QString 
     addWidget(button, 0, alignment);
 }
 
+// Function to set the onClick handler for the button
+void button_icon_vlayout::setClickHandler(const std::function<void()> &onClick)
+{
+    // Disconnect the existing connection
+    disconnect(button, &QPushButton::clicked, nullptr, nullptr);
+
+    // Connect the clicked signal to the new onClick function
+    connect(button, &QPushButton::clicked, onClick);
+}
+
 // Function to set the size policy of the button
 void button_icon_vlayout::setButtonSizePolicy()
 {

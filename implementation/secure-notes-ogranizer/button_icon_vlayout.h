@@ -12,6 +12,7 @@ class button_icon_vlayout : public QVBoxLayout
 public:
     explicit button_icon_vlayout(const QString &iconPath, const QString &className, const QSize iconSize,
                                  Qt::Alignment alignment, const std::function<void()> &onClick);
+    void setClickHandler(const std::function<void()> &onClick);
     QPushButton* button;
     QIcon* icon;
     void setButtonSizePolicy();

@@ -7,22 +7,29 @@
 #include <QVBoxLayout>
 #include <QSplitter>
 #include <QLabel>
-#include "button_icon_vlayout.h"
-#include "tags_hlayout.h"
+#include <QStackedWidget>
+#include "edit_notes_vlayout.h"
+#include "constants.h"
+#include "note_editor.h"
+#include "sidebar_vlayout.h"
 
 class main_window : public QMainWindow
 {
     Q_OBJECT
 public:
     explicit main_window(QWidget *parent = nullptr);
+    NoteEditor* noteLayout;
+    edit_notes_vlayout* editNotesLayout;
+    sidebar_vlayout* sidebarLayout;
+    QStackedWidget* stackedWidget;
+
+private slots:
+    void swapToEditNote();
+    void swapToShowNotes();
 
 private:
-    QLabel *timeAgoLabel;
-    button_icon_vlayout *saveNoteButton;
-    button_icon_vlayout *shareButton;
-
-    QHBoxLayout* createTimeAndButtonsLayout();
-    QHBoxLayout* createTitleNoteLayout();
+    QVBoxLayout *mainVerticalLayout;
+    QHBoxLayout *mainHorizontalLayout;
 };
 
 #endif // MAIN_WINDOW_H
