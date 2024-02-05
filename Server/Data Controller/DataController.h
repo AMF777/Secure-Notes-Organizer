@@ -45,6 +45,13 @@ class DataController{
         bool Dc_AddTag(Tag& tag,int userId);
         bool Dc_UpdateTag(Tag& tag,int userId);
         std::vector<Note> Dc_FilterByTagName(std::string tagName,int userId);
-        bool Dc_DeleteTag(Tag& tag,int userId);  
-        
+        bool Dc_DeleteTag(Tag& tag,int userId);
+        std::vector<Tag>Dc_ListNoteTags(int noteId,int userId);
+        bool Dc_UpdateUserData(User& user);
+        /*modified apis to include response*/
+        /*std::vector<Note> Dc_ListUserNotes(int userId);
+        std::vector<Note> Dc_SearchByTitle(int userId,std::string title);
+        std::vector<NoteComponent> Dc_ListNoteComponents(Note& note);
+        std::vector<Note> Dc_FilterByTagName(std::string tagName,int userId);
+        std::vector<Tag>Dc_ListNoteTags(int noteId,int userId);*/
 };

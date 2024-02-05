@@ -718,6 +718,78 @@ catch(sql::SQLException &e){
         return false;
     }
 }
+std::vector<Tag> DataController::Dc_ListNoteTags(int noteId,int userId){
+    std::lock_guard<std::mutex> lock(mtx);
+    try{
+        // Check if the specified user_id exists in the users table
+        pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
+        pstmt->setInt(1, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: User with user_id " << userId << " does not exist." << std::endl;
+            return {};
+        }
+        // Check if the specified note_id exists in the notes table and belongs to the user
+        pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ? AND user_id = ?");
+        pstmt->setInt(1, noteId);
+        pstmt->setInt(2, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: Note with note_id " << noteId << " does not exist or does not belong to the user." << std::endl;
+            return {};
+        }
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("SELECT * FROM tags WHERE tag_id IN (SELECT tag_id FROM note_tags WHERE note_id=?)");
+        pstmt->setInt(1,noteId);
+        res=pstmt->executeQuery();
+        std::vector<Tag> tags;
+        // Iterate over the result set
+        while(res->next()){
+            Tag tag;
+            tag.settagId(res->getInt("tag_id"));
+            tag.settagName(res->getString("tag_name"));
+            tag.setnoteId(noteId);
+            tags.push_back(tag);
+        }
+        return tags;
+    }
+    // Handle any exceptions that might occur during the Search note listing process
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return {};
+    }
+}
+bool DataController::Dc_UpdateUserData(User& user){
+    std::lock_guard<std::mutex> lock(mtx);
+    try{
+        // Check if the specified email exists in the users table
+        pstmt = con->prepareStatement("SELECT 1 FROM users WHERE email = ?");
+        pstmt->setString(1, user.getemail());
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: User with email " << user.getemail() << " does not exist." << std::endl;
+            return false;
+        }
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("UPDATE users SET username=?,password_hash=? WHERE email=?");
+        pstmt->setString(1,user.getuserName());
+        pstmt->setString(2,user.gethashedPassword());
+        pstmt->setString(3,user.getemail());
+        pstmt->execute();
+        std::cout << "User data updated successfully" << std::endl;
+        return true;
+    }
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return false;
+    }
+}
 DataController::~DataController(){
     std::lock_guard<std::mutex> lock(mtx);
     std::cout << "Destructor called" << std::endl;
