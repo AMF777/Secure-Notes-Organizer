@@ -4,13 +4,19 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QVector>
-#include "component.h"
+#include  <vector>
 
+#include "component.h"
+#include "back-end/Note.h"
+#include "back-end/NoteComponent.h"
 class CustomWidget : public QWidget {
     Q_OBJECT
 public:
     CustomWidget(QWidget *parent = nullptr);
     CustomWidget(QStringList& lines, QWidget *parent = nullptr);
+    CustomWidget(Note *note, std::vector<NoteComponent> noteComponents, QWidget *parent = nullptr);
+    Note *note;
+    std::vector<NoteComponent> noteComponents;
 private slots:
     void createComponent(int index);
     void deleteComponent(int index);

@@ -3,6 +3,7 @@
 
 #include <QGraphicsBlurEffect>
 #include <QFileDialog>
+#include <QFileInfo>
 
 add_note_dialog::add_note_dialog(QWidget *parent)
     : QDialog{parent}
@@ -34,7 +35,6 @@ add_note_dialog::add_note_dialog(QWidget *parent)
         "user-input",
         QLineEdit::Normal
     );
-    fileName->input->setEnabled(false);
 
     QAction *openFileAction = filePathLayout->input->addAction(QIcon(":/res/img/file.png"), QLineEdit::TrailingPosition);
     connect(openFileAction, &QAction::triggered, this, &add_note_dialog::openFileDialog);
@@ -54,14 +54,14 @@ add_note_dialog::add_note_dialog(QWidget *parent)
     buttonLayout->addWidget(cancelButton);
     buttonLayout->setAlignment(Qt::AlignRight);
 
-    mainLayout->addLayout(filePathLayout);
     mainLayout->addLayout(fileName);
+    mainLayout->addLayout(filePathLayout);
     mainLayout->addLayout(buttonLayout);
     mainLayout->setAlignment(Qt::AlignCenter);
 
 }
 
-add_note_dialog::add_note_dialog(const std::function<void (QString)> initEditorFromFile, QWidget *parent) : add_note_dialog(parent)
+add_note_dialog::add_note_dialog(const std::function<void (QString, QString)> initEditorFromFile, QWidget *parent) : add_note_dialog(parent)
 {
     this->initEditorFromFile=initEditorFromFile;
 }
@@ -75,9 +75,15 @@ void add_note_dialog::openFileDialog()
         tr("Text Files (*.txt);;All Files (*)")
         );
     if(filePath.isEmpty() ) return;
+
+    QFileInfo fileInfo(filePath);
+    QString fileNameWithoutExtentsion =  fileInfo.baseName();
+
+
+    fileName->input->setText(fileNameWithoutExtentsion);
     filePathLayout->input->setText(filePath);
-    fileName->input->setText(filePath.mid(filePath.lastIndexOf('/') + 1) );
 }
+
 void add_note_dialog::showEvent(QShowEvent *event){
     // Calculate the desired width and height based on the parent widget's size
     auto parent=parentWidget()->parentWidget();
@@ -111,18 +117,14 @@ void add_note_dialog::hideEvent(QHideEvent *event)
     // Call the base class implementation of hideEvent
     QDialog::hideEvent(event);
 }
+
 void add_note_dialog::saveButtonClicked()
 {
-    qDebug()<<"i clicked save button";
+    QString title = fileName->input->text();
     QString filePath = filePathLayout->input->text();
 
-    QFile file(filePath);
-    if(!QFile::exists(filePath) ){
-        qDebug()<<"file dne";
-        return;
-    }
     close();
-    initEditorFromFile(filePath);
+    initEditorFromFile(filePath, title);
     // if (file.open(QIODevice::ReadOnly | QIODevice::Text) ) {
         // QTextStream in(&file);
         // QString fileContents = in.readAll();

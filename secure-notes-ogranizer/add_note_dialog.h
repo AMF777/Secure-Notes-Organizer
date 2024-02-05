@@ -14,9 +14,9 @@ class add_note_dialog : public QDialog
 {
     Q_OBJECT
 public:
-    std::function<void(QString)> initEditorFromFile;
+    std::function<void(QString, QString)> initEditorFromFile;
     explicit add_note_dialog(QWidget *parent = nullptr);
-    explicit add_note_dialog(const std::function<void(QString)> initEditorFromFile, QWidget *parent = nullptr);
+    explicit add_note_dialog(const std::function<void(QString, QString)> initEditorFromFile, QWidget *parent = nullptr);
     QVBoxLayout *mainLayout;
     QVBoxLayout *contentLayout;
 

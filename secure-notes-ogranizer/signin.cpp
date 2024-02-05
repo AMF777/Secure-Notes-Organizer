@@ -47,7 +47,7 @@ signin::signin(QWidget *parent)
         INPUT_WIDTH,
         "user-input"
     );
-
+    emailLayout->input->setText("mo3@gmail.com");
     label_input_vlayout *passwordLayout=new label_input_vlayout(
         "Password:",
         "user-label",
@@ -55,7 +55,7 @@ signin::signin(QWidget *parent)
         "user-input",
         QLineEdit::Password
     );
-
+    passwordLayout->input->setText("2001");
     QPushButton *loginButton = new QPushButton("Login");
     // loginButton->setFixedWidth(LOGIN_BUTTON_WIDTH);
     // loginButton->setFixedHeight(LOGIN_BUTTON_HEIGHT);mmmm

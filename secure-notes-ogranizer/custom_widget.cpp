@@ -9,6 +9,7 @@
 
 CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
 {
+    note=nullptr;
     // Set the outermost widget's margins to zero
     setContentsMargins(0, 0, 0, 0);
 
@@ -59,7 +60,47 @@ CustomWidget::CustomWidget(QStringList &lines, QWidget *parent)
         // qDebug()<<cid;n
         cid++;
     }
+    //  INCASE WHERE THERE IS NOCMPOONENTS ,  ADD AN EMPTY COMPONENT
+    QString line="";
+    initComponentWithLine(cid, line);
 
+    // Create the main layout that includes all the sub-layouts
+    QVBoxLayout *mainLayout = createMainLayout();
+    mainLayout->addWidget(scrollArea);
+
+    // Set the overall layout for the CustomWidget
+    setLayout(mainLayout);
+}
+
+CustomWidget::CustomWidget(Note *note, std::vector<NoteComponent> noteComponents, QWidget *parent) : QWidget(parent)
+{
+    this->note=note;
+    this->noteComponents=noteComponents;
+
+    setContentsMargins(0, 0, 0, 0);
+    // Create the layout for text edits and initialize the first component
+    verticalLayoutTextEdits = new QVBoxLayout();
+
+    // Wrap the verticalLayoutTextEdits in a QScrollArea
+    QScrollArea *scrollArea = new QScrollArea(this);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setWidget(new QWidget()); // Set an empty widget as the scroll area's widget
+    scrollArea->setFrameShape(QFrame::NoFrame);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);  // Set the vertical scroll bar policy
+
+    // Set the inner layout for the scroll area's widget
+    // qDebug()<<"im inside my custom widget constructor";
+    scrollArea->widget()->setLayout(verticalLayoutTextEdits);
+    int cid=-1;
+    for (auto& compoonent:noteComponents){
+        QString line=QString::fromStdString(compoonent.getcomponentContent() );
+        initComponentWithLine(cid, line );
+        // qDebug()<<cid;
+        cid++;
+    }
+    //  INCASE WHERE THERE IS NOCMPOONENTS ,  ADD AN EMPTY COMPONENT
+    QString line="";
+    initComponentWithLine(cid, line);
     // Create the main layout that includes all the sub-layouts
     QVBoxLayout *mainLayout = createMainLayout();
     mainLayout->addWidget(scrollArea);

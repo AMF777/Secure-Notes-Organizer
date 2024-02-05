@@ -13,6 +13,9 @@ class edit_notes_vlayout : public QVBoxLayout
 public:
     explicit edit_notes_vlayout(QWidget *parent = nullptr);
     explicit edit_notes_vlayout(User *user, QWidget *parent = nullptr);
+    explicit edit_notes_vlayout(QWidget *mainWindowRef, User *user, QWidget *parent = nullptr);
+    QWidget *mainWindowRef;
+    User *user;
 signals:
 };
 

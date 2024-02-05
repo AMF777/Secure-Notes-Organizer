@@ -1,7 +1,10 @@
 #include "note_editor.h"
+#include "main_window.h"
 
-NoteEditor::NoteEditor() {
-    auto parent=parentWidget();
+NoteEditor::NoteEditor(QWidget *mainWindowRef, QWidget *parent) : QVBoxLayout(parent){
+    this->note=nullptr;
+    this->mainWindowRef=mainWindowRef;
+
     tagsLayout = new TagsLayout();
     tagsLayout->setAlignment(Qt::AlignLeft);
     tagsLayout->setContentsMargins(50, 50, 0, 0);
@@ -15,13 +18,37 @@ NoteEditor::NoteEditor() {
     this->addWidget(noteComponentsLayout);
 }
 
-NoteEditor::NoteEditor(QStringList& lines)
+NoteEditor::NoteEditor(QWidget *mainWindowRef, QStringList& lines, QString  title, QWidget *parent) : QVBoxLayout(parent)
 {
+    this->mainWindowRef=mainWindowRef;
+    this->note=nullptr;
+
+    this->title = title;
     tagsLayout = new TagsLayout();
     tagsLayout->setAlignment(Qt::AlignLeft);
     tagsLayout->setContentsMargins(50, 50, 0, 0);
 
     noteComponentsLayout = new CustomWidget(lines);
+    this->addLayout(createTimeAndButtonsLayout());
+    this->addLayout(createTitleNoteLayout());
+    this->addLayout(tagsLayout);
+    this->addWidget(noteComponentsLayout);
+}
+
+NoteEditor::NoteEditor(QWidget *mainWindowRef, Note *note, std::vector<NoteComponent> noteComponents, QWidget *parent) : QVBoxLayout(parent)
+{
+    this->mainWindowRef=mainWindowRef;
+    this->note=note;
+
+    // qDebug()  << note->getnoteId();
+    // qDebug()  << note->getuserId();
+
+    this->title = QString::fromStdString(note->gettitle());
+    tagsLayout = new TagsLayout();
+    tagsLayout->setAlignment(Qt::AlignLeft);
+    tagsLayout->setContentsMargins(50, 50, 0, 0);
+
+    noteComponentsLayout = new CustomWidget(note, noteComponents);
     this->addLayout(createTimeAndButtonsLayout());
     this->addLayout(createTitleNoteLayout());
     this->addLayout(tagsLayout);
@@ -67,7 +94,7 @@ QHBoxLayout* NoteEditor::createTitleNoteLayout()
     QHBoxLayout *layout = new QHBoxLayout();
 
     // Create and set up the title note text edit
-    QTextEdit *titleNote = new QTextEdit("Untitled");
+    QTextEdit *titleNote = new QTextEdit(title);
     titleNote->setAlignment(Qt::AlignLeft);
     titleNote->setProperty("class", "title");
     titleNote->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

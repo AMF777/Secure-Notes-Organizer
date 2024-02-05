@@ -36,7 +36,7 @@ sidebar_vlayout::sidebar_vlayout(std::function<void ()> swapToEdit, std::functio
 }
 
 sidebar_vlayout::sidebar_vlayout(const std::function<void ()> swapToEdit, const std::function<void ()> swapToShow,
-                                 const std::function<void (QString)> initEditorFromFile, QWidget *parent) : sidebar_vlayout(parent)
+                                 const std::function<void (QString, QString)> initEditorFromFile, QWidget *parent) : sidebar_vlayout(parent)
 {
     // buttons[1]->setClickHandler(initEditorFromFile);
     this->initEditorFromFile=initEditorFromFile;

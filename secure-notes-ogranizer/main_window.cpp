@@ -33,15 +33,15 @@ main_window::main_window(QWidget *parent)
     //                                     [this](){swapToEditNote();});
     sidebarLayout = new sidebar_vlayout([this](){swapToShowNotes();},
                                         [this](){swapToEditNote();},
-                                        [this](QString filePath){
-                                            initEditorFromFile(filePath);
+                                        [this](QString filePath, QString  title){
+                                            initEditorFromFile(filePath, title);
                                         });
     mainHorizontalLayout->addLayout(sidebarLayout);
 
     // Create a stacked widget for the right side containing other layouts
     stackedWidget = new QStackedWidget();
     editNotesLayout = new edit_notes_vlayout();
-    noteLayout = new NoteEditor();
+    noteLayout = new NoteEditor(this);
 
     // Create a stacked widget for the right side containing other layouts
     pageOne = new QWidget();
@@ -86,24 +86,24 @@ main_window::main_window(User* user, QWidget *parent)
     //                                     [this](){swapToEditNote();});
     sidebarLayout = new sidebar_vlayout([this](){swapToShowNotes();},
                                         [this](){swapToEditNote();},
-                                        [this](QString filePath){
-                                            initEditorFromFile(filePath);
+                                        [this](QString filePath, QString title){
+                                            initEditorFromFile(filePath, title);
                                         });
     sidebarLayout->setUser(user);
     mainHorizontalLayout->addLayout(sidebarLayout);
 
     // Create a stacked widget for the right side containing other layouts
     stackedWidget = new QStackedWidget();
-    // editNotesLayout = new edit_notes_vlayout();
-    editNotesLayout = new edit_notes_vlayout(user);
-    noteLayout = new NoteEditor();
 
     // Create a stacked widget for the right side containing other layouts
-    pageOne = new QWidget(centralWidget);
-    pageTwo = new QWidget(centralWidget);
+    pageOne = new QWidget();
+    pageTwo = new QWidget();
+
+    editNotesLayout = new edit_notes_vlayout(this,user);
+    noteLayout = new NoteEditor(this);
     pageOne->setLayout(noteLayout);
     pageTwo->setLayout(editNotesLayout);
-    editNotesLayout->setContentsMargins(50, 0, 0, 0);
+    // editNotesLayout->setContentsMargins(50, 0, 0, 0);
 
     // Add layouts to the stacked widget
     stackedWidget->addWidget(pageTwo);
@@ -122,6 +122,11 @@ main_window::main_window(User* user, QWidget *parent)
     setCentralWidget(centralWidget);
 }
 
+void main_window::helloWorld()
+{
+    qDebug()<<"hello world";
+}
+
 void main_window::swapToEditNote()
 {
     // swap to widget 1
@@ -133,31 +138,23 @@ void main_window::swapToShowNotes()
     stackedWidget->setCurrentIndex(0);  // Index of noteLayout
 }
 
-void main_window::initEditorFromFile(QString filePath)
+void main_window::initEditorFromFile(QString filePath, QString title)
 {
-    if(!QFile::exists(filePath) ){
-        qDebug()<<"file dne";
-        return;
+    QStringList lines;
+    if(QFile::exists(filePath) ){
+        QFile file(filePath);
+        if(!file.open(QIODevice::ReadOnly | QIODevice::Text) ){
+            qDebug()<<"couldn't open file";
+            return;
+        }
+        QTextStream in(&file);
+        QString fileContents = in.readAll();
+        lines = fileContents.split("\n", Qt::SkipEmptyParts);
+        file.close();
     }
-
-    QFile file(filePath);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text) ){
-        qDebug()<<"couldn't open file";
-        return;
-    }
-    QTextStream in(&file);
-    QString fileContents = in.readAll();
-    QStringList lines = fileContents.split("\n", Qt::SkipEmptyParts);
-    // Print the contents using qDebug
-    // qDebug()<<"init called correctly";
-    // qDebug() << "Number of lines:" << lines.size();
-    // for (const QString &line : lines) {
-    //     qDebug() << line;
-    // }
-    file.close();
 
     myDelteLayout(noteLayout);
-    NoteEditor *newLayout= new NoteEditor(lines);
+    NoteEditor *newLayout= new NoteEditor(this, lines, title);
 
     noteLayout=newLayout;
     pageOne->setLayout(noteLayout);
@@ -167,17 +164,24 @@ void main_window::initEditorFromFile(QString filePath)
 
 void main_window::initEditorFromNote(Note *note)
 {
-    // bool ClientCreateComponent(NoteComponent *noteComponent, User* user, std::string* response); //client set in user object (user id) and set in component object (note id, component content, Font(size, color, bold, italic, underlined, style, family, backgroundColor)) and get (component id)
-    // bool ClientUpdateComponent(NoteComponent *noteComponent, User* user, std::string* response); //client set in user object (user id) and set in component object (note id, component content, Font(size, color, bold, italic, underlined, style, family, backgroundColor)) and get (component id)
-    // bool ClientDeleteComponent(NoteComponent *noteComponenNotet, User* user, std::string* response); //client set in user object (user id) and set in component object (note id, component id)
-    // bool ClientListComponents(Note *note, std::string* response, std::vector<NoteComponent>& ComponentsList); //client set(user id, note id) and get vector(ComponentsList))
+
     std::vector<NoteComponent> noteComponents;
     std::string response = "";
     ClientController c1("127.0.0.1", "12345");
+
     bool flag = c1.ClientListComponents(note, &response, noteComponents);
     if(!flag){
         qDebug()<<response;
         return;
     }
+    qDebug()<<response;
 
+
+    myDelteLayout(noteLayout);
+    NoteEditor *newLayout= new NoteEditor(this, note, noteComponents);
+
+    noteLayout=newLayout;
+    pageOne->setLayout(noteLayout);
+    pageOne->update();
+    stackedWidget->setCurrentIndex(1);
 }

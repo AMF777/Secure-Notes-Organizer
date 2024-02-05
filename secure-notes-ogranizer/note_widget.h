@@ -14,7 +14,9 @@ class note_widget : public QVBoxLayout
 public:
     explicit note_widget(QWidget *parent = nullptr);
     explicit note_widget(Note* note, QWidget *parent = nullptr);
+    explicit note_widget(QWidget *mainWindowRef, Note* note, QWidget *parent = nullptr);
     bool eventFilter(QObject *object, QEvent *event);
+    QWidget *mainWindowRef;
     QLabel *imageLabel;
     QLabel *title;
     QLabel *tags;

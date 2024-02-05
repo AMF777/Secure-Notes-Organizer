@@ -12,14 +12,14 @@ class sidebar_vlayout : public QVBoxLayout
 {
     Q_OBJECT
 public:
-    std::function<void(QString)> initEditorFromFile;
+    std::function<void(QString, QString)> initEditorFromFile;
     explicit sidebar_vlayout(QWidget *parent = nullptr);
 
     explicit sidebar_vlayout(const std::function<void()> swapToEdit,
                              const std::function<void()> swapToShow, QWidget *parent = nullptr);
     explicit sidebar_vlayout(const std::function<void()> swapToEdit,
                              const std::function<void()> swapToShow,
-                             const std::function<void(QString)> initEditorFromFile,
+                             const std::function<void(QString, QString)> initEditorFromFile,
                              QWidget *parent = nullptr);
     void createButton(const QString &iconPath, const QString &className, const QSize iconSize,
                       Qt::Alignment alignment, const std::function<void()> &onClick);

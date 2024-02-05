@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include <algorithm>
-
+#include "main_window.h"
 
 
 const int w=80;
@@ -93,11 +93,19 @@ note_widget::note_widget(Note *note, QWidget *parent)
     addWidget(centralWidget);
 }
 
+note_widget::note_widget(QWidget *mainWindowRef, Note *note, QWidget *parent): note_widget(note,parent)
+{
+    this->mainWindowRef=mainWindowRef;
+}
+
 bool note_widget::eventFilter(QObject *obj, QEvent *event)
 {
     // qDebug() << "Event filter called for object of type:" << typeid(*obj).name();
     if (event->type() == QEvent::MouseButtonPress) {
-        qDebug() << "Event filter called for object of type:" << typeid(*obj).name();
+
+        qDebug() << "clicked on widget";
+        main_window *ref=(main_window*)mainWindowRef;
+        ref->initEditorFromNote(this->note);
 
     }
 

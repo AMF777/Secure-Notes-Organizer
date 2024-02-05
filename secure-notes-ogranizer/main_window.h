@@ -20,6 +20,10 @@ class main_window : public QMainWindow
 public:
     explicit main_window(QWidget *parent = nullptr);
     explicit main_window(User* user, QWidget *parent = nullptr);
+
+    void helloWorld();
+    void initEditorFromNote(Note* note);
+
     User* user;
     NoteEditor* noteLayout;
     edit_notes_vlayout* editNotesLayout;
@@ -30,8 +34,7 @@ public:
 private slots:
     void swapToEditNote();
     void swapToShowNotes();
-    void initEditorFromFile(QString filePath);
-    void initEditorFromNote(Note* note);
+    void initEditorFromFile(QString filePath, QString title);
 private:
     QVBoxLayout *mainVerticalLayout;
     QHBoxLayout *mainHorizontalLayout;
