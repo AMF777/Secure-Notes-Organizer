@@ -1,115 +1,84 @@
-#include "constants.h"
-#include "QGraphicsBlurEffect"
 #include "signout.h"
-#include <QMessageBox>
-#include <QLabel>
+#include "constants.h"
+#include "signin.h"
+#include <QGraphicsBlurEffect>
 #include <QVBoxLayout>
-#include <QLineEdit>
 #include <QPushButton>
-#include <QHBoxLayout>
-#include <QFrame>
-
+#include <QLabel>
+#include <QTimer>
 signout::signout(QWidget *parent)
-    : QWidget{parent}
+    : QDialog{parent}
 {
-    // create window set the desired properties and styles
-    setWindowTitle(SIGNOUT_TITLE);
-    setFixedSize(SIGNOUT_WIDTH, SIGNOUT_HEIGHT);
-    setProperty("class","white-background");
+    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+    setProperty("class", "white-background round-corners profile-dialog-border");
+    setModal(true);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    mainLayout->setProperty("class", "white-background");
 
     QLabel *label = new QLabel("Are you sure you want to sign out?");
-    label->setStyleSheet("font-weight: bold; font-size: 16px;margin-bottom:20px;");
-    // label->setProperty("class", "signout-button");
-    // signoutButton->setCursor(Qt::PointingHandCursor);
-    QVBoxLayout *labelLayout = new QVBoxLayout();
-    labelLayout->addWidget(label, 0, Qt::AlignLeft);
-
+    label->setStyleSheet("font-weight: bold; font-size: 16px; margin-bottom: 20px; color: black;");
+    mainLayout->addWidget(label, 0, Qt::AlignCenter);
 
     QPushButton *signoutButton = new QPushButton("Sign Out");
     signoutButton->setProperty("class", "signout-button");
     signoutButton->setCursor(Qt::PointingHandCursor);
-    connect(signoutButton, &QPushButton::clicked, this, [=]() {
-        onSignOutClicked();
-    });
+    connect(signoutButton, &QPushButton::clicked, this, &signout::onSignOutClicked);
 
-    QPushButton *cancelButton = new QPushButton("cancel");
+    QPushButton *cancelButton = new QPushButton("Cancel");
     cancelButton->setProperty("class", "cancel-button");
     cancelButton->setCursor(Qt::PointingHandCursor);
-    connect(cancelButton, &QPushButton::clicked, this, [=]() {
-        onCancelClicked();
-    });
+    connect(cancelButton, &QPushButton::clicked, this, &QDialog::reject);
 
     QHBoxLayout *buttonLayout = new QHBoxLayout();
-    buttonLayout->addWidget(signoutButton, 0, Qt::AlignLeft);
-    buttonLayout->addWidget(cancelButton, 0, Qt::AlignRight);
+    buttonLayout->addWidget(signoutButton);
+    buttonLayout->addWidget(cancelButton);
 
-    QVBoxLayout *centerLayout = new QVBoxLayout();
-    centerLayout->addLayout(labelLayout);
-    centerLayout->addLayout(buttonLayout);
-
-
-    // Set margins to zero to minimize spacing in the inner layout
-    centerLayout->setAlignment(Qt::AlignCenter);
-    centerLayout->setContentsMargins(0, 0, 0, 0);
-
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    // Add the inner center layout to the main layout
-    mainLayout->addLayout(centerLayout);
-
+    mainLayout->addLayout(buttonLayout);
+    mainLayout->setAlignment(Qt::AlignCenter);
 }
 
 void signout::showEvent(QShowEvent *event){
-    // Calculate the desired width and height based on the parent widget's size
-    if (parentWidget()) {
-        QSize parentSize = parentWidget()->size();
-        int dialogWidth = parentSize.width() * 0.8;
-        int dialogHeight = parentSize.height() * 0.7;
+    auto parent = parentWidget() ? parentWidget()->parentWidget() : nullptr;
+    if (parent) {
+        QSize parentSize = parent->size();
+        int dialogWidth = parentSize.width() * 0.4;
+        int dialogHeight = parentSize.height() * 0.3;
         setFixedSize(dialogWidth, dialogHeight);
 
-        int x = parentWidget()->geometry().x() + (parentSize.width() - dialogWidth) / 2;
-        int y = parentWidget()->geometry().y() + (parentSize.height() - dialogHeight) / 2;
+        int x = parent->geometry().x() + (parentSize.width() - dialogWidth) / 2;
+        int y = parent->geometry().y() + (parentSize.height() - dialogHeight) / 2;
 
         QGraphicsBlurEffect *blurEffect = new QGraphicsBlurEffect();
-        blurEffect->setBlurRadius(10); // Adjust the blur radius as needed
-        parentWidget()->setGraphicsEffect(blurEffect);
-        // parentWidget()->setDisabled(true);
-
-        // Move the dialog to the center position
+        blurEffect->setBlurRadius(10);
+        parent->setGraphicsEffect(blurEffect);
         move(x, y);
     }
 
-    // Call the base class implementation of showEvent
-    // QDialog::showEvent(event);
+    QDialog::showEvent(event);
 }
 
 void signout::hideEvent(QHideEvent *event)
 {
-    qDebug()<<"hide event";
-    if(parentWidget() ){
-        parentWidget()->setGraphicsEffect(nullptr);
-        parentWidget()->setDisabled(false);
+    auto parent = parentWidget() ? parentWidget()->parentWidget() : nullptr;
+    if(parent){
+        parent->setGraphicsEffect(nullptr);
     }
-    // Call the base class implementation of hideEvent
-    // QDialog::hideEvent(event);
+
+    QDialog::hideEvent(event);
 }
+
+
 
 void signout::onSignOutClicked()
 {
-    qDebug()<<"SignOutClicked";
-    emit switchWidgets();
-}
-
-void signout::onCancelClicked()
-{
-    if(parentWidget()){
-        qDebug() << "here";
-        parentWidget()->setGraphicsEffect(nullptr);
-    }
-    qDebug() << "Canceled Button clicked";
-    this->close();
-}
-
-QSize signout::sizeHint() const
-{
-    return QSize(SIGNIN_WIDTH,SIGNIN_HEIGHT);
+    accept();
+    parentWidget()->close();
+    QTimer::singleShot(100, []() { // Adjust the delay as necessary
+        signin* s = new signin();
+        s->setAttribute(Qt::WA_DeleteOnClose); // Ensure it gets deleted when closed
+        s->show();
+        s->raise();
+        s->activateWindow();
+    });
 }

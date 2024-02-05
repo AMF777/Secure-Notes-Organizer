@@ -1,3 +1,6 @@
+#ifndef NOTE_H
+#define NOTE_H
+
 #include <string>
 #include "json.hpp"
 
@@ -46,3 +49,4 @@ struct adl_serializer<Note> {
     }
 };
 }  // namespace nlohmann
+#endif

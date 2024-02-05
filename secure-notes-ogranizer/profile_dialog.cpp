@@ -9,9 +9,11 @@
 const QString LABEL_STYLE = "user-label";
 const QString INPUT_STYLE = "user-input";
 
-profile_dialog::profile_dialog(QWidget *parent)
+profile_dialog::profile_dialog(User *user, QWidget *parent)
     : QDialog{parent}
 {
+    this->user = user;
+
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     setProperty("class","white-background round-corners profile-dialog-border");
     setModal(true);
@@ -80,6 +82,7 @@ profile_dialog::profile_dialog(QWidget *parent)
         INPUT_STYLE,
         QLineEdit::Normal
         );
+    usernameLayout->input->setText(QString::fromStdString(user->getuserName()));
 
     emailLayout = new label_input_vlayout(
         "Email Address:",
@@ -87,7 +90,7 @@ profile_dialog::profile_dialog(QWidget *parent)
         PROFILE_INPUT_WIDTH,
         INPUT_STYLE
         );
-    emailLayout->input->setText("hanyahmed11811@gmail.com");
+    emailLayout->input->setText(QString::fromStdString(user->getemail()));
     emailLayout->input->setEnabled(false);
 
     passwordLayout = new label_input_vlayout(
@@ -115,7 +118,7 @@ profile_dialog::profile_dialog(QWidget *parent)
     saveButton = new QPushButton("Save");
     saveButton->setProperty("class","save-filepath-button");
     saveButton->setCursor(Qt::PointingHandCursor);
-    connect(saveButton, &QPushButton::clicked, this, &QDialog::reject);
+    connect(saveButton, &QPushButton::clicked, this, &profile_dialog::saveButtonClicked);
 
     cancelButton = new QPushButton("Cancel");
     cancelButton->setProperty("class","cancel-filepath-button white-background");
@@ -130,6 +133,7 @@ profile_dialog::profile_dialog(QWidget *parent)
     mainLayout->addLayout(buttonLayout);
     mainLayout->setAlignment(Qt::AlignCenter);
 }
+
 
 void profile_dialog::showEvent(QShowEvent *event){
     // Calculate the desired width and height based on the parent widget's size
@@ -181,4 +185,9 @@ void profile_dialog::avatarClicked()
         avatarLabel->replacePicture(fileName);
     }
     // qDebug()<<"avatar click";
+}
+
+void profile_dialog::saveButtonClicked()
+{
+    qDebug() << "saved";;
 }

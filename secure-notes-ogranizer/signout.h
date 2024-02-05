@@ -1,23 +1,29 @@
 #ifndef SIGNOUT_H
 #define SIGNOUT_H
 
-#include <QWidget>
+#include <QDialog>
+#include <QDebug>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QPushButton>
 
-class signout : public QWidget {
-    Q_OBJECT  // Macro required for signals and slots
+class signout : public QDialog
+{
+    Q_OBJECT
 
 public:
     explicit signout(QWidget *parent = nullptr);
-signals:
-    void switchWidgets();
+
 protected:
     void showEvent(QShowEvent *event) override;
     void hideEvent(QHideEvent *event) override;
+
 private slots:
     void onSignOutClicked();
-    void onCancelClicked();
+
 private:
-    QSize sizeHint() const;
+    QVBoxLayout *mainLayout;
+    QHBoxLayout *buttonLayout;
 };
 
 #endif // SIGNOUT_H

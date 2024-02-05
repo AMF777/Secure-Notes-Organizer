@@ -4,6 +4,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include "button_icon_vlayout.h"
+#include "back-end/clientcontroller.h"
 
 using namespace std;
 
@@ -22,6 +23,8 @@ public:
                              QWidget *parent = nullptr);
     void createButton(const QString &iconPath, const QString &className, const QSize iconSize,
                       Qt::Alignment alignment, const std::function<void()> &onClick);
+    void setUser(User* user);
+
 
 private:
     static const QSize iconSize;
@@ -35,6 +38,7 @@ private slots:
 
 private:
     QVector <button_icon_vlayout*> buttons;
+    User* user;
 };
 
 #endif // SIDEBAR_LAYOUT_H

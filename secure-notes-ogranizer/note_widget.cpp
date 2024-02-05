@@ -1,6 +1,10 @@
 #include "note_widget.h"
 
 #include <QWidget>
+#include <algorithm>
+
+
+
 const int w=80;
 const int h=80;
 note_widget::note_widget(QWidget *parent)
@@ -43,6 +47,50 @@ note_widget::note_widget(QWidget *parent)
 
     addWidget(centralWidget);
 
+}
+
+note_widget::note_widget(Note *note, QWidget *parent)
+{
+    this->note = note;
+    QWidget *centralWidget= new QWidget();
+    centralWidget->installEventFilter(this);
+
+    centralWidget->setFixedSize(200,140);
+    centralWidget->setProperty("class","note-widget black-border");
+    centralWidget->setCursor(Qt::PointingHandCursor);
+
+    std::string noteTitle=note->gettitle();
+    // noteTitle.substr(std::min(10,(int)(noteTitle.size()) )noteTitle.substr(std::min(10,(int)(noteTitle.size()) )+"..."
+    title = new QLabel(QString::fromStdString(noteTitle) );
+    title->setProperty("class","note-widget-title");
+
+    // to do: tags
+    std::string concatTags="";
+    // concat ttags together
+    // concatTags.substr(std::min(14,(int)concatTags.size() ) )+"..."
+    tags = new QLabel(QString::fromStdString(concatTags) );
+    tags->setProperty("class","note-widget-tags");
+
+    // to doo: get some coponents
+    std::string concatComponents="";
+    // concatComponents.substr(std::min(40,(int)concatComponents.size() ) )
+    preview = new QLabel(QString::fromStdString(concatComponents) );
+    preview->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+    preview->setWordWrap(true);
+
+    tags->setProperty("class","note-widget-preview");
+
+    QVBoxLayout *layout = new QVBoxLayout(centralWidget);
+    layout->setAlignment(Qt::AlignTop);
+
+    // layout->setSpacing(0);
+    // layout->setContentsMargins(0,0,0,0);
+    // layout->addWidget(imageLabel);
+    layout->addWidget(title);
+    layout->addWidget(tags);
+    layout->addWidget(preview);
+
+    addWidget(centralWidget);
 }
 
 bool note_widget::eventFilter(QObject *obj, QEvent *event)

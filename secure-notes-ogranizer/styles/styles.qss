@@ -21,7 +21,6 @@
     padding:6px 14px;
 }
 
-
 .signout-button{
     background-color:#B52A22;
     color:#FFFFFF;
@@ -31,15 +30,16 @@
     padding:6px 14px;
 }
 
-.cancel-button{
-    background-color:#FFFFFF;
-    color:#000000;
-    font-size:20px;
+.cancel-button {
+    background-color: #FFFFFF;
+    color: #000000;
+    font-size: 18px;
     border-radius: 8px;
-    border-color: #000000;
-    font-weight:bold;
-    padding:6px 14px;
+    border: 2px solid #000000; /* Add border style */
+    font-weight: bold;
+    padding: 6px 14px;
 }
+
 
 .blur-effect{
     background-color: rgba(0, 0, 0, 0.7); /* Black with 70% opacity */

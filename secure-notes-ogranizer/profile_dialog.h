@@ -11,12 +11,13 @@
 #include "button_icon_vlayout.h"
 #include "label_input_vlayout.h"
 #include "round_img_label.h"
+#include "back-end/clientcontroller.h"
 
 class profile_dialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit profile_dialog(QWidget *parent = nullptr);
+    explicit profile_dialog(User* user, QWidget *parent = nullptr);
 
     QVBoxLayout *mainLayout;
 
@@ -40,12 +41,17 @@ public:
     QHBoxLayout *buttonLayout;
     QPushButton *saveButton;
     QPushButton *cancelButton;
+
 protected:
     void showEvent(QShowEvent *event) override;
     void hideEvent(QHideEvent *event) override;
-signals:
+
 public slots:
     void avatarClicked();
+    void saveButtonClicked();
+
+private:
+    User* user;
 };
 
 #endif // PROFILE_DIALOG_H

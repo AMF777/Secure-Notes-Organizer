@@ -1,5 +1,6 @@
 #include "main_window.h"
 
+#include "back-end/NoteComponent.h"
 #include <QHBoxLayout>
 #include <QStackedWidget>
 #include <QFileDialog>
@@ -65,9 +66,12 @@ main_window::main_window(QWidget *parent)
     // Set the central widget for the main window
     setCentralWidget(centralWidget);
 }
+
 // each componnent should take in user rgument and uuse it
-main_window::main_window(User user, QWidget *parent) : main_window(parent)
+main_window::main_window(User* user, QWidget *parent)
+    : QMainWindow(parent)
 {
+    this->user = user;
     setMinimumSize(MAIN_WINDOW_MIN_WIDTH, MAIN_WINDOW_MIN_HEIGHT);
 
     // Create the central widget that contains all layouts and widgets
@@ -85,16 +89,18 @@ main_window::main_window(User user, QWidget *parent) : main_window(parent)
                                         [this](QString filePath){
                                             initEditorFromFile(filePath);
                                         });
+    sidebarLayout->setUser(user);
     mainHorizontalLayout->addLayout(sidebarLayout);
 
     // Create a stacked widget for the right side containing other layouts
     stackedWidget = new QStackedWidget();
-    editNotesLayout = new edit_notes_vlayout();
+    // editNotesLayout = new edit_notes_vlayout();
+    editNotesLayout = new edit_notes_vlayout(user);
     noteLayout = new NoteEditor();
 
     // Create a stacked widget for the right side containing other layouts
-    pageOne = new QWidget();
-    pageTwo = new QWidget();
+    pageOne = new QWidget(centralWidget);
+    pageTwo = new QWidget(centralWidget);
     pageOne->setLayout(noteLayout);
     pageTwo->setLayout(editNotesLayout);
     editNotesLayout->setContentsMargins(50, 0, 0, 0);
@@ -114,7 +120,6 @@ main_window::main_window(User user, QWidget *parent) : main_window(parent)
 
     // show useername make sure it;ss working
     setCentralWidget(centralWidget);
-    this->user=user;
 }
 
 void main_window::swapToEditNote()
@@ -158,4 +163,21 @@ void main_window::initEditorFromFile(QString filePath)
     pageOne->setLayout(noteLayout);
     pageOne->update();
     stackedWidget->setCurrentIndex(1);
+}
+
+void main_window::initEditorFromNote(Note *note)
+{
+    // bool ClientCreateComponent(NoteComponent *noteComponent, User* user, std::string* response); //client set in user object (user id) and set in component object (note id, component content, Font(size, color, bold, italic, underlined, style, family, backgroundColor)) and get (component id)
+    // bool ClientUpdateComponent(NoteComponent *noteComponent, User* user, std::string* response); //client set in user object (user id) and set in component object (note id, component content, Font(size, color, bold, italic, underlined, style, family, backgroundColor)) and get (component id)
+    // bool ClientDeleteComponent(NoteComponent *noteComponenNotet, User* user, std::string* response); //client set in user object (user id) and set in component object (note id, component id)
+    // bool ClientListComponents(Note *note, std::string* response, std::vector<NoteComponent>& ComponentsList); //client set(user id, note id) and get vector(ComponentsList))
+    std::vector<NoteComponent> noteComponents;
+    std::string response = "";
+    ClientController c1("127.0.0.1", "12345");
+    bool flag = c1.ClientListComponents(note, &response, noteComponents);
+    if(!flag){
+        qDebug()<<response;
+        return;
+    }
+
 }

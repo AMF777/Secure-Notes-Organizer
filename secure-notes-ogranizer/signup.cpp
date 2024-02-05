@@ -110,10 +110,6 @@ signup::signup(QWidget *parent)
 
 void signup::signupButtonClicked(const QString username, const QString email, const QString password, const QString confirmPassword)
 {
-    qDebug() << "Username: " << username;
-    qDebug() << "Email: " << email;
-    qDebug() << "Password: " << password;
-    qDebug() << "Confirm Password: " << confirmPassword;
     if(password != confirmPassword){
         errMsg->setText("The Passwords do not match. Please try again");
         errMsg->show();
@@ -121,12 +117,12 @@ void signup::signupButtonClicked(const QString username, const QString email, co
     }
     errMsg->hide();
     ClientController c1("127.0.0.1", "12345");
-    User user;
-    user.setuserName(username.toStdString() );
-    user.setemail(email.toStdString() );
-    user.sethashedPassword(password.toStdString() );
+    User* user  =new User();
+    user->setuserName(username.toStdString() );
+    user->setemail(email.toStdString() );
+    user->sethashedPassword(password.toStdString() );
     std::string response = "";
-    bool flag = c1.ClientSignUp(&user, &response);
+    bool flag = c1.ClientSignUp(user, &response);
 
     qDebug()<<response;
     if(flag){

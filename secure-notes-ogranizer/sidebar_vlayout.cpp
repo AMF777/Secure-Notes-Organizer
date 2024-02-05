@@ -59,13 +59,20 @@ void sidebar_vlayout::createButton(const QString &iconPath, const QString &class
     addLayout(button);
 }
 
+void sidebar_vlayout::setUser(User *user)
+{
+    qDebug() <<  "1";
+    qDebug() <<  user->getemail();
+    this->user = user;
+}
+
 // Function to handle profile button click
 void sidebar_vlayout::profileButtonClicked()
 {
     qDebug() << "Profile Button clicked";
 
     // Create and show the profile dialog
-    profile_dialog *profileDialog = new profile_dialog(parentWidget());
+    profile_dialog *profileDialog = new profile_dialog(user, parentWidget());
     profileDialog->show();
 }
 

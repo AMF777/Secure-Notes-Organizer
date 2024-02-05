@@ -1,6 +1,7 @@
 #include "note_editor.h"
 
 NoteEditor::NoteEditor() {
+    auto parent=parentWidget();
     tagsLayout = new TagsLayout();
     tagsLayout->setAlignment(Qt::AlignLeft);
     tagsLayout->setContentsMargins(50, 50, 0, 0);

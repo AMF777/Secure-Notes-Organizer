@@ -26,19 +26,17 @@ int main(int argc, char *argv[])
         int id = user.getuserId();
         std::cout<<id<<std::endl;
     }*/
+    // ClientController c1("127.0.0.1", "12345");
     // User user;
-    // user.sethashedPassword("9876");
-    // user.setemail("user1@gmail.com");
+    // user.sethashedPassword("2001");
+    // user.setemail("mo3@gmail.com");
     // std::string response = "";
     // bool flag = c1.ClientLogIn(&user, &response);
     // std::cout<<response<<std::endl;
-    // if(flag){
-    //     std::string name = user.getuserName();
-    //     int id = user.getuserId();
-    //     std::cout<<id<<std::endl<<name<<std::endl;
-    // }
 
-    // std::vector<Note> List;
+    // Note* tnote = new Note(1,"xyz title");
+    // flag = c1.ClientCreateNote(tnote, &response);
+    // std::cout<<response<<std::endl;
     // bool flag1 = c1.ClientListNote(&user, &response, List);
     // std::cout<<response<<std::endl;
     // if(flag1){
@@ -85,10 +83,10 @@ int main(int argc, char *argv[])
     switcher_widget w;
     w.show();
 
-    // // signup w;
-    // // w.show();
-    // // switcher_widget w;
-    // // w.show();
+    // signup w;
+    // w.show();
+    // switcher_widget w;
+    // w.show();
 
     // main_window w;
     // w.show();

@@ -111,21 +111,20 @@ signin::signin(QWidget *parent)
 void signin::loginButtonClicked(const QString email, const QString password)
 {
     errMsg->hide();
-    qDebug()<<email<<" "<<password;
     ClientController c1("127.0.0.1", "12345");
 
-    User user;
-    user.setemail(email.toStdString() );
-    user.sethashedPassword(password.toStdString() );
+    User* user = new User();
+    user->setemail(email.toStdString() );
+    user->sethashedPassword(password.toStdString() );
     std::string response = "";
-    bool flag = c1.ClientLogIn(&user, &response);
+    bool flag = c1.ClientLogIn(user, &response);
 
     qDebug()<<response;
     if(flag){
         qDebug()<<"sign in success";
         parentWidget()->close();
         // create a new main_windooconsttructor that take in  email of  user
-        main_window *mw = new main_window();
+        main_window *mw = new main_window(user);
         mw->show();
         return;
     }
