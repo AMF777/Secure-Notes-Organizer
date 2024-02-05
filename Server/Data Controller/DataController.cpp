@@ -763,6 +763,33 @@ std::vector<Tag> DataController::Dc_ListNoteTags(int noteId,int userId){
         return {};
     }
 }
+bool DataController::Dc_UpdateUserData(User& user){
+    std::lock_guard<std::mutex> lock(mtx);
+    try{
+        // Check if the specified email exists in the users table
+        pstmt = con->prepareStatement("SELECT 1 FROM users WHERE email = ?");
+        pstmt->setString(1, user.getemail());
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: User with email " << user.getemail() << " does not exist." << std::endl;
+            return false;
+        }
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("UPDATE users SET username=?,password_hash=? WHERE email=?");
+        pstmt->setString(1,user.getuserName());
+        pstmt->setString(2,user.gethashedPassword());
+        pstmt->setString(3,user.getemail());
+        pstmt->execute();
+        std::cout << "User data updated successfully" << std::endl;
+        return true;
+    }
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return false;
+    }
+}
 DataController::~DataController(){
     std::lock_guard<std::mutex> lock(mtx);
     std::cout << "Destructor called" << std::endl;
