@@ -32,5 +32,8 @@ static void processAddTagMessage(const json& message, json& responseMessage);
 static void processUpdateTagMessage(const json& message, json& responseMessage);
 static void processDeleteTagMessage(const json& message, json& responseMessage);
 static void processFilterByTagNameMessage(const json& message, json& responseMessage);
+static void processListNoteTagsMessage(const json& message, json& responseMessage);
+
+static void processUpdateUserDatasMessage(const json& message, json& responseMessage);
 
 #endif // ParseJsonMesssge_H

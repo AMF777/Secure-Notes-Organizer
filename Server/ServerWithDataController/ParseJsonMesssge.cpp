@@ -77,6 +77,12 @@ static json checkAction(const json& message){
 	else if(action == "filter by tag name"){
 		processFilterByTagNameMessage(message,responseMessage);
 	}
+	else if(action == "list note tags"){
+		processListNoteTagsMessage(message,responseMessage);
+	}
+	else if(action == "update user data"){
+		processUpdateUserDatasMessage(message,responseMessage);
+	}
 	else{
 		responseMessage["Response"] = "wrong action was sent";
 		std::cout << "wrong action was sent" << std::endl;
@@ -288,13 +294,14 @@ static void processListNotesMessage(const json& message, json& responseMessage){
 	try{
 		if (message.find("user id") != message.end()) {
 			int userIDFromCC = message["user id"];
-			bool response = ServerTempObject.ServerSendtoDC_ListNotes(userIDFromCC, notes);
+			string responseFromDC;
+			bool response = ServerTempObject.ServerSendtoDC_ListNotes(userIDFromCC, notes, responseFromDC);
 			json notesArray = notes;
 			if(response){
 				responseMessage["Response"] = "list notes successfully";
 				responseMessage["Data"] = notesArray; 
 			}else{
-				responseMessage["Response"] = "list notes failed, User not found";
+				responseMessage["Response"] = responseFromDC;
 			}
 		}
 		else{
@@ -322,13 +329,14 @@ static void processSearchByTitleMessage(const json& message, json& responseMessa
 		if (message.find("Data") != message.end()) {
 			if(message["Data"].find("note title") != message["Data"].end()){
 				receivedObject = noteTempObject.fromJson(message["Data"]);
-				bool response = ServerTempObject.ServerSendtoDC_SearchByTitle(receivedObject, notes);
+				string responseFromDC;
+				bool response = ServerTempObject.ServerSendtoDC_SearchByTitle(receivedObject, notes, responseFromDC);
 				json notesArray = notes;
 				if(response){
 					responseMessage["Response"] = "search by title successfully";
 					responseMessage["Data"] = notesArray; 
 				}else{
-					responseMessage["Response"] = "search by title failed, User not found";
+					responseMessage["Response"] = responseFromDC;
 				}
 			}
 			else{
@@ -478,13 +486,14 @@ static void processListComponentsMessage(const json& message, json& responseMess
 		if (message.find("Data") != message.end()) {
 			if(message["Data"].find("note title") != message["Data"].end()){
 				receivedObject = noteTempObject.fromJson(message["Data"]);
-				bool response = ServerTempObject.ServerSendtoDC_ListComponents(receivedObject, components);
+				string responseFromDC;
+				bool response = ServerTempObject.ServerSendtoDC_ListComponents(receivedObject, components, responseFromDC);
 				json componentsArray = components;
 				if(response){
 					responseMessage["Response"] = "list components successfully";
 					responseMessage["Data"] = componentsArray; 
 				}else{
-					responseMessage["Response"] = "list components failed, User or Note not found";
+					responseMessage["Response"] = responseFromDC;
 				}
 			}
 			else{
@@ -512,14 +521,16 @@ static void processListComponentsMessage(const json& message, json& responseMess
 static void processAddTagMessage(const json& message, json& responseMessage){
 	Tag receivedObject;
 	Tag tagTempObject;
+	Tag responseObject;
 	ServerWithDC ServerTempObject;
 	try{
 		if (message.find("Data") != message.end() && message.find("user id") != message.end()) {
 			if(message["Data"].find("tag name") != message["Data"].end()){
 				receivedObject = tagTempObject.fromJson(message["Data"]);
 				int userIdFromCC = message["user id"];
-				bool response = ServerTempObject.ServerSendtoDC_AddTag(receivedObject, userIdFromCC);
+				bool response = ServerTempObject.ServerSendtoDC_AddTag(receivedObject, responseObject, userIdFromCC);
 				if(response){
+					responseMessage["Data"] = responseObject.toJson();
 					responseMessage["Response"] = "tag added successfully";
 				}else{
 					responseMessage["Response"] = "add tag failed, User or Note not found";
@@ -631,18 +642,97 @@ static void processFilterByTagNameMessage(const json& message, json& responseMes
 		if (message.find("tag name") != message.end() && message.find("user id") != message.end()) {
 			int userIdFromCC = message["user id"];
 			string tagNameFromCC = message["tag name"];
-			bool response = ServerTempObject.ServerSendtoDC_FilterByTagName(userIdFromCC, tagNameFromCC, notes);
+			string responseFromDC;
+			bool response = ServerTempObject.ServerSendtoDC_FilterByTagName(userIdFromCC, tagNameFromCC, notes, responseFromDC);
 			json notesArray = notes;
 			if(response){
 				responseMessage["Response"] = "filter by tag name successfully";
 				responseMessage["Data"] = notesArray; 
 			}else{
-				responseMessage["Response"] = "filter by tag name failed, User not found";
+				responseMessage["Response"] = responseFromDC;
 			}
 		}
 		else{
 			std::cout << "Key 'tag name' or 'user id' not found in the message.\n";
 			std::string error = "Key 'tag name' or 'user id' not found in the message.";
+            throw error;
+		}
+	}
+	catch(const std::string error){
+		responseMessage["Response"] = error;
+	}
+	catch(const json::exception& e){
+		std::cout << e.what() << '\n';
+        std::string jsonError = e.what();
+        responseMessage["Response"] = jsonError;
+	}
+}
+
+static void processListNoteTagsMessage(const json& message, json& responseMessage){
+	Note receivedObject;
+	Note userTempObject;
+	ServerWithDC ServerTempObject;
+	std::vector<Tag> tags;
+	try{
+		if (message.find("Data") != message.end()) {
+			if(message["Data"].find("note title") != message["Data"].end()){
+				receivedObject = userTempObject.fromJson(message["Data"]);
+				string responseFromDC;
+				bool response = ServerTempObject.ServerSendtoDC_ListNoteTags(receivedObject, tags, responseFromDC);
+				json tagsArray = tags;
+				if(response){
+					responseMessage["Response"] = "list tags of note successfully";
+					responseMessage["Data"] = tagsArray;
+				}else{
+					responseMessage["Response"] = responseFromDC;
+				}
+			}
+			else{
+				std::cout << "key 'Data' not have an object of type user.\n";
+				std::string error = "key 'Data' not have an object of type note.";
+           	 	throw error;
+			}
+		}
+		else{
+			std::cout << "Key 'Data' not found in the message.\n";
+			std::string error = "Key 'Data' not found in the message.";
+            throw error;
+		}
+	}
+	catch(const std::string error){
+		responseMessage["Response"] = error;
+	}
+	catch(const json::exception& e){
+		std::cout << e.what() << '\n';
+        std::string jsonError = e.what();
+        responseMessage["Response"] = jsonError;
+	}
+}
+
+static void processUpdateUserDatasMessage(const json& message, json& responseMessage){
+	User receivedObject;
+	User userTempObject;
+	ServerWithDC ServerTempObject;
+	try{
+		if (message.find("Data") != message.end()) {
+			if(message["Data"].find("user email") != message["Data"].end()){
+				receivedObject = userTempObject.fromJson(message["Data"]);
+				bool response = ServerTempObject.ServerSendtoDC_UpdateUserData(receivedObject);
+				if(response){
+					responseMessage["Response"] = "update user data successfully";
+				}else{
+					responseMessage["Response"] = "update user data failed, Email not found";
+				}
+			}
+			else{
+				std::cout << "key 'Data' not have an object of type user.\n";
+				std::string error = "key 'Data' not have an object of type user.";
+           	 	throw error;
+			}
+		}
+		else{
+			std::cout << "Key 'Data' not found in the message.\n";
+			std::string error = "Key 'Data' not found in the message.";
             throw error;
 		}
 	}

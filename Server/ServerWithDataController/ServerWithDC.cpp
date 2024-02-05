@@ -78,34 +78,34 @@ bool ServerWithDC::ServerSendtoDC_DeleteNote(Note& receivedObject){
 	return flag;
 }
 
-bool ServerWithDC::ServerSendtoDC_ListNotes(int userIDFromCC, vector<Note>& notes){
+bool ServerWithDC::ServerSendtoDC_ListNotes(int userIDFromCC, vector<Note>& notes, string& responseFromDC){
 	if(userIDFromCC != -1){
 		//call appropriate function in Data Controller to handle create note request
-		vector<Note> notesFromDC = dataController->Dc_ListUserNotes(userIDFromCC);
-		for (Note& item : notesFromDC) {
-            notes.push_back(item);
-        }
-		return true;
+		vector<Note> notesFromDC = dataController->Dc_ListUserNotes(userIDFromCC, responseFromDC);
+		if(responseFromDC == "Success"){
+			for (Note& item : notesFromDC) {
+				notes.push_back(item);
+			}
+			return true;
+		}
 	}
-	else{
-		return false;
-	}
+	return false;
 }
 
-bool ServerWithDC::ServerSendtoDC_SearchByTitle(Note& receivedObject, vector<Note>& notes){
+bool ServerWithDC::ServerSendtoDC_SearchByTitle(Note& receivedObject, vector<Note>& notes, string& responseFromDC){
 	int idOfUser = receivedObject.getuserId();
 	string title = receivedObject.gettitle();
 	if(idOfUser != -1 && title != "null"){
 		//call appropriate function in Data Controller to handle create note request
-		vector<Note> notesFromDC = dataController->Dc_SearchByTitle(idOfUser, title);
-		for (Note& item : notesFromDC) {
-            notes.push_back(item);
-        }
-		return true;
+		vector<Note> notesFromDC = dataController->Dc_SearchByTitle(idOfUser, title, responseFromDC);
+		if(responseFromDC == "Success"){
+			for (Note& item : notesFromDC) {
+				notes.push_back(item);
+			}
+			return true;
+		}
 	}
-	else{
-		return false;
-	}
+	return false;
 }
 
 bool ServerWithDC::ServerSendtoDC_CreateComponent(NoteComponent& receivedObject, int userIdFromCC, int& componentIdFromDC){
@@ -145,29 +145,30 @@ bool ServerWithDC::ServerSendtoDC_DeleteComponent(NoteComponent& receivedObject,
 	return flag;
 }
 
-bool ServerWithDC::ServerSendtoDC_ListComponents(Note& receivedObject, vector<NoteComponent>& components){
+bool ServerWithDC::ServerSendtoDC_ListComponents(Note& receivedObject, vector<NoteComponent>& components, string& responseFromDC){
 	int idOfUser = receivedObject.getuserId();
 	int idOfNote = receivedObject.getnoteId();
 	if(idOfUser != -1 && idOfNote != -1){
 		//call appropriate function in Data Controller to handle create note request
-		vector<NoteComponent> componentsFromDC = dataController->Dc_ListNoteComponents(receivedObject);
-		for (NoteComponent& item : componentsFromDC) {
-            components.push_back(item);
-        }
-		return true;
+		vector<NoteComponent> componentsFromDC = dataController->Dc_ListNoteComponents(receivedObject, responseFromDC);
+		if(responseFromDC == "Success"){
+			for (NoteComponent& item : componentsFromDC) {
+				components.push_back(item);
+			}
+			return true;
+		}
 	}
-	else{
-		return false;
-	}
+	return false;
 }
 
-bool ServerWithDC::ServerSendtoDC_AddTag(Tag& receivedObject, int userIdFromCC){
+bool ServerWithDC::ServerSendtoDC_AddTag(Tag& receivedObject, Tag& responseObject, int userIdFromCC){
 	int idOfNote = receivedObject.getnoteId();
 	string tagNameFromCC = receivedObject.gettagName();
 	bool flag = false;
 	if(tagNameFromCC != "null" && idOfNote != -1 && userIdFromCC != -1){
 		//call appropriate function in Data Controller to handle signup request
 		flag = dataController->Dc_AddTag(receivedObject, userIdFromCC);
+		responseObject.settagId(receivedObject.gettagId());
 	}
 	return flag;
 }
@@ -195,18 +196,48 @@ bool ServerWithDC::ServerSendtoDC_DeleteTag(Tag& receivedObject, int userIdFromC
 	return flag;
 }
 
-bool ServerWithDC::ServerSendtoDC_FilterByTagName(int& userIdFromCC, string& tagNameFromCC, vector<Note>& notes){
+bool ServerWithDC::ServerSendtoDC_FilterByTagName(int& userIdFromCC, string& tagNameFromCC, vector<Note>& notes, string& responseFromDC){
 	if(userIdFromCC != -1 && tagNameFromCC != "null"){
 		//call appropriate function in Data Controller to handle create note request
-		vector<Note> notesFromDC = dataController->Dc_FilterByTagName(tagNameFromCC, userIdFromCC);
-		for (Note& item : notesFromDC) {
-            notes.push_back(item);
-        }
-		return true;
+		vector<Note> notesFromDC = dataController->Dc_FilterByTagName(tagNameFromCC, userIdFromCC, responseFromDC);
+		if(responseFromDC == "Success"){
+			for (Note& item : notesFromDC) {
+				notes.push_back(item);
+			}
+			return true;
+		}
 	}
-	else{
-		return false;
+	return false;
+}
+
+bool ServerWithDC::ServerSendtoDC_ListNoteTags(Note& receivedObject, vector<Tag>& tags, string& responseFromDC){
+	int userIdFromCC = receivedObject.getuserId();
+	int noteIdFromCC = receivedObject.getnoteId();
+
+	if(userIdFromCC != -1 && noteIdFromCC != -1){
+		//call appropriate function in Data Controller to handle signup request
+		vector<Tag> tagsFromDC = dataController->Dc_ListNoteTags(noteIdFromCC, userIdFromCC, responseFromDC);  
+		if(responseFromDC == "Success"){   
+			for (Tag& item : tagsFromDC) {
+					tags.push_back(item);
+			}
+			return true;
+		}
 	}
+	return false;
+}
+
+bool ServerWithDC::ServerSendtoDC_UpdateUserData(User& receivedObject){
+	string name = receivedObject.getuserName();
+	string email = receivedObject.getemail();
+	string password = receivedObject.gethashedPassword();
+
+	bool flag = false;
+	if(name != "null" && email != "null", password != "null"){
+		//call appropriate function in Data Controller to handle signup request
+		flag = dataController->Dc_UpdateUserData(receivedObject);     
+	}
+	return flag;
 }
 
 ServerWithDC::~ServerWithDC(){

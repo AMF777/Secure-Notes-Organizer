@@ -14,6 +14,25 @@ void DataController::connect(std::string ip, std::string username, std::string p
         std::cout << "SQL State: " << e.getSQLState() << std::endl;
     }
 }
+/*bool DataController::Dc_signup(User& user){
+    std::lock_guard<std::mutex> lock(mtx);
+    try{
+        pstmt=con->prepareStatement("INSERT INTO users (username,email,password_hash) VALUES (?,?,?)");
+        pstmt->setString(1,user.getuserName());
+        pstmt->setString(2,user.getemail());
+        pstmt->setString(3,user.gethashedPassword());
+        pstmt->execute();
+        std::cout << "User added successfully" << std::endl;
+        user.setuserId(Dc_getUserId(user.getemail()));
+        return true;
+    }
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        std::cout << "Error Code: " << e.getErrorCode() << std::endl;
+        std::cout << "SQL State: " << e.getSQLState() << std::endl;
+        return false;
+    }
+}*/
 bool DataController::Dc_signup(User& user){
     std::lock_guard<std::mutex> lock(mtx);
     try{
@@ -33,7 +52,6 @@ bool DataController::Dc_signup(User& user){
         pstmt->setString(3,user.gethashedPassword());
         pstmt->execute();
         std::cout << "User added successfully" << std::endl;
-        // Release the mutex before calling Dc_getNoteCreatedAt and Dc_getNoteUpdatedAt
         mtx.unlock();
         user.setuserId(Dc_getUserId(user.getemail()));
         return true;
@@ -95,7 +113,8 @@ bool DataController::Dc_login(User& user){
         return false;
     }
 }
-std::vector<Note> DataController::Dc_ListUserNotes(int userId){
+// to be removed
+/*std::vector<Note> DataController::Dc_ListUserNotes(int userId){
     std::lock_guard<std::mutex> lock(mtx);
     try{
         // get all the notes of the user with the specified user_id
@@ -116,6 +135,44 @@ std::vector<Note> DataController::Dc_ListUserNotes(int userId){
         return notes;
     }
     catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return {};
+    }
+}*/
+std::vector<Note> DataController::Dc_ListUserNotes(int userId,std::string& response){
+    std::lock_guard<std::mutex> lock(mtx);
+    try{
+        // Check if the specified user_id exists in the users table
+        pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
+        pstmt->setInt(1, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            response = "User not found";
+            return {};
+        }
+
+        // get all the notes of the user with the specified user_id
+        pstmt=con->prepareStatement("SELECT * FROM notes WHERE user_id=?");
+        pstmt->setInt(1,userId);
+        res=pstmt->executeQuery();
+        std::vector<Note> notes;
+        // Iterate over the result set
+        while(res->next()){
+            Note note;
+            note.setnoteId(res->getInt("note_id"));
+            note.setuserId(res->getInt("user_id"));
+            note.settitle(res->getString("title"));
+            note.setcreatedAt(res->getString("created_at"));
+            note.setupdatedAt(res->getString("updated_at"));
+            notes.push_back(note);
+        }
+        response = "Success";
+        return notes;
+    }
+    catch(sql::SQLException &e){
+        response = "Error: " + std::string(e.what());
         std::cout << "Error: " << e.what() << std::endl;
         return {};
     }
@@ -274,8 +331,8 @@ bool DataController::Dc_UpdateNoteTitle(Note& note){
         return false;
     }
 }
-
-std:: vector<Note> DataController::Dc_SearchByTitle(int userId,std::string title){
+// to be removed
+/*std:: vector<Note> DataController::Dc_SearchByTitle(int userId,std::string title){
     std::lock_guard<std::mutex> lock(mtx);
     try{
         // Check if the specified user_id exists in the users table
@@ -299,6 +356,46 @@ std:: vector<Note> DataController::Dc_SearchByTitle(int userId,std::string title
     }
     // Handle any exceptions that might occur during the Search note listing process
     catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return {};
+    }
+}*/
+std::vector<Note> DataController::Dc_SearchByTitle(int userId,std::string title,std::string& response){
+    std::lock_guard<std::mutex> lock(mtx);
+    try{
+        // Check if the specified user_id exists in the users table
+        pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
+        pstmt->setInt(1, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            response = "User not found";
+            return {};
+        }
+
+        pstmt=con->prepareStatement("SELECT * FROM notes WHERE user_id=? AND title LIKE ?");
+        pstmt->setInt(1,userId);
+        // to search for a string that contains a specific string we use %string%
+        pstmt->setString(2,"%"+title+"%");
+        res=pstmt->executeQuery();
+        std::vector<Note> notes;
+        // Iterate over the result set
+        while(res->next()){
+            Note note;
+            note.setnoteId(res->getInt("note_id"));
+            note.setuserId(res->getInt("user_id"));
+            note.settitle(res->getString("title"));
+            note.setcreatedAt(res->getString("created_at"));
+            note.setupdatedAt(res->getString("updated_at"));
+            notes.push_back(note);
+        }
+        response = "Success";
+        return notes;
+    }
+    // Handle any exceptions that might occur during the Search note listing process
+    catch(sql::SQLException &e){
+        response = "Error: " + std::string(e.what());
         std::cout << "Error: " << e.what() << std::endl;
         return {};
     }
@@ -398,7 +495,8 @@ bool DataController::Dc_UpdateNoteComponent(NoteComponent& noteComponent,int use
         return false;
     }
 }
-std::vector<NoteComponent> DataController::Dc_ListNoteComponents(Note& note){
+// to be removed
+/*std::vector<NoteComponent> DataController::Dc_ListNoteComponents(Note& note){
     std::lock_guard<std::mutex> lock(mtx);
     try{
         // Check if the specified note_id exists in the notes table and belongs to the user
@@ -437,6 +535,63 @@ std::vector<NoteComponent> DataController::Dc_ListNoteComponents(Note& note){
     }
     // Handle any exceptions that might occur during the Search note listing process
     catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return {};
+    }
+}*/
+std::vector<NoteComponent> DataController::Dc_ListNoteComponents(Note& note,std::string& response){
+    std::lock_guard<std::mutex> lock(mtx);
+    try{
+        // Check if the specified user_id exists in the users table
+        pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
+        pstmt->setInt(1, note.getuserId());
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            response = "User not found";
+            return {};
+        }
+
+        // Check if the specified note_id exists in the notes table and belongs to the user
+        pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ? AND user_id = ?");
+        pstmt->setInt(1, note.getnoteId());
+        pstmt->setInt(2, note.getuserId());
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            response = "Error: Note with note_id " + std::to_string(note.getnoteId()) + " does not exist or does not belong to the user.";
+            return {};
+        }
+
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("SELECT * FROM Component_note WHERE note_id=?");
+        pstmt->setInt(1,note.getnoteId());
+        res=pstmt->executeQuery();
+        std::vector<NoteComponent> noteComponents;
+        // Iterate over the result set
+        while(res->next()){
+            NoteComponent noteComponent;
+            noteComponent.setcomponentId(res->getInt("Component_id"));
+            noteComponent.setnoteId(res->getInt("note_id"));
+            noteComponent.setcomponentContent(res->getString("Component_content"));
+            noteComponent.setfontSize(res->getInt("Font_size"));
+            noteComponent.setfontColor(res->getString("Font_color"));
+            noteComponent.setbackgroundColor(res->getString("Background_color"));
+            noteComponent.setfontFamily(res->getString("Font_family"));
+            noteComponent.setfontStyle(res->getString("Font_style"));
+            noteComponent.setisBold(res->getBoolean("Font_bold"));
+            noteComponent.setisItalic(res->getBoolean("Font_italic"));
+            noteComponent.setisUnderlined(res->getBoolean("Font_underlined"));
+            noteComponents.push_back(noteComponent);
+        }
+        response = "Success";
+        return noteComponents;
+    }
+    // Handle any exceptions that might occur during the Search note listing process
+    catch(sql::SQLException &e){
+        response = "Error: " + std::string(e.what());
         std::cout << "Error: " << e.what() << std::endl;
         return {};
     }
@@ -608,7 +763,8 @@ bool DataController::Dc_UpdateTag(Tag& tag,int userId){
         return false;
     }
 }
-std::vector<Note> DataController::Dc_FilterByTagName(std::string tagName,int userId){
+// to be removed
+/*std::vector<Note> DataController::Dc_FilterByTagName(std::string tagName,int userId){
     std::lock_guard<std::mutex> lock(mtx);
     try{
         // Check if the specified user_id exists in the users table
@@ -641,6 +797,46 @@ std::vector<Note> DataController::Dc_FilterByTagName(std::string tagName,int use
     }
     // Handle any exceptions that might occur during the Search note listing process
     catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return {};
+    }
+}*/
+std::vector<Note> DataController::Dc_FilterByTagName(std::string tagName,int userId,std::string& response){
+    std::lock_guard<std::mutex> lock(mtx);
+    try{
+        // Check if the specified user_id exists in the users table
+        pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
+        pstmt->setInt(1, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            response = "User not found";
+            return {};
+        }
+
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("SELECT * FROM notes WHERE note_id IN (SELECT note_id FROM note_tags WHERE tag_id IN (SELECT tag_id FROM tags WHERE tag_name=?)) AND user_id=?");
+        pstmt->setString(1,tagName);
+        pstmt->setInt(2,userId);
+        res=pstmt->executeQuery();
+        std::vector<Note> notes;
+        // Iterate over the result set
+        while(res->next()){
+            Note note;
+            note.setnoteId(res->getInt("note_id"));
+            note.setuserId(res->getInt("user_id"));
+            note.settitle(res->getString("title"));
+            note.setcreatedAt(res->getString("created_at"));
+            note.setupdatedAt(res->getString("updated_at"));
+            notes.push_back(note);
+        }
+        response = "Success";
+        return notes;
+    }
+    // Handle any exceptions that might occur during the Search note listing process
+    catch(sql::SQLException &e){
+        response = "Error: " + std::string(e.what());
         std::cout << "Error: " << e.what() << std::endl;
         return {};
     }
@@ -697,6 +893,126 @@ bool DataController::Dc_DeleteTag(Tag &tag,int userId){
 
     }
 catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return false;
+    }
+}
+// to be removed
+/*std::vector<Tag> DataController::Dc_ListNoteTags(int noteId,int userId){
+    std::lock_guard<std::mutex> lock(mtx);
+    try{
+        // Check if the specified user_id exists in the users table
+        pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
+        pstmt->setInt(1, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: User with user_id " << userId << " does not exist." << std::endl;
+            return {};
+        }
+        // Check if the specified note_id exists in the notes table and belongs to the user
+        pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ? AND user_id = ?");
+        pstmt->setInt(1, noteId);
+        pstmt->setInt(2, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: Note with note_id " << noteId << " does not exist or does not belong to the user." << std::endl;
+            return {};
+        }
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("SELECT * FROM tags WHERE tag_id IN (SELECT tag_id FROM note_tags WHERE note_id=?)");
+        pstmt->setInt(1,noteId);
+        res=pstmt->executeQuery();
+        std::vector<Tag> tags;
+        // Iterate over the result set
+        while(res->next()){
+            Tag tag;
+            tag.settagId(res->getInt("tag_id"));
+            tag.settagName(res->getString("tag_name"));
+            tag.setnoteId(noteId);
+            tags.push_back(tag);
+        }
+        return tags;
+    }
+    // Handle any exceptions that might occur during the Search note listing process
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return {};
+    }
+}*/
+std::vector<Tag> DataController::Dc_ListNoteTags(int noteId,int userId,std::string& response){
+    std::lock_guard<std::mutex> lock(mtx);
+    try{
+        // Check if the specified user_id exists in the users table
+        pstmt = con->prepareStatement("SELECT 1 FROM users WHERE user_id = ?");
+        pstmt->setInt(1, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            response = "User not found";
+            return {};
+        }
+        // Check if the specified note_id exists in the notes table and belongs to the user
+        pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ? AND user_id = ?");
+        pstmt->setInt(1, noteId);
+        pstmt->setInt(2, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            response = "Error: Note with note_id " + std::to_string(noteId) + " does not exist or does not belong to the user.";
+            return {};
+        }
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("SELECT * FROM tags WHERE tag_id IN (SELECT tag_id FROM note_tags WHERE note_id=?)");
+        pstmt->setInt(1,noteId);
+        res=pstmt->executeQuery();
+        std::vector<Tag> tags;
+        // Iterate over the result set
+        while(res->next()){
+            Tag tag;
+            tag.settagId(res->getInt("tag_id"));
+            tag.settagName(res->getString("tag_name"));
+            tag.setnoteId(noteId);
+            tags.push_back(tag);
+        }
+        response = "Success";
+        return tags;
+    }
+    // Handle any exceptions that might occur during the Search note listing process
+    catch(sql::SQLException &e){
+        response = "Error: " + std::string(e.what());
+        std::cout << "Error: " << e.what() << std::endl;
+        return {};
+    }
+}
+bool DataController::Dc_UpdateUserData(User& user){
+    std::lock_guard<std::mutex> lock(mtx);
+    try{
+        // Check if the specified email exists in the users table
+        pstmt = con->prepareStatement("SELECT 1 FROM users WHERE email = ?");
+        pstmt->setString(1, user.getemail());
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: User with email " << user.getemail() << " does not exist." << std::endl;
+            return false;
+        }
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("UPDATE users SET username=?,password_hash=? WHERE email=?");
+        pstmt->setString(1,user.getuserName());
+        pstmt->setString(2,user.gethashedPassword());
+        pstmt->setString(3,user.getemail());
+        pstmt->execute();
+        std::cout << "User data updated successfully" << std::endl;
+        return true;
+    }
+    catch(sql::SQLException &e){
         std::cout << "Error: " << e.what() << std::endl;
         return false;
     }
