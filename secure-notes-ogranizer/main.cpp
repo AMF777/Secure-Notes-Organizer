@@ -26,25 +26,23 @@ int main(int argc, char *argv[])
         int id = user.getuserId();
         std::cout<<id<<std::endl;
     }*/
-    // ClientController c1("127.0.0.1", "12345");
-    // User user;
-    // user.sethashedPassword("2001");
-    // user.setemail("mo3@gmail.com");
-    // std::string response = "";
+    ClientController c1("127.0.0.1", "12345");
+    User user;
+    user.sethashedPassword("2001");
+    user.setemail("mo3@gmail.com");
+    user.setuserId(1);
+    std::string response = "";
     // bool flag = c1.ClientLogIn(&user, &response);
     // std::cout<<response<<std::endl;
 
-    // Note* tnote = new Note(1,"xyz title");
-    // flag = c1.ClientCreateNote(tnote, &response);
-    // std::cout<<response<<std::endl;
-    // bool flag1 = c1.ClientListNote(&user, &response, List);
-    // std::cout<<response<<std::endl;
-    // if(flag1){
-    //     for(int i=0;i<List.size();i++){
-    //         List[i].print();
-    //         std::cout << "/////////////////////////////"<<std::endl;
-    //     }
-    // }
+    NoteComponent temp;
+    temp.setnoteId(6);
+    temp.setcomponentId(5);
+    bool flag1 = c1.ClientDeleteComponent(&temp, &user, &response);
+    std::cout<<response<<std::endl;
+    if(flag1){
+        std::cout<<response<<std::endl;
+    }
     /*User user;
     user.setuserName("user3");
     user.sethashedPassword("1234");

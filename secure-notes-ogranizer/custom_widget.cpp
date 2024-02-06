@@ -56,13 +56,12 @@ CustomWidget::CustomWidget(QStringList &lines, QWidget *parent)
     scrollArea->widget()->setLayout(verticalLayoutTextEdits);
     int cid=-1;
     for (auto& line:lines){
-        initComponentWithLine(cid,line);
-        // qDebug()<<cid;n
+        createComponentWithText(cid, line);
         cid++;
     }
     //  INCASE WHERE THERE IS NOCMPOONENTS ,  ADD AN EMPTY COMPONENT
-    QString line="";
-    initComponentWithLine(cid, line);
+    if(cid == -1)
+        createComponent(0);
 
     // Create the main layout that includes all the sub-layouts
     QVBoxLayout *mainLayout = createMainLayout();
@@ -92,15 +91,14 @@ CustomWidget::CustomWidget(Note *note, std::vector<NoteComponent> noteComponents
     // qDebug()<<"im inside my custom widget constructor";
     scrollArea->widget()->setLayout(verticalLayoutTextEdits);
     int cid=-1;
-    for (auto& compoonent:noteComponents){
-        QString line=QString::fromStdString(compoonent.getcomponentContent() );
-        initComponentWithLine(cid, line );
-        // qDebug()<<cid;
+    for (auto& component:noteComponents){
+        initComponentWithLine(cid, component);
         cid++;
     }
     //  INCASE WHERE THERE IS NOCMPOONENTS ,  ADD AN EMPTY COMPONENT
-    QString line="";
-    initComponentWithLine(cid, line);
+    if(cid == -1)
+        createComponent(0);
+
     // Create the main layout that includes all the sub-layouts
     QVBoxLayout *mainLayout = createMainLayout();
     mainLayout->addWidget(scrollArea);
@@ -120,7 +118,7 @@ QVBoxLayout* CustomWidget::createMainLayout()
     return layout;
 }
 
-void CustomWidget::createComponent(int index)
+TextEditComponent* CustomWidget::createComponent(int index)
 {
     // Create a new TextEditComponent
     TextEditComponent *newComponent = new TextEditComponent(index, this);
@@ -136,7 +134,7 @@ void CustomWidget::createComponent(int index)
     if (componentVector.isEmpty()) {
         componentVector.push_back(newComponent);
         verticalLayoutTextEdits->insertWidget(index, newComponent);
-        return;
+        return newComponent;
     }
 
     // Use const_iterator to iterate through the vector
@@ -155,6 +153,9 @@ void CustomWidget::createComponent(int index)
 
     // To focus on new component and Move Cursor to first postion
     newComponent->text->focusAndMoveCursor(0);
+
+
+    return newComponent;
 }
 
 void CustomWidget::createComponentWithText(int index, const QString &text)
@@ -216,10 +217,24 @@ void CustomWidget::focusNextComponent(int index)
         componentVector[index + 1]->text->focusAndMoveCursor(0);
 }
 
-void CustomWidget::initComponentWithLine(int index, QString &line)
+void CustomWidget::initComponentWithLine(int index, NoteComponent &component)
 {
+    QString line = QString::fromStdString(component.getcomponentContent());
+
     // Create new component
-    createComponent(index);
+    TextEditComponent *newComponent = createComponent(index);
+
+    newComponent->text->setAttributes(
+        component.getfontSize(),
+        QString::fromStdString(component.getfontColor()),
+        QString::fromStdString(component.getbackgroundColor()),
+        QString::fromStdString(component.getfontFamily()),
+        QString::fromStdString(component.getfontStyle()),
+        component.getisBold(),
+        component.getisItalic(),
+        component.getisUnderlined()
+    );
+
 
     // Set the text of the newly created component
     componentVector[index+1]->text->setText(line);

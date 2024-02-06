@@ -43,6 +43,23 @@ textEdit::textEdit(int fontSize, const QString &fontColor, const QString &backgr
     setUnderlined(underlined);
 }
 
+void textEdit::setAttributes(int fontSize, const QString &fontColor, const QString &backgroundColor,
+                   const QString &fontFamily, const QString &fontStyle, bool bold,
+                   bool italic, bool underline)
+{
+    // Constructor with parameters
+    // Use the setter functions to set the properties based on the provided parameters
+    setFontSize(fontSize);
+    setFontColor(fontColor);
+    setBackgroundColor(backgroundColor);
+    setFontFamily(fontFamily);
+    setFontStyle(fontStyle);
+    setBold(bold);
+    setItalic(italic);
+    setUnderlined(underlined);
+}
+
+
 int textEdit::getFontSize() const
 {
     // Retrieve the current font size

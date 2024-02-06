@@ -18,12 +18,12 @@ public:
     Note *note;
     std::vector<NoteComponent> noteComponents;
 private slots:
-    void createComponent(int index);
+    TextEditComponent* createComponent(int index);
     void deleteComponent(int index);
     void createComponentWithText(int index, const QString &text);
     void deleteComponentAppendText(int index, const QString &text);
     void focusNextComponent(int index);
-    void initComponentWithLine(int index, QString& line);
+    void initComponentWithLine(int index, NoteComponent &component);
 
 private:
     QVector<TextEditComponent*> componentVector;

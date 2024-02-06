@@ -13,6 +13,9 @@ public:
              const QString &fontFamily, const QString &fontStyle, bool bold,
              bool italic, bool underlined, const QString &text, QWidget *parent = nullptr);
 
+    void setAttributes(int fontSize, const QString &fontColor, const QString &backgroundColor,
+                                 const QString &fontFamily, const QString &fontStyle, bool bold,
+                                 bool italic, bool underlined);
 
     int getFontSize() const;
     void setFontSize(int size);
