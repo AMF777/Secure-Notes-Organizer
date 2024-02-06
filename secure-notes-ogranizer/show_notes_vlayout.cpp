@@ -136,9 +136,11 @@ edit_notes_vlayout::edit_notes_vlayout(QWidget *mainWindowRef, User *user, QWidg
     for(auto& note:notes){
         // this memory is leaked
         // ccan use smart pointer
-        Note* tmp=new Note(note.getuserId(), note.gettitle() );
-        b1->addLayout(new note_widget(mainWindowRef, tmp ) );
+        Note* notePointer = new Note(note);
+        b1->addLayout(new note_widget(mainWindowRef, notePointer));
     }
+
+
     b1->setAlignment(Qt::AlignLeft);
     addLayout(b1);
 

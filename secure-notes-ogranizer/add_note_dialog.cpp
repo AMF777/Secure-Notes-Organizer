@@ -125,16 +125,4 @@ void add_note_dialog::saveButtonClicked()
 
     close();
     initEditorFromFile(filePath, title);
-    // if (file.open(QIODevice::ReadOnly | QIODevice::Text) ) {
-        // QTextStream in(&file);
-        // QString fileContents = in.readAll();
-
-        // QStringList lines = fileContents.split("\n", Qt::SkipEmptyParts);
-        // Print the contents using qDebug
-        // qDebug() << "Number of lines:" << lines.size();
-        // for (const QString &line : lines) {
-        //     qDebug() << line;
-        // }
-        // file.close();
-    // }
 }

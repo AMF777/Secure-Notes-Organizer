@@ -112,11 +112,12 @@ void signin::loginButtonClicked(const QString email, const QString password)
 {
     errMsg->hide();
     ClientController c1("127.0.0.1", "12345");
+    std::string response = "";
 
     User* user = new User();
     user->setemail(email.toStdString() );
     user->sethashedPassword(password.toStdString() );
-    std::string response = "";
+
     bool flag = c1.ClientLogIn(user, &response);
 
     qDebug()<<response;

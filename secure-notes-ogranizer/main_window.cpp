@@ -19,6 +19,7 @@ void myDelteLayout(QLayout *layout){
 main_window::main_window(QWidget *parent)
     : QMainWindow(parent)
 {
+
     setMinimumSize(MAIN_WINDOW_MIN_WIDTH, MAIN_WINDOW_MIN_HEIGHT);
 
     // Create the central widget that contains all layouts and widgets
@@ -140,6 +141,7 @@ void main_window::swapToShowNotes()
 
 void main_window::initEditorFromFile(QString filePath, QString title)
 {
+    ClientController c1("127.0.0.1", "12345");
     QStringList lines;
     if(QFile::exists(filePath) ){
         QFile file(filePath);
@@ -152,6 +154,10 @@ void main_window::initEditorFromFile(QString filePath, QString title)
         lines = fileContents.split("\n", Qt::SkipEmptyParts);
         file.close();
     }
+    Note* temp = new Note(user->getuserId(), title.toStdString());
+    std::string response;
+    if(c1.ClientCreateNote(temp, &response))
+        qDebug() << response;
 
     myDelteLayout(noteLayout);
     NoteEditor *newLayout= new NoteEditor(this, lines, title);
@@ -167,8 +173,8 @@ void main_window::initEditorFromNote(Note *note)
 
     std::vector<NoteComponent> noteComponents;
     std::string response = "";
-    ClientController c1("127.0.0.1", "12345");
 
+    ClientController c1("127.0.0.1", "12345");
     bool flag = c1.ClientListComponents(note, &response, noteComponents);
     if(!flag){
         qDebug()<<response;

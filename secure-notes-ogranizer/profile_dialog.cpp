@@ -5,6 +5,7 @@
 
 #include <QGraphicsBlurEffect>
 #include <QFileDialog>
+#include <QMessageBox>
 
 const QString LABEL_STYLE = "user-label";
 const QString INPUT_STYLE = "user-input";
@@ -189,5 +190,37 @@ void profile_dialog::avatarClicked()
 
 void profile_dialog::saveButtonClicked()
 {
-    qDebug() << "saved";;
+    // Get the entered passwords from the layout
+    QString username = usernameLayout->input->text();
+    QString password = passwordLayout->input->text();
+    QString confirmPassword = confirmPasswordLayout->input->text();
+
+    // Check if the username is empty (null or whitespace)
+    if (username.isEmpty()) {
+        QMessageBox::critical(this, "Error", "username cannot be empty.");
+        return;
+    }
+
+    // Check if the password is empty (null or whitespace)
+    if (password.isEmpty()) {
+        QMessageBox::critical(this, "Error", "Password cannot be empty.");
+        return;
+    }
+
+    // Check if the passwords match
+    if (password != confirmPassword){
+        QMessageBox::critical(this, "Error", "Passwords do not match. Please enter matching passwords.");
+        return;
+    }
+
+    ClientController c1("127.0.0.1", "12345");
+    std::string  response;
+
+    user->setuserName(username.toStdString());
+    user->sethashedPassword(password.toStdString());
+
+    if (c1.ClientUpdateUserData(user, &response))
+        qDebug() << response;
+
+    accept();
 }

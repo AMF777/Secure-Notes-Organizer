@@ -7,12 +7,14 @@
 #include <QVector>
 #include "qtextedit.h"
 #include "tag_widget.h"
+#include "back-end/clientcontroller.h"
+
 
 class TagsLayout : public QHBoxLayout {
     Q_OBJECT
 
 public:
-    explicit TagsLayout(QWidget* parent = nullptr);
+    explicit TagsLayout(Note* note, QWidget* parent = nullptr);
     ~TagsLayout();
 
 private slots:
@@ -27,9 +29,9 @@ private:
     QVector<TagWidget*> tags;
     QTextEdit* textInput;
     bool tagExists(const QString& tagText) const;
-
     void createTag(const QString& text);
 
+    Note* note;
 };
 
 #endif // TAGS_HLAYOUT_H

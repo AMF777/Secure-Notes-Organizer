@@ -3,7 +3,9 @@
 #include <QTextEdit>
 #include <QKeyEvent>
 
-TagsLayout::TagsLayout(QWidget* parent) : QHBoxLayout(parent) {
+TagsLayout::TagsLayout(Note* note, QWidget* parent) : QHBoxLayout(parent) {
+    this->note = note;
+
     // Initialize the tags vector to an empty QVector
     tags = QVector<TagWidget*>();
 
@@ -61,6 +63,15 @@ void TagsLayout::createTag(const QString &text) {
     if(tagExists(text))
         return;
 
+    ClientController c1("127.0.0.1", "12345");
+    std::string response = "";
+
+    Tag tag(text.toStdString(), note->getnoteId() );
+    User* user = new  User();
+    user->setuserId(note->getuserId());
+    if(c1.ClientAddTag(&tag, user, &response))
+        qDebug() << response;
+
     // Create a new Tag widget with the provided text and set TagsLayout as its parent
     TagWidget* newTag = new TagWidget(text, this);
 
@@ -82,6 +93,17 @@ void TagsLayout::createTag(const QString &text) {
 }
 
 void TagsLayout::removeTag(TagWidget* tag) {
+
+    ClientController c1("127.0.0.1", "12345");
+    std::string response = "";
+
+    QString string = tag->getText();
+    Tag tempTag(string.toStdString(), note->getnoteId() );
+    User* user = new  User();
+    user->setuserId(note->getuserId());
+    if(c1.ClientDeleteTag(&tempTag, user, &response))
+        qDebug() << response;
+
     // Remove tag from the layout and vector
 
     // Retrieve the button and tagText widgets associated with the tag

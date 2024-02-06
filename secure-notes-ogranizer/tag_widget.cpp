@@ -27,17 +27,19 @@ TagWidget::TagWidget(const QString& text, QHBoxLayout* layout, QWidget* parent) 
     layout->addWidget(removeButton);
 }
 
-void TagWidget::setText(const QString& text) {
+void TagWidget::setText(QString& text) {
     // Set the text of the label to the provided text
     labelText->setText(text);
 }
 
-QString TagWidget::getText() const {
+QString TagWidget::getText() {
     // Retrieve the current text of the label
     return labelText->text();
 }
 
 void TagWidget::onRemoveButtonClicked() {
+
+
     // Emit the tagRemoved signal, indicating that the remove button was clicked for this tag
     emit tagRemoved(this);
 }

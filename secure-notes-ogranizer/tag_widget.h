@@ -12,8 +12,8 @@ class TagWidget : public QWidget {
 public:
     explicit TagWidget(const QString& text, QHBoxLayout* layout, QWidget* parent = nullptr);
 
-    void setText(const QString& text);
-    QString getText() const;
+    void setText(QString& text);
+    QString getText();
 
 signals:
     void tagRemoved(TagWidget* tag);

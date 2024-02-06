@@ -31,6 +31,11 @@ public:
     bool ClientDeleteTag(Tag *tag, User* user, std::string* response); //client set in user object (user id) and set in tag object (note id, tag name, tag id) 
     bool ClientFilterByTagName(Tag *tag, User* user, std::string* response, std::vector<Note>& NotesList); //client set in user object (user id) and set in tag object (ag name) and get (vector(NotesList))
 
+    bool ClientListNoteTags(Note *note, std::string* response, std::vector<Tag>& TagsList);
+    bool ClientUpdateUserData(User *user, std::string* response);
+
+    void ClientLogout();
+
 private:
     ClientConnection *clientConnection;
     unsigned int msg_id;

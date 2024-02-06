@@ -5,7 +5,7 @@ NoteEditor::NoteEditor(QWidget *mainWindowRef, QWidget *parent) : QVBoxLayout(pa
     this->note=nullptr;
     this->mainWindowRef=mainWindowRef;
 
-    tagsLayout = new TagsLayout();
+    tagsLayout = new TagsLayout(note);
     tagsLayout->setAlignment(Qt::AlignLeft);
     tagsLayout->setContentsMargins(50, 50, 0, 0);
 
@@ -24,7 +24,7 @@ NoteEditor::NoteEditor(QWidget *mainWindowRef, QStringList& lines, QString  titl
     this->note=nullptr;
 
     this->title = title;
-    tagsLayout = new TagsLayout();
+    tagsLayout = new TagsLayout(note);
     tagsLayout->setAlignment(Qt::AlignLeft);
     tagsLayout->setContentsMargins(50, 50, 0, 0);
 
@@ -44,7 +44,7 @@ NoteEditor::NoteEditor(QWidget *mainWindowRef, Note *note, std::vector<NoteCompo
     // qDebug()  << note->getuserId();
 
     this->title = QString::fromStdString(note->gettitle());
-    tagsLayout = new TagsLayout();
+    tagsLayout = new TagsLayout(note);
     tagsLayout->setAlignment(Qt::AlignLeft);
     tagsLayout->setContentsMargins(50, 50, 0, 0);
 

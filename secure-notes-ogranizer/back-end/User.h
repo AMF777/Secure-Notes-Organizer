@@ -29,4 +29,5 @@ class User{
         std::string email;
         int userId;
 };
+
 #endif
