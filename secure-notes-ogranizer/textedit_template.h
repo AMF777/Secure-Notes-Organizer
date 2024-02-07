@@ -58,6 +58,9 @@ private:
     bool italic;
     bool underlined;
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
+
+    std::string encodeCaesarCipher();
+    void decodeCaesarCipher(std::string &encodedText) ;
 };
 
 #endif // TEXTEDIT_H

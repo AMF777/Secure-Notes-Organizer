@@ -12,86 +12,16 @@
 
 CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
 {
-    note=nullptr;
-    // Set the outermost widget's margins to zero
-    setContentsMargins(0, 0, 0, 0);
-
-    // Create the layout for text edits and initialize the first component
-    verticalLayoutTextEdits = new QVBoxLayout();
-
-    // Wrap the verticalLayoutTextEdits in a QScrollArea
-    QScrollArea *scrollArea = new QScrollArea(this);
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setWidget(new QWidget()); // Set an empty widget as the scroll area's widget
-    scrollArea->setFrameShape(QFrame::NoFrame);
-    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);  // Set the vertical scroll bar policy
-
-    // Set the inner layout for the scroll area's widget
-    scrollArea->widget()->setLayout(verticalLayoutTextEdits);
-
+    this->note=nullptr;
+    initializeWidget();
     createComponent(0);
-
-    // Create the main layout that includes all the sub-layouts
-    QVBoxLayout *mainLayout = createMainLayout();
-    mainLayout->addWidget(scrollArea);
-
-    // Set the overall layout for the CustomWidget
-    setLayout(mainLayout);
-}
-
-CustomWidget::CustomWidget(QStringList &lines, QWidget *parent)
-{
-    // Set the outermost widget's margins to zero
-    setContentsMargins(0, 0, 0, 0);
-
-    // Create the layout for text edits and initialize the first component
-    verticalLayoutTextEdits = new QVBoxLayout();
-
-    // Wrap the verticalLayoutTextEdits in a QScrollArea
-    QScrollArea *scrollArea = new QScrollArea(this);
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setWidget(new QWidget()); // Set an empty widget as the scroll area's widget
-    scrollArea->setFrameShape(QFrame::NoFrame);
-    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);  // Set the vertical scroll bar policy
-
-    // Set the inner layout for the scroll area's widget
-    // qDebug()<<"im inside my custom widget constructor";
-    scrollArea->widget()->setLayout(verticalLayoutTextEdits);
-    int cid=-1;
-    for (auto& line:lines){
-        createComponentWithText(cid, line);
-        cid++;
-    }
-    //  INCASE WHERE THERE IS NOCMPOONENTS ,  ADD AN EMPTY COMPONENT
-    if(cid == -1)
-        createComponent(0);
-
-    // Create the main layout that includes all the sub-layouts
-    QVBoxLayout *mainLayout = createMainLayout();
-    mainLayout->addWidget(scrollArea);
-
-    // Set the overall layout for the CustomWidget
-    setLayout(mainLayout);
 }
 
 CustomWidget::CustomWidget(Note *note, std::vector<NoteComponent> noteComponents, QWidget *parent) : QWidget(parent)
 {
     this->note=note;
     this->noteComponents=noteComponents;
-
-    setContentsMargins(0, 0, 0, 0);
-    // Create the layout for text edits and initialize the first component
-    verticalLayoutTextEdits = new QVBoxLayout();
-
-    // Wrap the verticalLayoutTextEdits in a QScrollArea
-    QScrollArea *scrollArea = new QScrollArea(this);
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setWidget(new QWidget()); // Set an empty widget as the scroll area's widget
-    scrollArea->setFrameShape(QFrame::NoFrame);
-    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);  // Set the vertical scroll bar policy
-
-
-    scrollArea->widget()->setLayout(verticalLayoutTextEdits);
+    initializeWidget();
     int cid=-1;
     for (auto& component:noteComponents){
         initComponentWithLine(cid, component);
@@ -101,30 +31,13 @@ CustomWidget::CustomWidget(Note *note, std::vector<NoteComponent> noteComponents
     if(cid == -1)
         createComponent(0);
 
-    // Create the main layout that includes all the sub-layouts
-    QVBoxLayout *mainLayout = createMainLayout();
-    mainLayout->addWidget(scrollArea);
-
-    // Set the overall layout for the CustomWidget
-    setLayout(mainLayout);
 }
 
 CustomWidget::CustomWidget(Note *note, User *user, QWidget *parent)
 {
     this->note=note;
     this->user=user;
-
-    setContentsMargins(0, 0, 0, 0);
-    // Create the layout for text edits and initialize the first component
-    verticalLayoutTextEdits = new QVBoxLayout();
-
-    // Wrap the verticalLayoutTextEdits in a QScrollArea
-    QScrollArea *scrollArea = new QScrollArea(this);
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setWidget(new QWidget()); // Set an empty widget as the scroll area's widget
-    scrollArea->setFrameShape(QFrame::NoFrame);
-    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);  // Set the vertical scroll bar policy
-    scrollArea->widget()->setLayout(verticalLayoutTextEdits);
+    initializeWidget();
 
     std::vector<NoteComponent> noteComponents;
     std::string response = "";
@@ -140,6 +53,20 @@ CustomWidget::CustomWidget(Note *note, User *user, QWidget *parent)
     //  INCASE WHERE THERE IS NOCMPOONENTS ,  ADD AN EMPTY COMPONENT
     if(cid == -1)
         createComponent(0);
+}
+
+void CustomWidget::initializeWidget(){
+    setContentsMargins(0, 0, 0, 0);
+    // Create the layout for text edits and initialize the first component
+    verticalLayoutTextEdits = new QVBoxLayout();
+
+    // Wrap the verticalLayoutTextEdits in a QScrollArea
+    QScrollArea *scrollArea = new QScrollArea(this);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setWidget(new QWidget()); // Set an empty widget as the scroll area's widget
+    scrollArea->setFrameShape(QFrame::NoFrame);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);  // Set the vertical scroll bar policy
+    scrollArea->widget()->setLayout(verticalLayoutTextEdits);
 
     // Create the main layout that includes all the sub-layouts
     QVBoxLayout *mainLayout = createMainLayout();
@@ -247,8 +174,6 @@ void CustomWidget::createComponentWithText(int index, const QString &text)
     // To focus on new component and Move Cursor to last postion
     componentVector[index + 1]->text->focusAndMoveCursor();
 }
-
-
 
 void CustomWidget::deleteComponentAppendText(int index, const QString &text)
 {

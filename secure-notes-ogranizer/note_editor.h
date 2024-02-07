@@ -16,7 +16,6 @@ class NoteEditor : public QVBoxLayout
 {
 public:
     NoteEditor(QWidget *mainWindowRef, QWidget *parent = nullptr);
-    NoteEditor(QWidget *mainWindowRef, QStringList& lines, QString title, QWidget *parent = nullptr);
     NoteEditor(QWidget *mainWindowRef, Note *note, std::vector<NoteComponent> noteComponents, QWidget *parent = nullptr);
     NoteEditor(QWidget *mainWindowRef, Note *note, User *user, QWidget *parent = nullptr);
 
@@ -37,7 +36,7 @@ private:
     CustomWidget *noteComponentsLayout;
 
     QString title;
-
+    void initialize(QWidget *mainWindowRef, Note *note, CustomWidget *customWidget) ;
     QHBoxLayout* createTimeAndButtonsLayout();
     QHBoxLayout* createTitleNoteLayout();
     QHBoxLayout * createTagLayout();

@@ -8,8 +8,6 @@
 add_note_dialog::add_note_dialog(QWidget *parent)
     : QDialog{parent}
 {
-
-
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     setProperty("class","white-background round-corners profile-dialog-border");
     setModal(true);
@@ -77,7 +75,7 @@ void add_note_dialog::openFileDialog()
     if(filePath.isEmpty() ) return;
 
     QFileInfo fileInfo(filePath);
-    QString fileNameWithoutExtentsion =  fileInfo.baseName();
+    QString fileNameWithoutExtentsion = fileInfo.baseName();
 
 
     fileName->input->setText(fileNameWithoutExtentsion);
@@ -127,4 +125,5 @@ void add_note_dialog::saveButtonClicked()
 
     close();
     initEditorFromFile(filePath, title);
+    notesCounter++;
 }

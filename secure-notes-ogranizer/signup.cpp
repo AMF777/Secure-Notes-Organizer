@@ -119,7 +119,8 @@ void signup::signupButtonClicked(const QString username, const QString email, co
     User* user  =new User();
     user->setuserName(username.toStdString() );
     user->setemail(email.toStdString() );
-    user->sethashedPassword(password.toStdString() );
+    QString hashedPassword = user->hashPassword(password);
+    user->sethashedPassword(hashedPassword.toStdString());
     std::string response = "";
     bool flag = client.ClientSignUp(user, &response);
 

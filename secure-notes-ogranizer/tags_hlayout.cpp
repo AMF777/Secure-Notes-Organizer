@@ -22,10 +22,14 @@ void TagsLayout::createTag(const QString &text, bool loadedFromDatabase, int id)
     if(tagExists(text))
         return;
 
+    Tag tag;
+
     if(!loadedFromDatabase){
         std::string response = "";
 
-        Tag tag(text.toStdString(), note->getnoteId() );
+
+        tag.setnoteId(note->getnoteId());
+        tag.settagName(text.toStdString());
 
         if(id == -1)
             tag.settagId(++nextTagId);
@@ -41,7 +45,10 @@ void TagsLayout::createTag(const QString &text, bool loadedFromDatabase, int id)
     // Create a new Tag widget with the provided text and set TagsLayout as its parent
     TagWidget* newTag = new TagWidget(text, this);
 
-    newTag->setTagId(id);
+    if(!loadedFromDatabase)
+        newTag->setTagId(tag.gettagId());
+    else
+        newTag->setTagId(id);
 
     // Connect the tag's remove signal to the TagsLayout removeTag slot
     connect(newTag, &TagWidget::tagRemoved, this, &TagsLayout::removeTag);

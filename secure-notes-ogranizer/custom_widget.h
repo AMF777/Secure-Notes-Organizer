@@ -18,7 +18,6 @@ class CustomWidget : public QWidget {
     Q_OBJECT
 public:
     CustomWidget(QWidget *parent = nullptr);
-    CustomWidget(QStringList& lines, QWidget *parent = nullptr);
     CustomWidget(Note *note, std::vector<NoteComponent> noteComponents, QWidget *parent = nullptr);
     CustomWidget(Note *note, User *user, QWidget *parent = nullptr);
     void saveNote();
@@ -40,6 +39,7 @@ private:
     QVBoxLayout *verticalLayoutTextEdits;
 
     QVBoxLayout *createMainLayout();
+    void initializeWidget();
 };
 
 #endif // CUSTOMWIDGET_H

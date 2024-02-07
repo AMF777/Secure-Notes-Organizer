@@ -3,6 +3,8 @@
 
 namespace GlobalClient{
     ClientController client("127.0.0.1", "12345");
+    //User user;
+    int notesCounter(0);
 }
 
 ClientController::ClientController(const std::string& server_address, const std::string& server_port)

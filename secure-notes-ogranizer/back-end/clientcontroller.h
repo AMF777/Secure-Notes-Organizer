@@ -46,6 +46,7 @@ private:
 
 namespace GlobalClient{
     extern ClientController client;
+    extern int notesCounter;
 }
 
 #endif // CLIENTCONTROLLER_H

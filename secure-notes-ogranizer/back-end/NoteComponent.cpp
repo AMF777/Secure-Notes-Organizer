@@ -4,11 +4,11 @@ NoteComponent::NoteComponent(){
     componentId = -1;
     noteId = -1;
     componentContent = "null";
-    fontSize = -1;
-    fontColor = "null";
-    backgroundColor = "null";
-    fontFamily = "null";
-    fontStyle = "null";
+    fontSize = 12;
+    fontColor = "black";
+    backgroundColor = "white";
+    fontFamily = "Arial";
+    fontStyle = "Normal";
     isBold = false;
     isItalic = false;
     isUnderlined = false;

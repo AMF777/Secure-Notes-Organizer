@@ -143,31 +143,39 @@ void main_window::swapToShowNotes()
 
 void main_window::initEditorFromFile(QString filePath, QString title)
 {
-    QStringList lines;
-    if(QFile::exists(filePath) ){
+    std::vector<NoteComponent> noteComponents; // Vector to hold NoteComponents
+    if (QFile::exists(filePath)) {
         QFile file(filePath);
-        if(!file.open(QIODevice::ReadOnly | QIODevice::Text) ){
-            qDebug()<<"couldn't open file";
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qDebug() << "Couldn't open file";
             return;
         }
         QTextStream in(&file);
-        QString fileContents = in.readAll();
-        lines = fileContents.split("\n", Qt::SkipEmptyParts);
+        while (!in.atEnd()) {
+            QString line = in.readLine();
+            // Assuming NoteComponent has a constructor that takes a QString
+            NoteComponent component;
+            component.setcomponentContent(line.toStdString());
+            noteComponents.push_back(component);
+        }
         file.close();
     }
-    Note* temp = new Note(user->getuserId(), title.toStdString());
+
+    Note *temp = new Note(user->getuserId(), title.toStdString());
+    temp->settitle(title.toStdString());
     std::string response;
-    if(client.ClientCreateNote(temp, &response))
+    if (client.ClientCreateNote(temp, &response))
         qDebug() << response;
 
     myDelteLayout(noteLayout);
-    NoteEditor *newLayout= new NoteEditor(this, lines, title);
+    NoteEditor *newLayout = new NoteEditor(this, temp, noteComponents);
 
-    noteLayout=newLayout;
+    noteLayout = newLayout;
     pageOne->setLayout(noteLayout);
     pageOne->update();
     stackedWidget->setCurrentIndex(1);
 }
+
 
 void main_window::initEditorFromNote(Note *note)
 {

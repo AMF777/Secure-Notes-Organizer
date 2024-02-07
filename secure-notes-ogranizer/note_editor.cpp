@@ -1,82 +1,44 @@
 #include "note_editor.h"
 #include "main_window.h"
 
-NoteEditor::NoteEditor(QWidget *mainWindowRef, QWidget *parent) : QVBoxLayout(parent){
-    this->mainWindowRef=mainWindowRef;
+void NoteEditor::initialize(QWidget *mainWindowRef, Note *note, CustomWidget *customWidget) {
+    this->mainWindowRef = mainWindowRef;
+    this->note = note;
+
+    if (note)
+        this->title = QString::fromStdString(note->gettitle());
+    else
+        this->title =  "title";
 
     tagsLayout = new TagsLayout(note);
     tagsLayout->setAlignment(Qt::AlignLeft);
     tagsLayout->setContentsMargins(50, 50, 0, 0);
 
-    noteComponentsLayout = new CustomWidget();
+    noteComponentsLayout = customWidget;
 
-    // Add the layouts to the right widget
     this->addLayout(createTimeAndButtonsLayout());
     this->addLayout(createTitleNoteLayout());
     this->addLayout(tagsLayout);
     this->addLayout(createTagLayout());
     this->addWidget(noteComponentsLayout);
-
 }
 
-NoteEditor::NoteEditor(QWidget *mainWindowRef, QStringList& lines, QString  title, QWidget *parent) : QVBoxLayout(parent)
-{
-    this->mainWindowRef=mainWindowRef;
-    this->note=nullptr;
-    this->title = title;
-
-    tagsLayout = new TagsLayout(note);
-    tagsLayout->setAlignment(Qt::AlignLeft);
-    tagsLayout->setContentsMargins(50, 50, 0, 0);
-
-    noteComponentsLayout = new CustomWidget(lines);
-    this->addLayout(createTimeAndButtonsLayout());
-    this->addLayout(createTitleNoteLayout());
-    this->addLayout(tagsLayout);
-    this->addLayout(createTagLayout() );
-    this->addWidget(noteComponentsLayout);
-
+NoteEditor::NoteEditor(QWidget *mainWindowRef, QWidget *parent)
+    : QVBoxLayout(parent) {
+    this->initialize(mainWindowRef, nullptr, new CustomWidget());
 }
 
-NoteEditor::NoteEditor(QWidget *mainWindowRef, Note *note, std::vector<NoteComponent> noteComponents, QWidget *parent) : QVBoxLayout(parent)
-{
-    this->mainWindowRef=mainWindowRef;
-    this->note=note;
-
-    this->title = QString::fromStdString(note->gettitle());
-    tagsLayout = new TagsLayout(note);
-    tagsLayout->setAlignment(Qt::AlignLeft);
-    tagsLayout->setContentsMargins(50, 50, 0, 0);
-
-    noteComponentsLayout = new CustomWidget(note, noteComponents);
-    this->addLayout(createTimeAndButtonsLayout());
-    this->addLayout(createTitleNoteLayout());
-    this->addLayout(tagsLayout);
-    this->addLayout(createTagLayout());
-    this->addWidget(noteComponentsLayout);
-
+NoteEditor::NoteEditor(QWidget *mainWindowRef, Note *note, std::vector<NoteComponent> noteComponents, QWidget *parent)
+    : QVBoxLayout(parent) {
+    this->initialize(mainWindowRef, note, new CustomWidget(note, noteComponents));
 }
 
 NoteEditor::NoteEditor(QWidget *mainWindowRef, Note *note, User *user, QWidget *parent)
-{
-    this->mainWindowRef=mainWindowRef;
-    this->note=note;
-    this->user=user;
-
-    this->title = QString::fromStdString(note->gettitle());
-    tagsLayout = new TagsLayout(note);
-    tagsLayout->setAlignment(Qt::AlignLeft);
-    tagsLayout->setContentsMargins(50, 50, 0, 0);
-
-    noteComponentsLayout = new CustomWidget(note, user);
-    this->addLayout(createTimeAndButtonsLayout());
-    this->addLayout(createTitleNoteLayout());
+    : QVBoxLayout(parent) {
+    this->initialize(mainWindowRef, note, new CustomWidget(note, user));
     tagsLayout->loadTags();
-    this->addLayout(tagsLayout);
-    this->addLayout(createTagLayout() );
-    this->addWidget(noteComponentsLayout);
-
 }
+
 
 QHBoxLayout* NoteEditor::createTimeAndButtonsLayout()
 {

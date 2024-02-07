@@ -8,6 +8,8 @@
 #include <QPushButton>
 #include "back-end/clientcontroller.h"
 
+using namespace GlobalClient;
+
 edit_notes_vlayout::edit_notes_vlayout(QWidget *parent)
     : QVBoxLayout{parent}
 {
@@ -130,6 +132,8 @@ edit_notes_vlayout::edit_notes_vlayout(QWidget *mainWindowRef, User *user, QWidg
     if(!flag){
         qDebug()<<response;
     }
+
+    notesCounter += notes.size();
 
     for(auto& note:notes){
         // this memory is leaked

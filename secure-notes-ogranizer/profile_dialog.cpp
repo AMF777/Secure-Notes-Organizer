@@ -11,6 +11,7 @@
 const QString LABEL_STYLE = "user-label";
 const QString INPUT_STYLE = "user-input";
 
+
 profile_dialog::profile_dialog(User *user, QWidget *parent)
     : QDialog{parent}
 {
@@ -37,7 +38,8 @@ profile_dialog::profile_dialog(User *user, QWidget *parent)
     notesCountLayout = new QVBoxLayout();
     notes = new QLabel("Notes");
     notes->setProperty("class","avatar-widget-label" );
-    notesCount = new QLabel("999");
+    notesCount = new QLabel();
+    notesCount->setText(QString::number(notesCounter));
     notesCount->setProperty("class","avatar-widget-label" );
     notesCountLayout->addWidget(notes );
     notesCountLayout->addWidget(notesCount, 0, Qt::AlignCenter);
