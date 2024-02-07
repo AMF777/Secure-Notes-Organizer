@@ -86,15 +86,6 @@ Reconfigure the connection to Database with your username and password and Datab
 ```bash
   cd Server_with_cmake/Server/src/ServerWithDC/
 ```
-Run the integration testing of Clinet Controller with Server
-```bash
-  cd Gtest/ClientControllerForGtest/
-
-  g++ *.cpp -o client -I. -pthread -L/path/to/gtest/lib -lgtest -lgtest_main
-
-  ./client  
-```
-
 Start the server
 
 ```bash
@@ -107,10 +98,17 @@ Start the server
   cmake ..
 
   make
-  
+
   ./Server
 ```
+Run the integration testing of Clinet Controller with Server
+```bash
+  cd Gtest/ClientControllerForGtest/
 
+  g++ *.cpp -o client -I. -pthread -L/path/to/gtest/lib -lgtest -lgtest_main
+
+  ./client  
+```
 
 ## Authors
 
