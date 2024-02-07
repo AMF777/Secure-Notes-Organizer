@@ -7,6 +7,9 @@
 #include <QPixmap>
 #include <QScrollArea>
 
+#include "back-end/clientcontroller.h"
+
+
 CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
 {
     note=nullptr;
@@ -87,8 +90,7 @@ CustomWidget::CustomWidget(Note *note, std::vector<NoteComponent> noteComponents
     scrollArea->setFrameShape(QFrame::NoFrame);
     scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);  // Set the vertical scroll bar policy
 
-    // Set the inner layout for the scroll area's widget
-    // qDebug()<<"im inside my custom widget constructor";
+
     scrollArea->widget()->setLayout(verticalLayoutTextEdits);
     int cid=-1;
     for (auto& component:noteComponents){
@@ -105,6 +107,82 @@ CustomWidget::CustomWidget(Note *note, std::vector<NoteComponent> noteComponents
 
     // Set the overall layout for the CustomWidget
     setLayout(mainLayout);
+}
+
+CustomWidget::CustomWidget(Note *note, User *user, QWidget *parent)
+{
+    this->note=note;
+    this->user=user;
+
+    setContentsMargins(0, 0, 0, 0);
+    // Create the layout for text edits and initialize the first component
+    verticalLayoutTextEdits = new QVBoxLayout();
+
+    // Wrap the verticalLayoutTextEdits in a QScrollArea
+    QScrollArea *scrollArea = new QScrollArea(this);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setWidget(new QWidget()); // Set an empty widget as the scroll area's widget
+    scrollArea->setFrameShape(QFrame::NoFrame);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);  // Set the vertical scroll bar policy
+    scrollArea->widget()->setLayout(verticalLayoutTextEdits);
+
+    std::vector<NoteComponent> noteComponents;
+    std::string response = "";
+    bool flag = client.ClientListComponents(note, &response, noteComponents);
+    if(!flag){
+        qDebug()<<response;
+    }
+    int cid=-1;
+    for (auto& component:noteComponents){
+        initComponentWithLine(cid, component);
+        cid++;
+    }
+    //  INCASE WHERE THERE IS NOCMPOONENTS ,  ADD AN EMPTY COMPONENT
+    if(cid == -1)
+        createComponent(0);
+
+    // Create the main layout that includes all the sub-layouts
+    QVBoxLayout *mainLayout = createMainLayout();
+    mainLayout->addWidget(scrollArea);
+
+    // Set the overall layout for the CustomWidget
+    setLayout(mainLayout);
+}
+
+void CustomWidget::saveNote()
+{
+    if(!note || !user) return;
+
+    if(!note){
+        //  i dont haaave access to title here
+        // refactor  so i have access to title
+        // ddata wwas loaded from file or juuuust title
+        // create note first
+        return;
+    }
+
+    // get components of current note
+    std::vector<NoteComponent> noteComponents;
+    std::string response = "";
+    bool flag = client.ClientListComponents(note, &response, noteComponents);
+    if(!flag){
+        qDebug()<<response;
+        return;
+    }
+    // delete alll the components firrst
+    for(auto& cmp:noteComponents){
+        client.ClientDeleteComponent(&cmp,user,&response);
+        qDebug()<<response;
+    }
+    // clear all components
+    noteComponents.clear();
+    // add (create) new components
+    for(TextEditComponent* cmp:this->componentVector){
+        NoteComponent dbCmp=TextEditComponent::toNoteComponent(note,*cmp);
+        // qDebug()<<dbCmp.getcomponentContent();
+ -      client.ClientCreateComponent(&dbCmp,user,&response);
+        qDebug()<<response;
+    }
 }
 
 QVBoxLayout* CustomWidget::createMainLayout()

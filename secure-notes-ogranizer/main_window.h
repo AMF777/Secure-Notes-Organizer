@@ -15,6 +15,7 @@
 #include "back-end/User.h"
 #include "back-end/Note.h"
 
+using namespace GlobalClient;
 
 class main_window : public QMainWindow
 {
@@ -26,7 +27,7 @@ public:
 
     void helloWorld();
     void initEditorFromNote(Note* note);
-
+    void refreshViewNotes();
     User* user;
     NoteEditor* noteLayout;
     edit_notes_vlayout* editNotesLayout;

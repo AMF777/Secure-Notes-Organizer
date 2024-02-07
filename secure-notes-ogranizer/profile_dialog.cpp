@@ -1,3 +1,4 @@
+
 #include "profile_dialog.h"
 #include "constants.h"
 #include "button_icon_vlayout.h"
@@ -115,6 +116,12 @@ profile_dialog::profile_dialog(User *user, QWidget *parent)
         // inputRefs[i]->setAlignment(Qt::AlignCenter);
         mainLayout->addLayout(inputRefs[i] );
     }
+    errMsg = new QLabel();
+    mainLayout->addWidget(errMsg);
+    errMsg->hide();
+    errMsg->setWordWrap(true);
+    errMsg->setAlignment(Qt::AlignLeft);
+    errMsg->setStyleSheet("color:red;");
 
     saveButton = new QPushButton("Save");
     saveButton->setProperty("class","save-filepath-button");
@@ -138,7 +145,8 @@ profile_dialog::profile_dialog(User *user, QWidget *parent)
 
 void profile_dialog::showEvent(QShowEvent *event){
     // Calculate the desired width and height based on the parent widget's size
-    auto parent=parentWidget()->parentWidget();
+    // auto parent=parentWidget()->parentWidget();
+    auto parent=parentWidget();
     if (parent ) {
         QSize parentSize = parent->size();
         int dialogWidth = width()+100;
@@ -162,7 +170,8 @@ void profile_dialog::showEvent(QShowEvent *event){
 void profile_dialog::hideEvent(QHideEvent *event)
 {
     qDebug()<<"hide event";
-    auto parent=parentWidget()->parentWidget();
+    // auto parent=parentWidget()->parentWidget();
+    auto parent=parentWidget();
     if(parent ){
         parent->setGraphicsEffect(nullptr);
     }
@@ -191,35 +200,38 @@ void profile_dialog::avatarClicked()
 void profile_dialog::saveButtonClicked()
 {
     // Get the entered passwords from the layout
+    errMsg->hide();
     QString username = usernameLayout->input->text();
     QString password = passwordLayout->input->text();
     QString confirmPassword = confirmPasswordLayout->input->text();
 
     // Check if the username is empty (null or whitespace)
     if (username.isEmpty()) {
-        QMessageBox::critical(this, "Error", "username cannot be empty.");
+        errMsg->setText("username cannot be empty.");
+        errMsg->show();
         return;
     }
 
     // Check if the password is empty (null or whitespace)
     if (password.isEmpty()) {
-        QMessageBox::critical(this, "Error", "Password cannot be empty.");
+        errMsg->setText("Password cannot be empty.");
+        errMsg->show();
         return;
     }
 
     // Check if the passwords match
     if (password != confirmPassword){
-        QMessageBox::critical(this, "Error", "Passwords do not match. Please enter matching passwords.");
+        errMsg->setText("Passwords do not match. Please enter matching passwords.");
+        errMsg->show();
         return;
     }
 
-    ClientController c1("127.0.0.1", "12345");
     std::string  response;
 
     user->setuserName(username.toStdString());
     user->sethashedPassword(password.toStdString());
 
-    if (c1.ClientUpdateUserData(user, &response))
+    if (client.ClientUpdateUserData(user, &response))
         qDebug() << response;
 
     accept();

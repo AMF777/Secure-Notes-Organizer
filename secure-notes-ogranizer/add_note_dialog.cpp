@@ -86,7 +86,8 @@ void add_note_dialog::openFileDialog()
 
 void add_note_dialog::showEvent(QShowEvent *event){
     // Calculate the desired width and height based on the parent widget's size
-    auto parent=parentWidget()->parentWidget();
+    // auto parent=parentWidget()->parentWidget();
+    auto parent=parentWidget();
     if (parent ) {
         QSize parentSize = parent->size();
         int dialogWidth = parentSize.width() * 0.8;
@@ -110,7 +111,8 @@ void add_note_dialog::showEvent(QShowEvent *event){
 void add_note_dialog::hideEvent(QHideEvent *event)
 {
     qDebug()<<"hide event";
-    auto parent=parentWidget()->parentWidget();
+    // auto parent=parentWidget()->parentWidget();
+    auto parent=parentWidget();
     if(parent ){
         parent->setGraphicsEffect(nullptr);
     }

@@ -39,7 +39,8 @@ signout::signout(QWidget *parent)
 }
 
 void signout::showEvent(QShowEvent *event){
-    auto parent = parentWidget() ? parentWidget()->parentWidget() : nullptr;
+    // auto parent=parentWidget()->parentWidget();
+    auto parent=parentWidget();
     if (parent) {
         QSize parentSize = parent->size();
         int dialogWidth = parentSize.width() * 0.4;
@@ -60,7 +61,8 @@ void signout::showEvent(QShowEvent *event){
 
 void signout::hideEvent(QHideEvent *event)
 {
-    auto parent = parentWidget() ? parentWidget()->parentWidget() : nullptr;
+    // auto parent=parentWidget()->parentWidget();
+    auto parent=parentWidget();
     if(parent){
         parent->setGraphicsEffect(nullptr);
     }

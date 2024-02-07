@@ -38,8 +38,16 @@ QString TagWidget::getText() {
 }
 
 void TagWidget::onRemoveButtonClicked() {
-
-
     // Emit the tagRemoved signal, indicating that the remove button was clicked for this tag
     emit tagRemoved(this);
+}
+
+int TagWidget::getTagId() const
+{
+    return tagId;
+}
+
+void TagWidget::setTagId(int newTagId)
+{
+    tagId = newTagId;
 }

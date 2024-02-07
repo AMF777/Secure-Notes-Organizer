@@ -2,6 +2,8 @@
 #define TEXTEDIT_H
 
 #include <QTextEdit>
+#include "back-end/NoteComponent.h"
+#include "back-end/Note.h"
 
 class textEdit : public QTextEdit
 {
@@ -16,7 +18,6 @@ public:
     void setAttributes(int fontSize, const QString &fontColor, const QString &backgroundColor,
                                  const QString &fontFamily, const QString &fontStyle, bool bold,
                                  bool italic, bool underlined);
-
     int getFontSize() const;
     void setFontSize(int size);
 

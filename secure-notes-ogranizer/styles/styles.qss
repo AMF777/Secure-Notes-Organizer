@@ -201,11 +201,17 @@ QScrollBar::sub-line:vertical {
 .tagButtons {
     border: none;
 }
-
-.textInput{
-    max-width:80px;
-    max-height:20px;
+.createTagButton{
+    max-width: 60px;
     border: 0;
+    margin-bottom:10px;
+}
+.textInput{
+    max-width:100px;
+    max-height:20px;
+    padding: 3px;
+    border: 0;
+    background-color:white;
 }
 .edit-notes-label{
     font-size:22px;

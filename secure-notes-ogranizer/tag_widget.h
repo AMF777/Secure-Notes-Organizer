@@ -15,6 +15,9 @@ public:
     void setText(QString& text);
     QString getText();
 
+    int getTagId() const;
+    void setTagId(int newTagId);
+
 signals:
     void tagRemoved(TagWidget* tag);
 
@@ -24,6 +27,7 @@ private slots:
 private:
     QLabel* labelText;
     QPushButton* removeButton;
+    int tagId;
 };
 
 #endif // TAG_WIDGET_H

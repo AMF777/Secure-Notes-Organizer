@@ -6,6 +6,8 @@
 #include "Note.h"
 #include "NoteComponent.h"
 #include "Tag.h"
+
+
 class ClientController
 {
 public:
@@ -40,6 +42,11 @@ private:
     ClientConnection *clientConnection;
     unsigned int msg_id;
 };
+
+
+namespace GlobalClient{
+    extern ClientController client;
+}
 
 #endif // CLIENTCONTROLLER_H
 

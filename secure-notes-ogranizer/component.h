@@ -17,6 +17,9 @@ class TextEditComponent : public QWidget
 public:
     TextEditComponent(QWidget *parent = nullptr);
     TextEditComponent(int index, QWidget *parent = nullptr);
+    static NoteComponent toNoteComponent(Note *note, TextEditComponent& tec);
+
+
     textEdit *text;
     int index;
 

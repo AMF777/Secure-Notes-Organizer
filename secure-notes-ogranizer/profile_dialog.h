@@ -13,6 +13,8 @@
 #include "round_img_label.h"
 #include "back-end/clientcontroller.h"
 
+using namespace GlobalClient;
+
 class profile_dialog : public QDialog
 {
     Q_OBJECT
@@ -41,7 +43,7 @@ public:
     QHBoxLayout *buttonLayout;
     QPushButton *saveButton;
     QPushButton *cancelButton;
-
+    QLabel *errMsg;
 protected:
     void showEvent(QShowEvent *event) override;
     void hideEvent(QHideEvent *event) override;

@@ -9,6 +9,7 @@
 #include "tag_widget.h"
 #include "back-end/clientcontroller.h"
 
+using namespace GlobalClient;
 
 class TagsLayout : public QHBoxLayout {
     Q_OBJECT
@@ -16,20 +17,18 @@ class TagsLayout : public QHBoxLayout {
 public:
     explicit TagsLayout(Note* note, QWidget* parent = nullptr);
     ~TagsLayout();
+    void createTag(const QString &text, bool loadedFromDatabase, int id);
+    void loadTags();
 
 private slots:
-    void addButtonPressed();
     void removeTag(TagWidget* tag);
 
-protected:
-    bool eventFilter(QObject* obj, QEvent* event) override;
-
 private:
-    QPushButton* addButton;
     QVector<TagWidget*> tags;
-    QTextEdit* textInput;
     bool tagExists(const QString& tagText) const;
-    void createTag(const QString& text);
+    int tagId;
+
+    static int nextTagId;
 
     Note* note;
 };

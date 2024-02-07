@@ -72,6 +72,7 @@ main_window::main_window(QWidget *parent)
 main_window::main_window(User* user, QWidget *parent)
     : QMainWindow(parent)
 {
+    setWindowFlags(windowFlags() |  Qt::CustomizeWindowHint);
     this->user = user;
     setMinimumSize(MAIN_WINDOW_MIN_WIDTH, MAIN_WINDOW_MIN_HEIGHT);
 
@@ -85,7 +86,7 @@ main_window::main_window(User* user, QWidget *parent)
     // Add the sidebar layout to the left side of the central widget
     // sidebarLayout = new sidebar_vlayout([this](){swapToShowNotes();},
     //                                     [this](){swapToEditNote();});
-    sidebarLayout = new sidebar_vlayout([this](){swapToShowNotes();},
+    sidebarLayout = new sidebar_vlayout(this,[this](){swapToShowNotes();},
                                         [this](){swapToEditNote();},
                                         [this](QString filePath, QString title){
                                             initEditorFromFile(filePath, title);
@@ -121,6 +122,7 @@ main_window::main_window(User* user, QWidget *parent)
 
     // show useername make sure it;ss working
     setCentralWidget(centralWidget);
+
 }
 
 void main_window::helloWorld()
@@ -141,7 +143,6 @@ void main_window::swapToShowNotes()
 
 void main_window::initEditorFromFile(QString filePath, QString title)
 {
-    ClientController c1("127.0.0.1", "12345");
     QStringList lines;
     if(QFile::exists(filePath) ){
         QFile file(filePath);
@@ -156,7 +157,7 @@ void main_window::initEditorFromFile(QString filePath, QString title)
     }
     Note* temp = new Note(user->getuserId(), title.toStdString());
     std::string response;
-    if(c1.ClientCreateNote(temp, &response))
+    if(client.ClientCreateNote(temp, &response))
         qDebug() << response;
 
     myDelteLayout(noteLayout);
@@ -174,8 +175,7 @@ void main_window::initEditorFromNote(Note *note)
     std::vector<NoteComponent> noteComponents;
     std::string response = "";
 
-    ClientController c1("127.0.0.1", "12345");
-    bool flag = c1.ClientListComponents(note, &response, noteComponents);
+    bool flag = client.ClientListComponents(note, &response, noteComponents);
     if(!flag){
         qDebug()<<response;
         return;
@@ -184,10 +184,20 @@ void main_window::initEditorFromNote(Note *note)
 
 
     myDelteLayout(noteLayout);
-    NoteEditor *newLayout= new NoteEditor(this, note, noteComponents);
+    NoteEditor *newLayout= new NoteEditor(this, note, user);
 
     noteLayout=newLayout;
     pageOne->setLayout(noteLayout);
     pageOne->update();
     stackedWidget->setCurrentIndex(1);
+}
+
+void main_window::refreshViewNotes()
+{
+    myDelteLayout(editNotesLayout);
+    edit_notes_vlayout *newLayout= new edit_notes_vlayout(this,user);
+
+    editNotesLayout=newLayout;
+    pageTwo->setLayout(editNotesLayout);
+    pageTwo->update();
 }

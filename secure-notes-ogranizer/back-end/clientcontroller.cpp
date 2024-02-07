@@ -1,5 +1,10 @@
 #include "clientcontroller.h"
 
+
+namespace GlobalClient{
+    ClientController client("127.0.0.1", "12345");
+}
+
 ClientController::ClientController(const std::string& server_address, const std::string& server_port)
 {
     clientConnection = new ClientConnection(server_address, server_port);
