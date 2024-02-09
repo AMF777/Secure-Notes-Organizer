@@ -15,6 +15,14 @@
 #include <QHBoxLayout>
 #include <QFrame>
 
+// const QString signin::SIGNIN_TITLE = "Sign in";
+// const int signin::SIGNIN_WIDTH = 520;
+// const int signin::SIGNIN_HEIGHT = 620;
+// const int signin::SIEMENS_LOGO_WIDTH = 260;
+// const int signin::SIEMENS_LOGO_HEIGHT = 55;
+// const int INPUT_WIDTH=260;
+// const int LOGIN_BUTTON_WIDTH=80;
+// const int LOGIN_BUTTON_HEIGHT=32;
 signin::signin(QWidget *parent)
     : QWidget{parent}
 {
@@ -33,10 +41,20 @@ signin::signin(QWidget *parent)
         Qt::AlignCenter
     );
 
-    label_input_vlayout *emailLayout=new label_input_vlayout("Email Address:","user-label",INPUT_WIDTH,"user-input");
+    label_input_vlayout *emailLayout=new label_input_vlayout(
+        "Email Address:",
+        "user-label",
+        INPUT_WIDTH,
+        "user-input"
+    );
     emailLayout->input->setText("mo3@gmail.com");
-    label_input_vlayout *passwordLayout=new label_input_vlayout("Password:","user-label",INPUT_WIDTH,
-                                                                  "user-input",QLineEdit::Password);
+    label_input_vlayout *passwordLayout=new label_input_vlayout(
+        "Password:",
+        "user-label",
+        INPUT_WIDTH,
+        "user-input",
+        QLineEdit::Password
+    );
     passwordLayout->input->setText("2001");
     QPushButton *loginButton = new QPushButton("Login");
     // loginButton->setFixedWidth(LOGIN_BUTTON_WIDTH);
@@ -93,21 +111,18 @@ signin::signin(QWidget *parent)
 void signin::loginButtonClicked(const QString email, const QString password)
 {
     errMsg->hide();
-    std::string response = "";
+    ClientController c1("127.0.0.1", "12345");
 
     User* user = new User();
     user->setemail(email.toStdString() );
-    QString hashedPassword = user->hashPassword(password);
-    user->sethashedPassword(hashedPassword.toStdString());
-
-    bool flag = client.ClientLogIn(user, &response);
+    user->sethashedPassword(password.toStdString() );
+    std::string response = "";
+    bool flag = c1.ClientLogIn(user, &response);
 
     qDebug()<<response;
     if(flag){
         qDebug()<<"sign in success";
         parentWidget()->close();
-
-        close();
         // create a new main_windooconsttructor that take in  email of  user
         main_window *mw = new main_window(user);
         mw->show();

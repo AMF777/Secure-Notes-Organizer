@@ -44,12 +44,6 @@ sidebar_vlayout::sidebar_vlayout(const std::function<void ()> swapToEdit, const 
     buttons[3]->setClickHandler(swapToShow);
 }
 
-sidebar_vlayout::sidebar_vlayout(QWidget *mainWindowRef, const std::function<void ()> swapToEdit, const std::function<void ()> swapToShow,
-                                 const std::function<void (QString, QString)> initEditorFromFile, QWidget *parent) : sidebar_vlayout(swapToEdit,swapToShow,initEditorFromFile, parent)
-{
-    this->mainWindowRef=mainWindowRef;
-}
-
 // Function to create a button and add it to the layout
 void sidebar_vlayout::createButton(const QString &iconPath, const QString &className, const QSize iconSize,
                                    Qt::Alignment alignment, const std::function<void()> &onClick)
@@ -70,7 +64,6 @@ void sidebar_vlayout::setUser(User *user)
     qDebug() <<  "1";
     qDebug() <<  user->getemail();
     this->user = user;
-
 }
 
 // Function to handle profile button click
@@ -79,7 +72,7 @@ void sidebar_vlayout::profileButtonClicked()
     qDebug() << "Profile Button clicked";
 
     // Create and show the profile dialog
-    profile_dialog *profileDialog = new profile_dialog(user, this->mainWindowRef );
+    profile_dialog *profileDialog = new profile_dialog(user, parentWidget());
     profileDialog->show();
 }
 
@@ -90,9 +83,7 @@ void sidebar_vlayout::addNewNoteButtonClicked()
 
     // Create and show the add note dialog
     // add_note_dialog *addNoteDialog = new add_note_dialog(parentWidget());
-    // add_note_dialog *addNoteDialog = new add_note_dialog(initEditorFromFile, parentWidget());
-
-    add_note_dialog *addNoteDialog = new add_note_dialog(initEditorFromFile, this->mainWindowRef);
+    add_note_dialog *addNoteDialog = new add_note_dialog(initEditorFromFile, parentWidget());
     addNoteDialog->show();
 }
 
@@ -107,7 +98,7 @@ void sidebar_vlayout::addNewNoteButtonClicked()
 void sidebar_vlayout::logoutButtonClicked()
 {
     // Create and show the signout dialog
-    signout *signoutbutton = new signout(this->mainWindowRef );
+    signout *signoutbutton = new signout(parentWidget());
     signoutbutton->show();
     signoutbutton->setGraphicsEffect(nullptr);
 

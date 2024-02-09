@@ -12,11 +12,8 @@ class TagWidget : public QWidget {
 public:
     explicit TagWidget(const QString& text, QHBoxLayout* layout, QWidget* parent = nullptr);
 
-    void setText(QString& text);
-    QString getText();
-
-    int getTagId() const;
-    void setTagId(int newTagId);
+    void setText(const QString& text);
+    QString getText() const;
 
 signals:
     void tagRemoved(TagWidget* tag);
@@ -27,7 +24,6 @@ private slots:
 private:
     QLabel* labelText;
     QPushButton* removeButton;
-    int tagId;
 };
 
 #endif // TAG_WIDGET_H

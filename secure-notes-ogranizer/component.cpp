@@ -150,17 +150,6 @@ TextEditComponent::TextEditComponent(int index, QWidget *parent) : TextEditCompo
     this->index = index;
 }
 
-NoteComponent TextEditComponent::toNoteComponent(Note *note, TextEditComponent& tec)
-{
-    textEdit *tEdit=tec.text;
-    qDebug()<<tEdit->isItalic();
-    qDebug()<<tEdit->isBold();
-    // NoteComponent::NoteComponent(int noteId,std::string componentContent,int fontSize,std::string fontColor,std::string backgroundColor,std::string fontFamily,std::string fontStyle,bool isBold,bool isItalic,bool isUnderlined)
-    NoteComponent cmp(note->getnoteId(), tEdit->getText().toStdString(), tEdit->getFontSize(),  tEdit->getFontColor().toStdString(), tEdit->getBackgroundColor().toStdString(), tEdit->getFontFamily().toStdString(),
-                      tEdit->getFontStyle().toStdString(),tEdit->isBold(), tEdit->isItalic(), tEdit->isUnderlined() );;
-    return cmp;
-}
-
 void TextEditComponent::onFocusChanged(bool hasFocus)
 {
     if (hasFocus)

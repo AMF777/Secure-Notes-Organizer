@@ -7,55 +7,76 @@
 #include <QPixmap>
 #include <QScrollArea>
 
-#include "back-end/clientcontroller.h"
-
-
 CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
 {
-    this->note=nullptr;
-    initializeWidget();
+    note=nullptr;
+    // Set the outermost widget's margins to zero
+    setContentsMargins(0, 0, 0, 0);
+
+    // Create the layout for text edits and initialize the first component
+    verticalLayoutTextEdits = new QVBoxLayout();
+
+    // Wrap the verticalLayoutTextEdits in a QScrollArea
+    QScrollArea *scrollArea = new QScrollArea(this);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setWidget(new QWidget()); // Set an empty widget as the scroll area's widget
+    scrollArea->setFrameShape(QFrame::NoFrame);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);  // Set the vertical scroll bar policy
+
+    // Set the inner layout for the scroll area's widget
+    scrollArea->widget()->setLayout(verticalLayoutTextEdits);
+
     createComponent(0);
+
+    // Create the main layout that includes all the sub-layouts
+    QVBoxLayout *mainLayout = createMainLayout();
+    mainLayout->addWidget(scrollArea);
+
+    // Set the overall layout for the CustomWidget
+    setLayout(mainLayout);
+}
+
+CustomWidget::CustomWidget(QStringList &lines, QWidget *parent)
+{
+    // Set the outermost widget's margins to zero
+    setContentsMargins(0, 0, 0, 0);
+
+    // Create the layout for text edits and initialize the first component
+    verticalLayoutTextEdits = new QVBoxLayout();
+
+    // Wrap the verticalLayoutTextEdits in a QScrollArea
+    QScrollArea *scrollArea = new QScrollArea(this);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setWidget(new QWidget()); // Set an empty widget as the scroll area's widget
+    scrollArea->setFrameShape(QFrame::NoFrame);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);  // Set the vertical scroll bar policy
+
+    // Set the inner layout for the scroll area's widget
+    // qDebug()<<"im inside my custom widget constructor";
+    scrollArea->widget()->setLayout(verticalLayoutTextEdits);
+    int cid=-1;
+    for (auto& line:lines){
+        initComponentWithLine(cid,line);
+        // qDebug()<<cid;n
+        cid++;
+    }
+    //  INCASE WHERE THERE IS NOCMPOONENTS ,  ADD AN EMPTY COMPONENT
+    QString line="";
+    initComponentWithLine(cid, line);
+
+    // Create the main layout that includes all the sub-layouts
+    QVBoxLayout *mainLayout = createMainLayout();
+    mainLayout->addWidget(scrollArea);
+
+    // Set the overall layout for the CustomWidget
+    setLayout(mainLayout);
 }
 
 CustomWidget::CustomWidget(Note *note, std::vector<NoteComponent> noteComponents, QWidget *parent) : QWidget(parent)
 {
     this->note=note;
     this->noteComponents=noteComponents;
-    initializeWidget();
-    int cid=-1;
-    for (auto& component:noteComponents){
-        initComponentWithLine(cid, component);
-        cid++;
-    }
-    //  INCASE WHERE THERE IS NOCMPOONENTS ,  ADD AN EMPTY COMPONENT
-    if(cid == -1)
-        createComponent(0);
 
-}
-
-CustomWidget::CustomWidget(Note *note, User *user, QWidget *parent)
-{
-    this->note=note;
-    this->user=user;
-    initializeWidget();
-
-    std::vector<NoteComponent> noteComponents;
-    std::string response = "";
-    bool flag = client.ClientListComponents(note, &response, noteComponents);
-    if(!flag){
-        qDebug()<<response;
-    }
-    int cid=-1;
-    for (auto& component:noteComponents){
-        initComponentWithLine(cid, component);
-        cid++;
-    }
-    //  INCASE WHERE THERE IS NOCMPOONENTS ,  ADD AN EMPTY COMPONENT
-    if(cid == -1)
-        createComponent(0);
-}
-
-void CustomWidget::initializeWidget(){
     setContentsMargins(0, 0, 0, 0);
     // Create the layout for text edits and initialize the first component
     verticalLayoutTextEdits = new QVBoxLayout();
@@ -66,50 +87,26 @@ void CustomWidget::initializeWidget(){
     scrollArea->setWidget(new QWidget()); // Set an empty widget as the scroll area's widget
     scrollArea->setFrameShape(QFrame::NoFrame);
     scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);  // Set the vertical scroll bar policy
-    scrollArea->widget()->setLayout(verticalLayoutTextEdits);
 
+    // Set the inner layout for the scroll area's widget
+    // qDebug()<<"im inside my custom widget constructor";
+    scrollArea->widget()->setLayout(verticalLayoutTextEdits);
+    int cid=-1;
+    for (auto& compoonent:noteComponents){
+        QString line=QString::fromStdString(compoonent.getcomponentContent() );
+        initComponentWithLine(cid, line );
+        // qDebug()<<cid;
+        cid++;
+    }
+    //  INCASE WHERE THERE IS NOCMPOONENTS ,  ADD AN EMPTY COMPONENT
+    QString line="";
+    initComponentWithLine(cid, line);
     // Create the main layout that includes all the sub-layouts
     QVBoxLayout *mainLayout = createMainLayout();
     mainLayout->addWidget(scrollArea);
 
     // Set the overall layout for the CustomWidget
     setLayout(mainLayout);
-}
-
-void CustomWidget::saveNote()
-{
-    if(!note || !user) return;
-
-    if(!note){
-        //  i dont haaave access to title here
-        // refactor  so i have access to title
-        // ddata wwas loaded from file or juuuust title
-        // create note first
-        return;
-    }
-
-    // get components of current note
-    std::vector<NoteComponent> noteComponents;
-    std::string response = "";
-    bool flag = client.ClientListComponents(note, &response, noteComponents);
-    if(!flag){
-        qDebug()<<response;
-        return;
-    }
-    // delete alll the components firrst
-    for(auto& cmp:noteComponents){
-        client.ClientDeleteComponent(&cmp,user,&response);
-        qDebug()<<response;
-    }
-    // clear all components
-    noteComponents.clear();
-    // add (create) new components
-    for(TextEditComponent* cmp:this->componentVector){
-        NoteComponent dbCmp=TextEditComponent::toNoteComponent(note,*cmp);
-        // qDebug()<<dbCmp.getcomponentContent();
- -      client.ClientCreateComponent(&dbCmp,user,&response);
-        qDebug()<<response;
-    }
 }
 
 QVBoxLayout* CustomWidget::createMainLayout()
@@ -123,7 +120,7 @@ QVBoxLayout* CustomWidget::createMainLayout()
     return layout;
 }
 
-TextEditComponent* CustomWidget::createComponent(int index)
+void CustomWidget::createComponent(int index)
 {
     // Create a new TextEditComponent
     TextEditComponent *newComponent = new TextEditComponent(index, this);
@@ -139,7 +136,7 @@ TextEditComponent* CustomWidget::createComponent(int index)
     if (componentVector.isEmpty()) {
         componentVector.push_back(newComponent);
         verticalLayoutTextEdits->insertWidget(index, newComponent);
-        return newComponent;
+        return;
     }
 
     // Use const_iterator to iterate through the vector
@@ -158,9 +155,6 @@ TextEditComponent* CustomWidget::createComponent(int index)
 
     // To focus on new component and Move Cursor to first postion
     newComponent->text->focusAndMoveCursor(0);
-
-
-    return newComponent;
 }
 
 void CustomWidget::createComponentWithText(int index, const QString &text)
@@ -174,6 +168,8 @@ void CustomWidget::createComponentWithText(int index, const QString &text)
     // To focus on new component and Move Cursor to last postion
     componentVector[index + 1]->text->focusAndMoveCursor();
 }
+
+
 
 void CustomWidget::deleteComponentAppendText(int index, const QString &text)
 {
@@ -220,24 +216,10 @@ void CustomWidget::focusNextComponent(int index)
         componentVector[index + 1]->text->focusAndMoveCursor(0);
 }
 
-void CustomWidget::initComponentWithLine(int index, NoteComponent &component)
+void CustomWidget::initComponentWithLine(int index, QString &line)
 {
-    QString line = QString::fromStdString(component.getcomponentContent());
-
     // Create new component
-    TextEditComponent *newComponent = createComponent(index);
-
-    newComponent->text->setAttributes(
-        component.getfontSize(),
-        QString::fromStdString(component.getfontColor()),
-        QString::fromStdString(component.getbackgroundColor()),
-        QString::fromStdString(component.getfontFamily()),
-        QString::fromStdString(component.getfontStyle()),
-        component.getisBold(),
-        component.getisItalic(),
-        component.getisUnderlined()
-    );
-
+    createComponent(index);
 
     // Set the text of the newly created component
     componentVector[index+1]->text->setText(line);

@@ -3,9 +3,6 @@
 
 #include <QWidget>
 #include <QLabel>
-#include "back-end/clientcontroller.h"
-
-using namespace GlobalClient;
 
 class signin : public QWidget
 {

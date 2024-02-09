@@ -2,8 +2,6 @@
 #define TEXTEDIT_H
 
 #include <QTextEdit>
-#include "back-end/NoteComponent.h"
-#include "back-end/Note.h"
 
 class textEdit : public QTextEdit
 {
@@ -15,9 +13,7 @@ public:
              const QString &fontFamily, const QString &fontStyle, bool bold,
              bool italic, bool underlined, const QString &text, QWidget *parent = nullptr);
 
-    void setAttributes(int fontSize, const QString &fontColor, const QString &backgroundColor,
-                                 const QString &fontFamily, const QString &fontStyle, bool bold,
-                                 bool italic, bool underlined);
+
     int getFontSize() const;
     void setFontSize(int size);
 
@@ -58,9 +54,6 @@ private:
     bool italic;
     bool underlined;
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
-
-    std::string encodeCaesarCipher();
-    void decodeCaesarCipher(std::string &encodedText) ;
 };
 
 #endif // TEXTEDIT_H

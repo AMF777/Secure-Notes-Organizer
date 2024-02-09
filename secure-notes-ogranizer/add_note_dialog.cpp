@@ -8,6 +8,8 @@
 add_note_dialog::add_note_dialog(QWidget *parent)
     : QDialog{parent}
 {
+
+
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     setProperty("class","white-background round-corners profile-dialog-border");
     setModal(true);
@@ -75,7 +77,7 @@ void add_note_dialog::openFileDialog()
     if(filePath.isEmpty() ) return;
 
     QFileInfo fileInfo(filePath);
-    QString fileNameWithoutExtentsion = fileInfo.baseName();
+    QString fileNameWithoutExtentsion =  fileInfo.baseName();
 
 
     fileName->input->setText(fileNameWithoutExtentsion);
@@ -84,8 +86,7 @@ void add_note_dialog::openFileDialog()
 
 void add_note_dialog::showEvent(QShowEvent *event){
     // Calculate the desired width and height based on the parent widget's size
-    // auto parent=parentWidget()->parentWidget();
-    auto parent=parentWidget();
+    auto parent=parentWidget()->parentWidget();
     if (parent ) {
         QSize parentSize = parent->size();
         int dialogWidth = parentSize.width() * 0.8;
@@ -109,8 +110,7 @@ void add_note_dialog::showEvent(QShowEvent *event){
 void add_note_dialog::hideEvent(QHideEvent *event)
 {
     qDebug()<<"hide event";
-    // auto parent=parentWidget()->parentWidget();
-    auto parent=parentWidget();
+    auto parent=parentWidget()->parentWidget();
     if(parent ){
         parent->setGraphicsEffect(nullptr);
     }
@@ -125,5 +125,16 @@ void add_note_dialog::saveButtonClicked()
 
     close();
     initEditorFromFile(filePath, title);
-    notesCounter++;
+    // if (file.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+        // QTextStream in(&file);
+        // QString fileContents = in.readAll();
+
+        // QStringList lines = fileContents.split("\n", Qt::SkipEmptyParts);
+        // Print the contents using qDebug
+        // qDebug() << "Number of lines:" << lines.size();
+        // for (const QString &line : lines) {
+        //     qDebug() << line;
+        // }
+        // file.close();
+    // }
 }

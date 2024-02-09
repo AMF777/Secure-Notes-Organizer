@@ -3,52 +3,66 @@
 #include <QTextEdit>
 #include <QKeyEvent>
 
-using namespace GlobalClient;
-
-int TagsLayout::nextTagId = 0;
-
-TagsLayout::TagsLayout(Note* note, QWidget* parent) : QHBoxLayout(parent) {
-    this->note = note;
-
+TagsLayout::TagsLayout(QWidget* parent) : QHBoxLayout(parent) {
     // Initialize the tags vector to an empty QVector
     tags = QVector<TagWidget*>();
+
+    // Create a QPushButton for adding new tags
+    addButton = new QPushButton();
+
+    // Set the icon for the addButton from a resource file
+    addButton->setIcon(QIcon(":/res/img/plus.png"));
+
+    // Set a custom property for styling purposes
+    addButton->setProperty("class", "tagButtons");
+
+    // Connect the clicked signal of addButton to the addButtonPressed slot
+    connect(addButton, &QPushButton::clicked, this, &TagsLayout::addButtonPressed);
+
+    // Add the addButton to the layout
+    addWidget(addButton);
 }
+
 
 TagsLayout::~TagsLayout() {
+    // Clean up tags vector
+    for (TagWidget* tag : tags)
+        delete tag;
 }
 
-void TagsLayout::createTag(const QString &text, bool loadedFromDatabase, int id) {
+void TagsLayout::addButtonPressed() {
+    // Check if textInput is not already created
+    if (!textInput) {
+        // Create a new QTextEdit for user input
+        textInput = new QTextEdit();  // Assuming textEdit is your custom QTextEdit class
+
+        // Set a custom property for styling purposes
+        textInput->setProperty("class", "textInput");
+
+        // Disable the vertical scroll bar for the QTextEdit
+        textInput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+        // Add the textInput, deleteButton, and addButton to the layout
+        addWidget(textInput);
+        addWidget(addButton);
+
+        // Install an event filter to capture key events in the textInput
+        // This allows handling the Enter key press event
+        textInput->installEventFilter(this);
+
+        // Set focus to the newly created QTextEdit
+        textInput->setFocus();
+    }
+}
+
+
+void TagsLayout::createTag(const QString &text) {
     // Call the function to create a tag with the entered text
     if(tagExists(text))
         return;
 
-    Tag tag;
-
-    if(!loadedFromDatabase){
-        std::string response = "";
-
-
-        tag.setnoteId(note->getnoteId());
-        tag.settagName(text.toStdString());
-
-        if(id == -1)
-            tag.settagId(++nextTagId);
-
-        User* user = new  User();
-        user->setuserId(note->getuserId());
-        if(client.ClientAddTag(&tag, user, &response))
-            qDebug() << response;
-
-        delete user;
-    }
-
     // Create a new Tag widget with the provided text and set TagsLayout as its parent
     TagWidget* newTag = new TagWidget(text, this);
-
-    if(!loadedFromDatabase)
-        newTag->setTagId(tag.gettagId());
-    else
-        newTag->setTagId(id);
 
     // Connect the tag's remove signal to the TagsLayout removeTag slot
     connect(newTag, &TagWidget::tagRemoved, this, &TagsLayout::removeTag);
@@ -58,19 +72,16 @@ void TagsLayout::createTag(const QString &text, bool loadedFromDatabase, int id)
 
     // Add the new tag at the end of the layout
     addWidget(newTag);
+
+    // Move the "+" button to the end of the layout
+    addWidget(addButton);
+
+    // Check if the number of tags is now 10 or more, and hide the "+" button
+    if (tags.size() >= 10)
+        addButton->hide();
 }
 
 void TagsLayout::removeTag(TagWidget* tag) {
-    std::string response = "";
-
-    QString string = tag->getText();
-    Tag tempTag(string.toStdString(), note->getnoteId());
-    tempTag.settagId(tag->getTagId());
-    User* user = new  User();
-    user->setuserId(note->getuserId());
-    if(client.ClientDeleteTag(&tempTag, user, &response))
-        qDebug() << response;
-
     // Remove tag from the layout and vector
 
     // Retrieve the button and tagText widgets associated with the tag
@@ -92,6 +103,10 @@ void TagsLayout::removeTag(TagWidget* tag) {
 
     // Erase the elements that were moved to the end
     tags.erase(it, tags.end());
+
+    // Check if the number of tags is less than 10, and show the "+" button
+    if (tags.size() < 10)
+        addButton->show();
 }
 
 bool TagsLayout::tagExists(const QString& tagText) const {
@@ -106,21 +121,54 @@ bool TagsLayout::tagExists(const QString& tagText) const {
     return false;
 }
 
-void TagsLayout::loadTags()
-{
-    qDebug() << note->getnoteId();
-    qDebug() << note->getuserId();
+bool TagsLayout::eventFilter(QObject* obj, QEvent* event) {
+    // Check if the event is associated with the textInput widget
+    if (obj == textInput && event->type() == QEvent::KeyPress) {
+        // Cast the event to QKeyEvent for key-related information
+        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
 
-    std::string response = "";
-    std::vector<Tag> TagsList;
+        // Check if the pressed key is Enter or Return
+        if (keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
+            // Handle Enter key press event
 
-    if(client.ClientListNoteTags(note, &response, TagsList))
-        qDebug() << response;
+            // Retrieve the entered text from the QTextEdit
+            QString enteredText = textInput->toPlainText();
 
-    for(auto& tag:TagsList)
-        createTag(QString::fromStdString(tag.gettagName()), true, tag.gettagId());
+            // Check if there is text entered
+            if (enteredText.size() > 0) {
+                // Call the function to create a tag with the entered text
+                createTag(enteredText);
+
+                // Remove the QTextEdit from the layout
+                removeWidget(textInput);
+
+                // Delete the textInput widget and set it to nullptr
+                textInput->deleteLater();
+                textInput = nullptr;
+
+                // Event is handled, return true
+                return true;  // Event handled
+            }
+        } else if (keyEvent->key() == Qt::Key_Backspace) {
+            // Handle Backspace key press event
+
+            // Check if the textInput is empty
+            if (textInput->toPlainText().isEmpty()) {
+                // Remove the QTextEdit from the layout
+                removeWidget(textInput);
+
+                // Delete the textInput widget and set it to nullptr
+                textInput->deleteLater();
+                textInput = nullptr;
+
+                // Event is handled, return true
+                return true;  // Event handled
+            }
+        }
+    }
+
+    // Event is not related to textInput or not handled, return false
+    return false;  // Event not handled
 }
-
-
 
 

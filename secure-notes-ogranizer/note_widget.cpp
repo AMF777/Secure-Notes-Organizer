@@ -73,7 +73,7 @@ note_widget::note_widget(Note *note, QWidget *parent)
 
     // to doo: get some coponents
     std::string concatComponents="";
-    // concatComponents.substr(std::min(40,(int)concatComponents.size()))
+    // concatComponents.substr(std::min(40,(int)concatComponents.size() ) )
     preview = new QLabel(QString::fromStdString(concatComponents) );
     preview->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     preview->setWordWrap(true);

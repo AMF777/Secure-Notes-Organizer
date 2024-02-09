@@ -30,18 +30,20 @@ int main(int argc, char *argv[])
     // User user;
     // user.sethashedPassword("2001");
     // user.setemail("mo3@gmail.com");
-    // user.setuserId(1);
     // std::string response = "";
-    // // bool flag = c1.ClientLogIn(&user, &response);
-    // // std::cout<<response<<std::endl;
+    // bool flag = c1.ClientLogIn(&user, &response);
+    // std::cout<<response<<std::endl;
 
-    // NoteComponent temp;
-    // temp.setnoteId(6);
-    // temp.setcomponentId(5);
-    // bool flag1 = c1.ClientDeleteComponent(&temp, &user, &response);
+    // Note* tnote = new Note(1,"xyz title");
+    // flag = c1.ClientCreateNote(tnote, &response);
+    // std::cout<<response<<std::endl;
+    // bool flag1 = c1.ClientListNote(&user, &response, List);
     // std::cout<<response<<std::endl;
     // if(flag1){
-    //     std::cout<<response<<std::endl;
+    //     for(int i=0;i<List.size();i++){
+    //         List[i].print();
+    //         std::cout << "/////////////////////////////"<<std::endl;
+    //     }
     // }
     /*User user;
     user.setuserName("user3");
@@ -86,8 +88,21 @@ int main(int argc, char *argv[])
     // switcher_widget w;
     // w.show();
 
+    // main_window w;
+    // w.show();
 
+    // QWidget mainWindow;
+    // QVBoxLayout *mainLayout = new QVBoxLayout(&mainWindow);
 
+    // // Create a button to open the dialog
+    // QPushButton *openDialogButton = new QPushButton("Open Dialog");
+    // mainLayout->addWidget(openDialogButton);
+
+    // // Create the custom dialog
+    // add_note_dialog *addNoteDialog = new add_note_dialog(&mainWindow);
+
+    // // Connect the button click to show the dialog
+    // QObject::connect(openDialogButton, &QPushButton::clicked, addNoteDialog, &add_note_dialog::exec);
 
     // mainWindow.show();
     // type width and height

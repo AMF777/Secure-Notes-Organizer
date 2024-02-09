@@ -116,13 +116,13 @@ void signup::signupButtonClicked(const QString username, const QString email, co
         return;
     }
     errMsg->hide();
+    ClientController c1("127.0.0.1", "12345");
     User* user  =new User();
     user->setuserName(username.toStdString() );
     user->setemail(email.toStdString() );
-    QString hashedPassword = user->hashPassword(password);
-    user->sethashedPassword(hashedPassword.toStdString());
+    user->sethashedPassword(password.toStdString() );
     std::string response = "";
-    bool flag = client.ClientSignUp(user, &response);
+    bool flag = c1.ClientSignUp(user, &response);
 
     qDebug()<<response;
     if(flag){

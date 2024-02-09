@@ -49,5 +49,4 @@ struct adl_serializer<Note> {
     }
 };
 }  // namespace nlohmann
-
-#endif //NOTE_H
+#endif

@@ -7,7 +7,6 @@
 #include "back-end/clientcontroller.h"
 
 using namespace std;
-using namespace GlobalClient;
 
 class sidebar_vlayout : public QVBoxLayout
 {
@@ -22,16 +21,11 @@ public:
                              const std::function<void()> swapToShow,
                              const std::function<void(QString, QString)> initEditorFromFile,
                              QWidget *parent = nullptr);
-    explicit sidebar_vlayout( QWidget *mainWindowRef,
-                            const std::function<void()> swapToEdit,
-                             const std::function<void()> swapToShow,
-                             const std::function<void(QString, QString)> initEditorFromFile,
-                             QWidget *parent = nullptr);
     void createButton(const QString &iconPath, const QString &className, const QSize iconSize,
                       Qt::Alignment alignment, const std::function<void()> &onClick);
     void setUser(User* user);
 
-    QWidget *mainWindowRef;
+
 private:
     static const QSize iconSize;
 

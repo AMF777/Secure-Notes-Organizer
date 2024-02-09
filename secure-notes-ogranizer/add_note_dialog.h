@@ -9,9 +9,6 @@
 
 #include "label_input_vlayout.h"
 #include "button_icon_vlayout.h"
-#include "back-end/clientcontroller.h"
-
-using namespace GlobalClient;
 
 class add_note_dialog : public QDialog
 {

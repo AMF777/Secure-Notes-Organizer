@@ -8,8 +8,6 @@
 #include <QPushButton>
 #include "back-end/clientcontroller.h"
 
-using namespace GlobalClient;
-
 edit_notes_vlayout::edit_notes_vlayout(QWidget *parent)
     : QVBoxLayout{parent}
 {
@@ -77,8 +75,9 @@ edit_notes_vlayout::edit_notes_vlayout(User* user, QWidget *parent) : QVBoxLayou
 
     std::vector<Note> notes;
     std::string response = "";
+    ClientController c1("127.0.0.1", "12345");
     // bool ClientListNote(User *user, std::string* response, std::vector<Note>& NotesList); //client set (user id) and get (vector(NotesList))
-    bool flag = client.ClientListNote(user, &response, notes);
+    bool flag = c1.ClientListNote(user, &response, notes);
     if(!flag){
         qDebug()<<response;
     }
@@ -127,25 +126,34 @@ edit_notes_vlayout::edit_notes_vlayout(QWidget *mainWindowRef, User *user, QWidg
 
     std::vector<Note> notes;
     std::string response = "";
+    ClientController c1("127.0.0.1", "12345");
     // bool ClientListNote(User *user, std::string* response, std::vector<Note>& NotesList); //client set (user id) and get (vector(NotesList))
-    bool flag = client.ClientListNote(user, &response, notes);
+    bool flag = c1.ClientListNote(user, &response, notes);
     if(!flag){
         qDebug()<<response;
     }
 
-    notesCounter += notes.size();
-
     for(auto& note:notes){
         // this memory is leaked
         // ccan use smart pointer
-        Note* notePointer = new Note(note);
-        b1->addLayout(new note_widget(mainWindowRef, notePointer));
+        Note* tmp=new Note(note.getuserId(), note.gettitle() );
+        b1->addLayout(new note_widget(mainWindowRef, tmp ) );
     }
-
-
     b1->setAlignment(Qt::AlignLeft);
     addLayout(b1);
+
     addWidget(label2);
+    // QHBoxLayout* b2= new QHBoxLayout();
+    // b2->addLayout(new note_widget() );
+    // b2->addLayout(new note_widget() );
+    // b2->addLayout(new note_widget() );
+    // addLayout(b2);
+
     addWidget(label3);
+    // QHBoxLayout* b3= new QHBoxLayout();
+    // b3->addLayout(new note_widget() );
+    // b3->addLayout(new note_widget() );
+    // b3->addLayout(new note_widget() );
+    // addLayout(b3);
     setAlignment(Qt::AlignTop);
 }
