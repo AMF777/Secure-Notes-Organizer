@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/res">
+        <file>img/edit.png</file>
+        <file>img/logout.png</file>
+        <file>img/plus.png</file>
+        <file>img/profile.png</file>
+        <file>img/siemens-logo.png</file>
+        <file>img/g.png</file>
+        <file>img/select_column.png</file>
+        <file>img/share.png</file>
+        <file>styles/styles.qss</file>
+        <file>img/file.png</file>
+        <file>img/avatar.png</file>
+        <file>img/camera.png</file>
+        <file>img/kitten.jpeg</file>
+        <file>img/cancel.png</file>
+        <file>img/note-icon.png</file>
+        <file>img/saveNote.png</file>
+        <file>img/deleteNote.png</file>
+    </qresource>
+</RCC>
