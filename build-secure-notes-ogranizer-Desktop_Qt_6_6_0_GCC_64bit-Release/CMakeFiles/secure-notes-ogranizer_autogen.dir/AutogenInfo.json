@@ -1,0 +1,279 @@
+{
+	"BUILD_DIR" : "/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/secure-notes-ogranizer_autogen",
+	"CMAKE_BINARY_DIR" : "/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/youssef/Mary/secure-notes-ogranizer",
+	"CMAKE_EXECUTABLE" : "/usr/bin/cmake",
+	"CMAKE_SOURCE_DIR" : "/home/youssef/Mary/secure-notes-ogranizer",
+	"HEADERS" : 
+	[
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/add_note_dialog.h",
+			"MU",
+			"EWIEGA46WW/moc_add_note_dialog.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/back-end/Note.h",
+			"MU",
+			"HGE54JKJB5/moc_Note.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/back-end/NoteComponent.h",
+			"MU",
+			"HGE54JKJB5/moc_NoteComponent.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/back-end/Tag.h",
+			"MU",
+			"HGE54JKJB5/moc_Tag.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/back-end/User.h",
+			"MU",
+			"HGE54JKJB5/moc_User.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/back-end/clientconnection.h",
+			"MU",
+			"HGE54JKJB5/moc_clientconnection.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/back-end/clientcontroller.h",
+			"MU",
+			"HGE54JKJB5/moc_clientcontroller.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/back-end/json.h",
+			"MU",
+			"HGE54JKJB5/moc_json.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/back-end/json.hpp",
+			"MU",
+			"HGE54JKJB5/moc_json_1.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/button_icon_vlayout.h",
+			"MU",
+			"EWIEGA46WW/moc_button_icon_vlayout.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/clickable_label.h",
+			"MU",
+			"EWIEGA46WW/moc_clickable_label.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/component.h",
+			"MU",
+			"EWIEGA46WW/moc_component.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/constants.h",
+			"MU",
+			"EWIEGA46WW/moc_constants.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/custom_widget.h",
+			"MU",
+			"EWIEGA46WW/moc_custom_widget.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/dropdown_label.h",
+			"MU",
+			"EWIEGA46WW/moc_dropdown_label.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/img_msg_vlayout.h",
+			"MU",
+			"EWIEGA46WW/moc_img_msg_vlayout.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/label_input_vlayout.h",
+			"MU",
+			"EWIEGA46WW/moc_label_input_vlayout.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/main_window.h",
+			"MU",
+			"EWIEGA46WW/moc_main_window.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/note_editor.h",
+			"MU",
+			"EWIEGA46WW/moc_note_editor.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/note_widget.h",
+			"MU",
+			"EWIEGA46WW/moc_note_widget.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/profile_dialog.h",
+			"MU",
+			"EWIEGA46WW/moc_profile_dialog.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/round_img_label.h",
+			"MU",
+			"EWIEGA46WW/moc_round_img_label.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/show_notes_vlayout.h",
+			"MU",
+			"EWIEGA46WW/moc_show_notes_vlayout.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/sidebar_vlayout.h",
+			"MU",
+			"EWIEGA46WW/moc_sidebar_vlayout.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/signin.h",
+			"MU",
+			"EWIEGA46WW/moc_signin.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/signout.h",
+			"MU",
+			"EWIEGA46WW/moc_signout.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/signup.h",
+			"MU",
+			"EWIEGA46WW/moc_signup.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/switcher_widget.h",
+			"MU",
+			"EWIEGA46WW/moc_switcher_widget.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/tag_widget.h",
+			"MU",
+			"EWIEGA46WW/moc_tag_widget.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/tags_hlayout.h",
+			"MU",
+			"EWIEGA46WW/moc_tags_hlayout.cpp"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/textedit_template.h",
+			"MU",
+			"EWIEGA46WW/moc_textedit_template.cpp"
+		]
+	],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/secure-notes-ogranizer_autogen/include",
+	"MOC_COMPILATION_FILE" : "/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/secure-notes-ogranizer_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : [ "QT_CORE_LIB", "QT_GUI_LIB", "QT_NO_DEBUG", "QT_WIDGETS_LIB" ],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"/home/youssef/Qt6.6.0/6.6.0/gcc_64/include/QtCore",
+		"/home/youssef/Qt6.6.0/6.6.0/gcc_64/include",
+		"/home/youssef/Qt6.6.0/6.6.0/gcc_64/mkspecs/linux-g++",
+		"/home/youssef/Qt6.6.0/6.6.0/gcc_64/include/QtWidgets",
+		"/home/youssef/Qt6.6.0/6.6.0/gcc_64/include/QtGui",
+		"/usr/include",
+		"/usr/include/c++/9",
+		"/usr/include/x86_64-linux-gnu/c++/9",
+		"/usr/include/c++/9/backward",
+		"/usr/lib/gcc/x86_64-linux-gnu/9/include",
+		"/usr/local/include",
+		"/usr/include/x86_64-linux-gnu"
+	],
+	"MOC_MACRO_NAMES" : 
+	[
+		"Q_OBJECT",
+		"Q_GADGET",
+		"Q_NAMESPACE",
+		"Q_GADGET_EXPORT",
+		"Q_NAMESPACE_EXPORT"
+	],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : true,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"/usr/bin/g++",
+		"-dM",
+		"-E",
+		"-c",
+		"/usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/secure-notes-ogranizer_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 6,
+	"PARSE_CACHE_FILE" : "/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/CMakeFiles/secure-notes-ogranizer_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "/home/youssef/Qt6.6.0/6.6.0/gcc_64/./libexec/moc",
+	"QT_UIC_EXECUTABLE" : "/home/youssef/Qt6.6.0/6.6.0/gcc_64/./libexec/uic",
+	"QT_VERSION_MAJOR" : 6,
+	"SETTINGS_FILE" : "/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/CMakeFiles/secure-notes-ogranizer_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[ "/home/youssef/Mary/secure-notes-ogranizer/add_note_dialog.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/back-end/Note.cpp", "MU" ],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/back-end/NoteComponent.cpp",
+			"MU"
+		],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/back-end/Tag.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/back-end/User.cpp", "MU" ],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/back-end/clientconnection.cpp",
+			"MU"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/back-end/clientcontroller.cpp",
+			"MU"
+		],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/button_icon_vlayout.cpp",
+			"MU"
+		],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/clickable_label.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/component.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/constants.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/custom_widget.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/dropdown_label.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/img_msg_vlayout.cpp", "MU" ],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/label_input_vlayout.cpp",
+			"MU"
+		],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/main.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/main_window.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/note_editor.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/note_widget.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/profile_dialog.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/round_img_label.cpp", "MU" ],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/show_notes_vlayout.cpp",
+			"MU"
+		],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/sidebar_vlayout.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/signin.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/signout.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/signup.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/switcher_widget.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/tag_widget.cpp", "MU" ],
+		[ "/home/youssef/Mary/secure-notes-ogranizer/tags_hlayout.cpp", "MU" ],
+		[
+			"/home/youssef/Mary/secure-notes-ogranizer/textedit_template.cpp",
+			"MU"
+		]
+	],
+	"UIC_OPTIONS" : [],
+	"UIC_SEARCH_PATHS" : [],
+	"UIC_SKIP" : [],
+	"UIC_UI_FILES" : [],
+	"VERBOSITY" : 0
+}

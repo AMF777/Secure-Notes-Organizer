@@ -1,0 +1,8 @@
+/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/CMakeFiles/install/strip.dir
+/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/CMakeFiles/install/local.dir
+/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/CMakeFiles/install.dir
+/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/CMakeFiles/list_install_components.dir
+/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/CMakeFiles/rebuild_cache.dir
+/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/CMakeFiles/edit_cache.dir
+/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/CMakeFiles/secure-notes-ogranizer.dir
+/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/CMakeFiles/secure-notes-ogranizer_autogen.dir

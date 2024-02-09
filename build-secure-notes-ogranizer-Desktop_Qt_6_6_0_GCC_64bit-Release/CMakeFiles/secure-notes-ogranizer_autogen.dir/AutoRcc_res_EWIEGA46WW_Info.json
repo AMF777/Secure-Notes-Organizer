@@ -1,0 +1,38 @@
+{
+	"BUILD_DIR" : "/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/secure-notes-ogranizer_autogen",
+	"CMAKE_BINARY_DIR" : "/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/youssef/Mary/secure-notes-ogranizer",
+	"CMAKE_SOURCE_DIR" : "/home/youssef/Mary/secure-notes-ogranizer",
+	"INCLUDE_DIR" : "/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/secure-notes-ogranizer_autogen/include",
+	"INPUTS" : 
+	[
+		"/home/youssef/Mary/secure-notes-ogranizer/img/cancel.png",
+		"/home/youssef/Mary/secure-notes-ogranizer/img/deleteNote.png",
+		"/home/youssef/Mary/secure-notes-ogranizer/img/camera.png",
+		"/home/youssef/Mary/secure-notes-ogranizer/img/plus.png",
+		"/home/youssef/Mary/secure-notes-ogranizer/img/select_column.png",
+		"/home/youssef/Mary/secure-notes-ogranizer/img/kitten.jpeg",
+		"/home/youssef/Mary/secure-notes-ogranizer/img/logout.png",
+		"/home/youssef/Mary/secure-notes-ogranizer/img/siemens-logo.png",
+		"/home/youssef/Mary/secure-notes-ogranizer/img/note-icon.png",
+		"/home/youssef/Mary/secure-notes-ogranizer/img/file.png",
+		"/home/youssef/Mary/secure-notes-ogranizer/img/avatar.png",
+		"/home/youssef/Mary/secure-notes-ogranizer/img/g.png",
+		"/home/youssef/Mary/secure-notes-ogranizer/img/profile.png",
+		"/home/youssef/Mary/secure-notes-ogranizer/img/edit.png",
+		"/home/youssef/Mary/secure-notes-ogranizer/img/share.png",
+		"/home/youssef/Mary/secure-notes-ogranizer/img/saveNote.png",
+		"/home/youssef/Mary/secure-notes-ogranizer/styles/styles.qss"
+	],
+	"LOCK_FILE" : "/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/CMakeFiles/secure-notes-ogranizer_autogen.dir/AutoRcc_res_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "res" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_res.cpp",
+	"RCC_EXECUTABLE" : "/home/youssef/Qt6.6.0/6.6.0/gcc_64/./libexec/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/CMakeFiles/secure-notes-ogranizer_autogen.dir/AutoRcc_res_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/home/youssef/Mary/secure-notes-ogranizer/res.qrc",
+	"VERBOSITY" : 0
+}

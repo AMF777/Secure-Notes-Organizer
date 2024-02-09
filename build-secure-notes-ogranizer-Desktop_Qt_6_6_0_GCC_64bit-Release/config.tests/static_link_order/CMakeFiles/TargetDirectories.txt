@@ -1,0 +1,5 @@
+/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/config.tests/static_link_order/CMakeFiles/rebuild_cache.dir
+/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/config.tests/static_link_order/CMakeFiles/edit_cache.dir
+/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/config.tests/static_link_order/CMakeFiles/static_link_order_test.dir
+/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/config.tests/static_link_order/CMakeFiles/staticLib.dir
+/home/youssef/Mary/build-secure-notes-ogranizer-Desktop_Qt_6_6_0_GCC_64bit-Release/config.tests/static_link_order/CMakeFiles/objLib.dir
