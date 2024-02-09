@@ -4,7 +4,6 @@
 #include <boost/asio.hpp>
 #include <iostream>
 #include "json.hpp"
-
 using boost::asio::ip::tcp;
 using json = nlohmann::json;
 
@@ -14,9 +13,9 @@ public:
     ClientConnection(const std::string& server_address, const std::string& server_port);
     void Send(const json& message);
     json Receive();
+    void closeConnection();
 
 private:
-    void closeConnection();
     std::string server_address_;
     std::string server_port_;
     boost::asio::io_context io_context_;

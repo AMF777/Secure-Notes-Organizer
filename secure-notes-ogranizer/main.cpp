@@ -14,101 +14,10 @@ void load_style_sheet();
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
-    /*User user;
-    user.setuserName("user3");
-    user.sethashedPassword("1234");
-    user.setemail("user3@gmail.com");
-    std::string response = "";
-    bool flag = c1.ClientSignUp(&user, &response);
-    std::cout<<response<<std::endl;
-    if(flag){
-        int id = user.getuserId();
-        std::cout<<id<<std::endl;
-    }*/
-    // ClientController c1("127.0.0.1", "12345");
-    // User user;
-    // user.sethashedPassword("2001");
-    // user.setemail("mo3@gmail.com");
-    // std::string response = "";
-    // bool flag = c1.ClientLogIn(&user, &response);
-    // std::cout<<response<<std::endl;
-
-    // Note* tnote = new Note(1,"xyz title");
-    // flag = c1.ClientCreateNote(tnote, &response);
-    // std::cout<<response<<std::endl;
-    // bool flag1 = c1.ClientListNote(&user, &response, List);
-    // std::cout<<response<<std::endl;
-    // if(flag1){
-    //     for(int i=0;i<List.size();i++){
-    //         List[i].print();
-    //         std::cout << "/////////////////////////////"<<std::endl;
-    //     }
-    // }
-    /*User user;
-    user.setuserName("user3");
-    user.sethashedPassword("1234");
-    user.setemail("user3@gmail.com");
-    std::string response = "";
-    bool flag = c1.ClientSignUp(&user, &response);
-    std::cout<<response<<std::endl;
-    if(flag){
-        int id = user.getuserId();
-        std::cout<<id<<std::endl;
-    }*/
-    // User user;
-    // user.sethashedPassword("2001");
-    // user.setemail("mo3@gmail.com");
-    // std::string response = "";
-    // bool flag = c1.ClientLogIn(&user, &response);
-    // std::cout<<response<<std::endl;
-    // if(flag){
-    //     std::string name = user.getuserName();
-    //     int id = user.getuserId();
-    //     std::cout<<id<<std::endl<<name<<std::endl;
-    // }
-
-    // std::vector<Note> List;
-    // bool flag1 = c1.ClientListNote(&user, &response, List);
-    // std::cout<<response<<std::endl;
-    // if(flag1){
-    //     for(int i=0;i<List.size();i++){
-    //         List[i].print();
-    //         std::cout << "/////////////////////////////"<<std::endl;
-    //     }
-    // }
-
     load_style_sheet();
 
     switcher_widget w;
     w.show();
-
-    // signup w;
-    // w.show();
-    // switcher_widget w;
-    // w.show();
-
-    // main_window w;
-    // w.show();
-
-    // QWidget mainWindow;
-    // QVBoxLayout *mainLayout = new QVBoxLayout(&mainWindow);
-
-    // // Create a button to open the dialog
-    // QPushButton *openDialogButton = new QPushButton("Open Dialog");
-    // mainLayout->addWidget(openDialogButton);
-
-    // // Create the custom dialog
-    // add_note_dialog *addNoteDialog = new add_note_dialog(&mainWindow);
-
-    // // Connect the button click to show the dialog
-    // QObject::connect(openDialogButton, &QPushButton::clicked, addNoteDialog, &add_note_dialog::exec);
-
-    // mainWindow.show();
-    // type width and height
-    // int initialWidth = w.width();
-    // int initialHeight = w.height();
-    // std::cout << "Initial: Width = " << initialWidth << ", Height = " << initialHeight << std::endl;
     return a.exec();
 }
 

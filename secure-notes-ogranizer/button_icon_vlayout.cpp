@@ -11,7 +11,7 @@ button_icon_vlayout::button_icon_vlayout(const QString &iconPath, const QString 
     icon = new QIcon(iconPath);
 
     // Set the icon and its size for the button
-    button->setIcon(*icon);
+    button->setIcon((*icon).pixmap(iconSize));
     button->setIconSize(iconSize);
 
     // Connect the clicked signal of the button to the provided onClick function

@@ -2,23 +2,27 @@
 
 #include <QWidget>
 #include <algorithm>
+#include <vector>
+#include <QFontMetrics>
+
 #include "main_window.h"
+#include "back-end/Tag.h"
+#include "back-end/NoteComponent.h"
 
 
 const int w=80;
 const int h=80;
+
 note_widget::note_widget(QWidget *parent)
     : QVBoxLayout{parent}
 {
 
-    QWidget *centralWidget= new QWidget();
+    centralWidget= new QWidget();
+    centralWidget->setProperty("class","note-widget");
     centralWidget->installEventFilter(this);
-
     centralWidget->setFixedSize(200,140);
-    centralWidget->setProperty("class","note-widget black-border");
     centralWidget->setCursor(Qt::PointingHandCursor);
-    // connect(centralWidget, &clickable_widget::clicked, this, &note_widget::handleButtonClick);
-    // imageLabel = new QLabel();
+
     title = new QLabel("Title: Note Title....");
     title->setProperty("class","note-widget-title");
     tags = new QLabel("Tags: Sports, School, Work, ...");
@@ -28,19 +32,10 @@ note_widget::note_widget(QWidget *parent)
     preview->setWordWrap(true);
 
     tags->setProperty("class","note-widget-preview");
-    // Load the image
-
-    // QPixmap image(":/res/img/note-icon.png");
-    // image = image.scaled(w,h,Qt::KeepAspectRatio);
-    // imageLabel->setPixmap(image);
-    // imageLabel->setProperty("class","note-widget");
 
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
     layout->setAlignment(Qt::AlignTop);
 
-    // layout->setSpacing(0);
-    // layout->setContentsMargins(0,0,0,0);
-    // layout->addWidget(imageLabel);
     layout->addWidget(title);
     layout->addWidget(tags);
     layout->addWidget(preview);
@@ -49,48 +44,73 @@ note_widget::note_widget(QWidget *parent)
 
 }
 
-note_widget::note_widget(Note *note, QWidget *parent)
+note_widget::note_widget(Note *note, QWidget *parent) : QVBoxLayout{parent}
 {
     this->note = note;
-    QWidget *centralWidget= new QWidget();
+    centralWidget= new QWidget();
     centralWidget->installEventFilter(this);
 
     centralWidget->setFixedSize(200,140);
-    centralWidget->setProperty("class","note-widget black-border");
+
+    centralWidget->setAttribute(Qt::WA_StyleSheet, true);
+    // centralWidget->setProperty("class","note-widget");
     centralWidget->setCursor(Qt::PointingHandCursor);
 
     std::string noteTitle=note->gettitle();
-    // noteTitle.substr(std::min(10,(int)(noteTitle.size()) )noteTitle.substr(std::min(10,(int)(noteTitle.size()) )+"..."
-    title = new QLabel(QString::fromStdString(noteTitle) );
-    title->setProperty("class","note-widget-title");
+    noteTitle=noteTitle.substr(0, std::min(15,(int)noteTitle.size() ) );
 
+    title = new QLabel(QString::fromStdString(noteTitle) );
+    title->setProperty("class","note-widget-title note-widget");
+
+    std::vector<Tag> tagsList;
+    std::string response;
+
+    GlobalClient::client.ClientListNoteTags(note,&response,tagsList);
     // to do: tags
     std::string concatTags="";
-    // concat ttags together
-    // concatTags.substr(std::min(14,(int)concatTags.size() ) )+"..."
+
+    for(int i=0,tagsN=tagsList.size();i<tagsN;i++){
+        tagsVector.push_back(tagsList[i].gettagName());
+        concatTags+=tagsList[i].gettagName();
+        if(i!=tagsN-1)concatTags+=", ";
+    }
+    concatTags=concatTags.substr(0, std::min(20,(int)concatTags.size() ) );
     tags = new QLabel(QString::fromStdString(concatTags) );
     tags->setProperty("class","note-widget-tags");
-
     // to doo: get some coponents
+
+    std::vector<NoteComponent> noteComponents;
+    GlobalClient::client.ClientListComponents(note,&response,noteComponents);
+
     std::string concatComponents="";
-    // concatComponents.substr(std::min(40,(int)concatComponents.size() ) )
+    for(int i=0,compsN=noteComponents.size();i<compsN;i++){
+        std::string line = textEdit::decodeCaesarCipher(noteComponents[i].getcomponentContent());
+        concatComponents += line;
+        if(i!=compsN-1)concatComponents+=" ";
+    }
+
+    concatComponents=concatComponents.substr(0, std::min(40,(int)concatComponents.size() ) );
     preview = new QLabel(QString::fromStdString(concatComponents) );
-    preview->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+    preview->setMaximumWidth(170);
     preview->setWordWrap(true);
+    preview->setAlignment(Qt::AlignLeft);
 
     tags->setProperty("class","note-widget-preview");
 
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
+    centralWidget->setLayout(layout);
+
+
     layout->setAlignment(Qt::AlignTop);
 
-    // layout->setSpacing(0);
-    // layout->setContentsMargins(0,0,0,0);
-    // layout->addWidget(imageLabel);
+
     layout->addWidget(title);
     layout->addWidget(tags);
     layout->addWidget(preview);
 
     addWidget(centralWidget);
+    setAlignment(Qt::AlignCenter);
+    setContentsMargins(10,10,10,10);
 }
 
 note_widget::note_widget(QWidget *mainWindowRef, Note *note, QWidget *parent): note_widget(note,parent)
@@ -100,17 +120,11 @@ note_widget::note_widget(QWidget *mainWindowRef, Note *note, QWidget *parent): n
 
 bool note_widget::eventFilter(QObject *obj, QEvent *event)
 {
-    // qDebug() << "Event filter called for object of type:" << typeid(*obj).name();
     if (event->type() == QEvent::MouseButtonPress) {
-
-        qDebug() << "clicked on widget";
         main_window *ref=(main_window*)mainWindowRef;
         ref->initEditorFromNote(this->note);
-
     }
 
-    // // Continue with default event handling
-    // return QWidget::eventFilter(obj, event);
     return true;
 }
 

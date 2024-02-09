@@ -7,29 +7,29 @@
 #include <QVector>
 #include "qtextedit.h"
 #include "tag_widget.h"
+#include "back-end/clientcontroller.h"
+
+using namespace GlobalClient;
 
 class TagsLayout : public QHBoxLayout {
     Q_OBJECT
 
 public:
     explicit TagsLayout(QWidget* parent = nullptr);
+    explicit TagsLayout(Note* note, QWidget* parent = nullptr);
     ~TagsLayout();
+    void createTag(const QString &text, bool loadedFromDatabase, int id, bool insideView = false);
+    void loadTags();
+    QVector<TagWidget*> tags;
 
 private slots:
-    void addButtonPressed();
     void removeTag(TagWidget* tag);
 
-protected:
-    bool eventFilter(QObject* obj, QEvent* event) override;
-
 private:
-    QPushButton* addButton;
-    QVector<TagWidget*> tags;
-    QTextEdit* textInput;
     bool tagExists(const QString& tagText) const;
+    int tagId;
 
-    void createTag(const QString& text);
-
+    Note* note;
 };
 
 #endif // TAGS_HLAYOUT_H

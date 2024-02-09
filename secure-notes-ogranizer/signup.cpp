@@ -110,26 +110,27 @@ signup::signup(QWidget *parent)
 
 void signup::signupButtonClicked(const QString username, const QString email, const QString password, const QString confirmPassword)
 {
+    errMsg->hide();
     if(password != confirmPassword){
         errMsg->setText("The Passwords do not match. Please try again");
         errMsg->show();
         return;
     }
-    errMsg->hide();
-    ClientController c1("127.0.0.1", "12345");
+
     User* user  =new User();
     user->setuserName(username.toStdString() );
     user->setemail(email.toStdString() );
-    user->sethashedPassword(password.toStdString() );
-    std::string response = "";
-    bool flag = c1.ClientSignUp(user, &response);
+    QString hashedPassword = user->hashPassword(password);
+    user->sethashedPassword(hashedPassword.toStdString() );
 
+    std::string response = "";
+    bool flag = client.ClientSignUp(user, &response);
     qDebug()<<response;
     if(flag){
         qDebug()<<"sign up success";
         parentWidget()->close();
         // create a new main_windooconsttructor that take in  email of  user
-        main_window *mw = new main_window();
+        main_window *mw = new main_window(user);
         mw->show();
         return;
     }

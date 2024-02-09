@@ -49,7 +49,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         back-end/clientconnection.cpp back-end/clientconnection.h
         back-end/clientcontroller.cpp back-end/clientcontroller.h
         back-end/json.h back-end/json.hpp
-        back-end/Note.cpp back-end/Note.h
+        back-end/Note.h back-end/Note.cpp
         back-end/NoteComponent.cpp back-end/NoteComponent.h
         back-end/Tag.cpp back-end/Tag.h
         back-end/User.cpp back-end/User.h

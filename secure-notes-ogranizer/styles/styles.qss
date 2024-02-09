@@ -108,8 +108,9 @@
 }
 
 #timeAgoLabel{
-    color: #000000;
-    font-size: 16px;
+    color: black;
+    font-size: 18px;
+    font-weight:bold;
     margin: 20px 20px 0 0;
 }
 
@@ -122,9 +123,9 @@
     font-weight: bold;
     max-height: 40px;
     font-size: 30px;
-    margin: 20px 0 0 80px;
     border: none;
     color: #d9d9d9;
+    color: #787a7a;
     background-color: #f0f0f0;
 }
 
@@ -188,7 +189,7 @@ QScrollBar::sub-line:vertical {
 }
 
 .tagText {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
     letter-spacing: 0.025em;
     font-style: normal;
@@ -201,22 +202,30 @@ QScrollBar::sub-line:vertical {
 .tagButtons {
     border: none;
 }
-
-.textInput{
-    max-width:80px;
-    max-height:20px;
+.createTagButton{
+    max-width: 60px;
     border: 0;
+    margin-bottom:10px;
+}
+.textInput{
+    max-width:100px;
+    max-height:24px;
+    max-height:24px;
+    padding: 3px;
+    border: 0;
+    background-color:white;
+    background-color:#f0f0f0;
 }
 .edit-notes-label{
     font-size:22px;
     font-weight:bold;
 }
 .note-widget{
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    padding:8px;
-    border:2px solid #cdcdcd;
-    background-color: #d3d7db;
+    border-top-left-radius: 8px !important;
+    border-top-right-radius: 8px !important;
+    padding:8px !important;
+    border:2px solid #cdcdcd !important;
+    background-color: #d3d7db !important;
 }
 .note-widget-title{
     font-size:18px;
@@ -233,4 +242,27 @@ QScrollBar::sub-line:vertical {
 .note-widget-preview{
     font-size:12px;
     padding:0px;
+}
+.main-window-bg{
+    background-color: #e8f4f8;
+}
+.search-bar{
+    padding: 5px;
+    border:2px solid #ADD8E6;
+    border-radius:5px;
+    margin: 0px 0px 10px 0px;
+}
+.none-background{
+    background-color: none;
+}
+
+.savedMessageLabel{
+    font-size:10px;
+    font-weight:bold;
+    color: black;
+}
+
+.savedMessageDialog{
+    padding: 3px 5px;
+    background-color: #16a34a;
 }

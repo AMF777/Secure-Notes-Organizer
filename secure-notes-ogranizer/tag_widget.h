@@ -12,18 +12,25 @@ class TagWidget : public QWidget {
 public:
     explicit TagWidget(const QString& text, QHBoxLayout* layout, QWidget* parent = nullptr);
 
-    void setText(const QString& text);
-    QString getText() const;
+    void setText(QString& text);
+    QString getText();
 
+    int getTagId() const;
+    void setTagId(int newTagId);
+    QLabel* labelText;
 signals:
     void tagRemoved(TagWidget* tag);
+    void tagClicked(QString tagName);
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 private slots:
     void onRemoveButtonClicked();
 
 private:
-    QLabel* labelText;
     QPushButton* removeButton;
+    int tagId;
 };
 
 #endif // TAG_WIDGET_H

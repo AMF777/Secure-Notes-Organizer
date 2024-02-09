@@ -14,16 +14,20 @@
 #include "sidebar_vlayout.h"
 #include "back-end/User.h"
 #include "back-end/Note.h"
+
+using namespace GlobalClient;
+
 class main_window : public QMainWindow
 {
     Q_OBJECT
 public:
+
     explicit main_window(QWidget *parent = nullptr);
     explicit main_window(User* user, QWidget *parent = nullptr);
 
     void helloWorld();
     void initEditorFromNote(Note* note);
-
+    void refreshViewNotes(bool goBack=true);
     User* user;
     NoteEditor* noteLayout;
     edit_notes_vlayout* editNotesLayout;
@@ -31,6 +35,8 @@ public:
     QStackedWidget* stackedWidget;
     QWidget* pageOne;
     QWidget* pageTwo;
+    void setC1(const ClientController &newC1);
+    void setUserTitle(std::string username);
 private slots:
     void swapToEditNote();
     void swapToShowNotes();

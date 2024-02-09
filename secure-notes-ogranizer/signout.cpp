@@ -1,11 +1,12 @@
 #include "signout.h"
 #include "constants.h"
-#include "signin.h"
+#include "switcher_widget.h"
 #include <QGraphicsBlurEffect>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QLabel>
 #include <QTimer>
+
 signout::signout(QWidget *parent)
     : QDialog{parent}
 {
@@ -39,7 +40,8 @@ signout::signout(QWidget *parent)
 }
 
 void signout::showEvent(QShowEvent *event){
-    auto parent = parentWidget() ? parentWidget()->parentWidget() : nullptr;
+    // auto parent=parentWidget()->parentWidget();
+    auto parent=parentWidget();
     if (parent) {
         QSize parentSize = parent->size();
         int dialogWidth = parentSize.width() * 0.4;
@@ -60,7 +62,8 @@ void signout::showEvent(QShowEvent *event){
 
 void signout::hideEvent(QHideEvent *event)
 {
-    auto parent = parentWidget() ? parentWidget()->parentWidget() : nullptr;
+    // auto parent=parentWidget()->parentWidget();
+    auto parent=parentWidget();
     if(parent){
         parent->setGraphicsEffect(nullptr);
     }
@@ -69,16 +72,10 @@ void signout::hideEvent(QHideEvent *event)
 }
 
 
-
 void signout::onSignOutClicked()
 {
     accept();
     parentWidget()->close();
-    QTimer::singleShot(100, []() { // Adjust the delay as necessary
-        signin* s = new signin();
-        s->setAttribute(Qt::WA_DeleteOnClose); // Ensure it gets deleted when closed
-        s->show();
-        s->raise();
-        s->activateWindow();
-    });
+    switcher_widget* s = new switcher_widget();
+    s->show();
 }

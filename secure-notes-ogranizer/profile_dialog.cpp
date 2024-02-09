@@ -1,13 +1,19 @@
+
 #include "profile_dialog.h"
 #include "constants.h"
 #include "button_icon_vlayout.h"
 #include "round_img_label.h"
+#include "back-end/Note.h"
+#include "main_window.h"
 
 #include <QGraphicsBlurEffect>
 #include <QFileDialog>
+#include <QMessageBox>
+#include <vector>
 
 const QString LABEL_STYLE = "user-label";
 const QString INPUT_STYLE = "user-input";
+
 
 profile_dialog::profile_dialog(User *user, QWidget *parent)
     : QDialog{parent}
@@ -21,10 +27,10 @@ profile_dialog::profile_dialog(User *user, QWidget *parent)
     mainLayout = new QVBoxLayout(this);
 
     // label = new round_img_label(this);
-    avatarLabel = new round_img_label(50, 2,":/res/img/kitten.jpeg",this);
-    connect(avatarLabel, &clickable_label::clicked, this, [this]() {
-        avatarClicked();
-    });
+    // avatarLabel = new round_img_label(50, 2,":/res/img/kitten.jpeg",this);
+    // connect(avatarLabel, &clickable_label::clicked, this, [this]() {
+    //     avatarClicked();
+    // });
     // uploadButton = new button_icon_vlayout(
     //     ":/res/img/camera.png", "sidebar-button camera-corners", QSize(15,15),
     //     Qt::AlignLeft, [this](){}
@@ -32,10 +38,18 @@ profile_dialog::profile_dialog(User *user, QWidget *parent)
 
     // uploadButton->setAlignment(Qt::AlignCenter);
 
+
     notesCountLayout = new QVBoxLayout();
     notes = new QLabel("Notes");
     notes->setProperty("class","avatar-widget-label" );
-    notesCount = new QLabel("999");
+    notesCount = new QLabel();
+
+    std::vector<Note> dbnotes;
+    std::string response = "";
+    GlobalClient::client.ClientListNote(user, &response, dbnotes);
+
+    // notesCount->setText(QString::number(notesCounter));
+    notesCount->setText(QString::number(dbnotes.size() ) );
     notesCount->setProperty("class","avatar-widget-label" );
     notesCountLayout->addWidget(notes );
     notesCountLayout->addWidget(notesCount, 0, Qt::AlignCenter);
@@ -57,12 +71,12 @@ profile_dialog::profile_dialog(User *user, QWidget *parent)
 
     notesSharesLayout = new QHBoxLayout();
     notesSharesLayout->addLayout(notesCountLayout);
-    notesSharesLayout->addWidget(separator);
-    notesSharesLayout->addLayout(sharesCountLayout);
+    // notesSharesLayout->addWidget(separator);
+    // notesSharesLayout->addLayout(sharesCountLayout);
     notesSharesLayout->setAlignment(Qt::AlignCenter);
 
     avatarLayout = new QVBoxLayout();
-    avatarLayout->addWidget(avatarLabel,0,Qt::AlignCenter);
+    // avatarLayout->addWidget(avatarLabel,0,Qt::AlignCenter);
     // avatarLayout->addLayout(uploadButton);
     avatarLayout->addLayout(notesSharesLayout);
 
@@ -114,6 +128,12 @@ profile_dialog::profile_dialog(User *user, QWidget *parent)
         // inputRefs[i]->setAlignment(Qt::AlignCenter);
         mainLayout->addLayout(inputRefs[i] );
     }
+    errMsg = new QLabel();
+    mainLayout->addWidget(errMsg);
+    errMsg->hide();
+    errMsg->setWordWrap(true);
+    errMsg->setAlignment(Qt::AlignLeft);
+    errMsg->setStyleSheet("color:red;");
 
     saveButton = new QPushButton("Save");
     saveButton->setProperty("class","save-filepath-button");
@@ -137,11 +157,12 @@ profile_dialog::profile_dialog(User *user, QWidget *parent)
 
 void profile_dialog::showEvent(QShowEvent *event){
     // Calculate the desired width and height based on the parent widget's size
-    auto parent=parentWidget()->parentWidget();
+    // auto parent=parentWidget()->parentWidget();
+    auto parent=parentWidget();
     if (parent ) {
         QSize parentSize = parent->size();
-        int dialogWidth = width()+100;
-        int dialogHeight = height()+50;
+        int dialogWidth = width()+120;
+        int dialogHeight = height()+70;
         setFixedSize(dialogWidth, dialogHeight);
 
         int x = parent->geometry().x() + (parentSize.width() - dialogWidth) / 2;
@@ -161,7 +182,8 @@ void profile_dialog::showEvent(QShowEvent *event){
 void profile_dialog::hideEvent(QHideEvent *event)
 {
     qDebug()<<"hide event";
-    auto parent=parentWidget()->parentWidget();
+    // auto parent=parentWidget()->parentWidget();
+    auto parent=parentWidget();
     if(parent ){
         parent->setGraphicsEffect(nullptr);
     }
@@ -189,5 +211,54 @@ void profile_dialog::avatarClicked()
 
 void profile_dialog::saveButtonClicked()
 {
-    qDebug() << "saved";;
+    // Get the entered passwords from the layout
+    errMsg->hide();
+    QString username = usernameLayout->input->text();
+    QString password = passwordLayout->input->text();
+    QString confirmPassword = confirmPasswordLayout->input->text();
+
+    // Check if the username is empty (null or whitespace)
+    if (username.isEmpty()) {
+        errMsg->setText("username cannot be empty.");
+        errMsg->show();
+        return;
+    }
+
+    // Check if the password is empty (null or whitespace)
+    if (password.isEmpty()) {
+        errMsg->setText("Password cannot be empty.");
+        errMsg->show();
+        return;
+    }
+
+    // Check if the passwords match
+    if (password != confirmPassword){
+        errMsg->setText("Passwords do not match. Please enter matching passwords.");
+        errMsg->show();
+        return;
+    }
+
+    std::string  response;
+
+    user->setuserName(username.toStdString() );
+    QString hashedPassword = user->hashPassword(password);
+    user->sethashedPassword(hashedPassword.toStdString() );
+    // user->sethashedPassword(password.toStdString());
+
+    if (client.ClientUpdateUserData(user, &response))
+        ((main_window*)this->parentWidget() )->setUserTitle(username.toStdString() );
+    accept();
+}
+
+
+bool profile_dialog::eventFilter(QObject *obj, QEvent *event) {
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+        if (keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
+            saveButtonClicked();
+            return true; // Consume the event
+        }
+    }
+    // Pass the event to the base class
+    return QWidget::eventFilter(obj, event);
 }

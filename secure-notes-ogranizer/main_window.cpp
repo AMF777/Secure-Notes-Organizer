@@ -1,4 +1,6 @@
 #include "main_window.h"
+#include "note_widget.h"
+#include "textedit_template.h"
 
 #include "back-end/NoteComponent.h"
 #include <QHBoxLayout>
@@ -13,12 +15,22 @@ void myDelteLayout(QLayout *layout){
         else if ((widget = item->widget()) != 0) {widget->hide(); delete widget;}
         else {delete item;}
     }
-
     delete layout;
 }
+void myDeleteV2(QLayout *layout){
+    QLayoutItem * child;
+    while(layout->count()!=0){
+        child=layout->takeAt(0);
+        if(child->layout()!=0) myDelteLayout(child->layout()  );
+        else if (child->widget()!=0) delete child->widget();
+        delete child;
+    }
+}
+
 main_window::main_window(QWidget *parent)
     : QMainWindow(parent)
 {
+
     setMinimumSize(MAIN_WINDOW_MIN_WIDTH, MAIN_WINDOW_MIN_HEIGHT);
 
     // Create the central widget that contains all layouts and widgets
@@ -65,12 +77,18 @@ main_window::main_window(QWidget *parent)
 
     // Set the central widget for the main window
     setCentralWidget(centralWidget);
+
+    for(TagWidget* tag: noteLayout->tagsLayout->tags)
+        connect(tag, &TagWidget::tagClicked, editNotesLayout, &edit_notes_vlayout::filteredNotesByTag);
+
 }
 
 // each componnent should take in user rgument and uuse it
 main_window::main_window(User* user, QWidget *parent)
     : QMainWindow(parent)
 {
+    setProperty("class","main-window-bg");
+    setWindowFlags(windowFlags() |  Qt::CustomizeWindowHint);
     this->user = user;
     setMinimumSize(MAIN_WINDOW_MIN_WIDTH, MAIN_WINDOW_MIN_HEIGHT);
 
@@ -84,7 +102,7 @@ main_window::main_window(User* user, QWidget *parent)
     // Add the sidebar layout to the left side of the central widget
     // sidebarLayout = new sidebar_vlayout([this](){swapToShowNotes();},
     //                                     [this](){swapToEditNote();});
-    sidebarLayout = new sidebar_vlayout([this](){swapToShowNotes();},
+    sidebarLayout = new sidebar_vlayout(this,[this](){swapToShowNotes();},
                                         [this](){swapToEditNote();},
                                         [this](QString filePath, QString title){
                                             initEditorFromFile(filePath, title);
@@ -99,8 +117,9 @@ main_window::main_window(User* user, QWidget *parent)
     pageOne = new QWidget();
     pageTwo = new QWidget();
 
+    // NoteEditor(QWidget *mainWindowRef, std::vector<NoteComponent> noteComponents, QString title, User *user, QWidget *parent = nullptr);
     editNotesLayout = new edit_notes_vlayout(this,user);
-    noteLayout = new NoteEditor(this);
+    noteLayout = new NoteEditor(this, {}, "Title", user);
     pageOne->setLayout(noteLayout);
     pageTwo->setLayout(editNotesLayout);
     // editNotesLayout->setContentsMargins(50, 0, 0, 0);
@@ -138,38 +157,57 @@ void main_window::swapToShowNotes()
     stackedWidget->setCurrentIndex(0);  // Index of noteLayout
 }
 
+void main_window::setUserTitle(std::string username)
+{
+    editNotesLayout->label1->setText("My notes("+QString::fromStdString(username)+")" );
+}
+
 void main_window::initEditorFromFile(QString filePath, QString title)
 {
-    QStringList lines;
-    if(QFile::exists(filePath) ){
+    std::vector<NoteComponent> noteComponents; // Vector to hold NoteComponents
+    if (QFile::exists(filePath)) {
         QFile file(filePath);
-        if(!file.open(QIODevice::ReadOnly | QIODevice::Text) ){
-            qDebug()<<"couldn't open file";
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qDebug() << "Couldn't open file";
             return;
         }
         QTextStream in(&file);
-        QString fileContents = in.readAll();
-        lines = fileContents.split("\n", Qt::SkipEmptyParts);
+        while (!in.atEnd()) {
+            QString line = in.readLine();
+            // Assuming NoteComponent has a constructor that takes a QString
+            NoteComponent component;
+            component.setcomponentContent(textEdit::staticEncodeCaesarCipher(line ) );
+
+            noteComponents.push_back(component);
+        }
         file.close();
     }
 
-    myDelteLayout(noteLayout);
-    NoteEditor *newLayout= new NoteEditor(this, lines, title);
+    // Note *temp = new Note(user->getuserId(), title.toStdString());
+    // temp->settitle(title.toStdString());
+    // std::string response;
+    // if (client.ClientCreateNote(temp, &response))
+    //     qDebug() << response;
 
-    noteLayout=newLayout;
+    myDelteLayout(noteLayout);
+    // NoteEditor *newLayout = new NoteEditor(this, temp, noteComponents);
+    // has to get user to update data properly
+    NoteEditor *newLayout = new NoteEditor(this, noteComponents, title, user);
+
+    noteLayout = newLayout;
     pageOne->setLayout(noteLayout);
     pageOne->update();
     stackedWidget->setCurrentIndex(1);
 }
+
 
 void main_window::initEditorFromNote(Note *note)
 {
 
     std::vector<NoteComponent> noteComponents;
     std::string response = "";
-    ClientController c1("127.0.0.1", "12345");
 
-    bool flag = c1.ClientListComponents(note, &response, noteComponents);
+    bool flag = client.ClientListComponents(note, &response, noteComponents);
     if(!flag){
         qDebug()<<response;
         return;
@@ -178,10 +216,21 @@ void main_window::initEditorFromNote(Note *note)
 
 
     myDelteLayout(noteLayout);
-    NoteEditor *newLayout= new NoteEditor(this, note, noteComponents);
+    NoteEditor *newLayout= new NoteEditor(this, note, user);
 
     noteLayout=newLayout;
     pageOne->setLayout(noteLayout);
     pageOne->update();
     stackedWidget->setCurrentIndex(1);
+}
+
+void main_window::refreshViewNotes(bool goBack)
+{
+    myDelteLayout(editNotesLayout);
+    edit_notes_vlayout *newLayout= new edit_notes_vlayout(this, user);
+    editNotesLayout=newLayout;
+    pageTwo->setLayout(editNotesLayout);
+    pageTwo->update();
+
+    if(goBack) stackedWidget->setCurrentIndex(0);
 }

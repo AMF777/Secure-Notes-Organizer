@@ -150,6 +150,17 @@ TextEditComponent::TextEditComponent(int index, QWidget *parent) : TextEditCompo
     this->index = index;
 }
 
+NoteComponent TextEditComponent::toNoteComponent(Note *note, TextEditComponent& tec)
+{
+    textEdit *tEdit=tec.text;
+    // qDebug()<<tEdit->isItalic();
+    // qDebug()<<tEdit->isBold();
+    // NoteComponent::NoteComponent(int noteId,std::string componentContent,int fontSize,std::string fontColor,std::string backgroundColor,std::string fontFamily,std::string fontStyle,bool isBold,bool isItalic,bool isUnderlined)
+    NoteComponent cmp(note->getnoteId(), tEdit->getText().toStdString(), tEdit->getFontSize(),  tEdit->getFontColor().toStdString(), tEdit->getBackgroundColor().toStdString(), tEdit->getFontFamily().toStdString(),
+                      tEdit->getFontStyle().toStdString(),tEdit->isBold(), tEdit->isItalic(), tEdit->isUnderlined() );;
+    return cmp;
+}
+
 void TextEditComponent::onFocusChanged(bool hasFocus)
 {
     if (hasFocus)
@@ -161,14 +172,17 @@ void TextEditComponent::onFocusChanged(bool hasFocus)
 bool TextEditComponent::handleKeyPressEvent(QKeyEvent *keyEvent)
 {
     // Check if Tab key is pressed
-    if (keyEvent->key() == Qt::Key_Tab)
+    if (keyEvent->key() == Qt::Key_Tab || keyEvent->key() == Qt::Key_Down)
     {
         // Emit a signal with the index when Tab is pressed
-        emit tabKeyPressed(index);
+        emit tabKeyPressed(index, true);
 
         // Consume the event to prevent it from being processed further
         keyEvent->accept();
         return true;
+    }else if(keyEvent->key() == Qt::Key_Up){
+        // Emit a signal with the index when Tab is pressed
+        emit tabKeyPressed(index, false);
     }
     // Check if Enter key is pressed without the Shift modifier
     else if ((keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) &&

@@ -15,14 +15,6 @@
 #include <QHBoxLayout>
 #include <QFrame>
 
-// const QString signin::SIGNIN_TITLE = "Sign in";
-// const int signin::SIGNIN_WIDTH = 520;
-// const int signin::SIGNIN_HEIGHT = 620;
-// const int signin::SIEMENS_LOGO_WIDTH = 260;
-// const int signin::SIEMENS_LOGO_HEIGHT = 55;
-// const int INPUT_WIDTH=260;
-// const int LOGIN_BUTTON_WIDTH=80;
-// const int LOGIN_BUTTON_HEIGHT=32;
 signin::signin(QWidget *parent)
     : QWidget{parent}
 {
@@ -41,21 +33,11 @@ signin::signin(QWidget *parent)
         Qt::AlignCenter
     );
 
-    label_input_vlayout *emailLayout=new label_input_vlayout(
-        "Email Address:",
-        "user-label",
-        INPUT_WIDTH,
-        "user-input"
-    );
-    emailLayout->input->setText("mo3@gmail.com");
-    label_input_vlayout *passwordLayout=new label_input_vlayout(
-        "Password:",
-        "user-label",
-        INPUT_WIDTH,
-        "user-input",
-        QLineEdit::Password
-    );
-    passwordLayout->input->setText("2001");
+    emailLayout=new label_input_vlayout("Email Address:","user-label",INPUT_WIDTH,"user-input");
+    emailLayout->input->setText("siemens@gmail.com");
+    passwordLayout=new label_input_vlayout("Password:","user-label",INPUT_WIDTH,
+                                                                  "user-input",QLineEdit::Password);
+    passwordLayout->input->setText("6789");
     QPushButton *loginButton = new QPushButton("Login");
     // loginButton->setFixedWidth(LOGIN_BUTTON_WIDTH);
     // loginButton->setFixedHeight(LOGIN_BUTTON_HEIGHT);mmmm
@@ -106,23 +88,28 @@ signin::signin(QWidget *parent)
     // Add the inner center layout to the main layout
     mainLayout->addLayout(centerLayout);
 
+    installEventFilter(this);
 }
 
 void signin::loginButtonClicked(const QString email, const QString password)
 {
     errMsg->hide();
-    ClientController c1("127.0.0.1", "12345");
+    std::string response = "";
 
     User* user = new User();
     user->setemail(email.toStdString() );
-    user->sethashedPassword(password.toStdString() );
-    std::string response = "";
-    bool flag = c1.ClientLogIn(user, &response);
+    QString hashedPassword = user->hashPassword(password);
+    user->sethashedPassword(hashedPassword.toStdString() );
+    // user->sethashedPassword(password.toStdString() );
+
+    bool flag = client.ClientLogIn(user, &response);
 
     qDebug()<<response;
     if(flag){
         qDebug()<<"sign in success";
         parentWidget()->close();
+
+        close();
         // create a new main_windooconsttructor that take in  email of  user
         main_window *mw = new main_window(user);
         mw->show();
@@ -131,7 +118,6 @@ void signin::loginButtonClicked(const QString email, const QString password)
     qDebug()<<"sign in failed";
     errMsg->show();
 }
-
 void signin::forgotPasswordClicked()
 {
     qDebug()<<"forgotPasswordClicked";
@@ -147,4 +133,16 @@ void signin::createAccountClicked()
 QSize signin::sizeHint() const
 {
     return QSize(SIGNIN_WIDTH,SIGNIN_HEIGHT);
+}
+
+bool signin::eventFilter(QObject *obj, QEvent *event) {
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+        if (keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
+            loginButtonClicked(this->emailLayout->getInputText(), this->passwordLayout->getInputText() );
+            return true; // Consume the event
+        }
+    }
+    // Pass the event to the base class
+    return QWidget::eventFilter(obj, event);
 }

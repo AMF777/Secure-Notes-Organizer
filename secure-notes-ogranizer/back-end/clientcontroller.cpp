@@ -1,5 +1,12 @@
 #include "clientcontroller.h"
 
+
+namespace GlobalClient{
+    ClientController client("127.0.0.1", "12345");
+    //User user;
+    int notesCounter(0);
+}
+
 ClientController::ClientController(const std::string& server_address, const std::string& server_port)
 {
     clientConnection = new ClientConnection(server_address, server_port);
@@ -272,8 +279,8 @@ bool ClientController::ClientAddTag(Tag *tag, User* user, std::string* response)
     *response = receive_message["Response"];
     if(receive_message["Response"] == "tag added successfully")
     {
-        Tag tag_temp = tag -> fromJson(receive_message["Data"]);
-        tag -> settagId(tag_temp.gettagId());
+        Tag temp_tag = tag -> fromJson(receive_message["Data"]);
+        tag -> settagId(temp_tag.gettagId());
         return true;
     }
     else {
@@ -344,4 +351,56 @@ bool ClientController::ClientFilterByTagName(Tag *tag, User* user, std::string* 
     else {
         return false;
     }
+}
+
+bool ClientController::ClientListNoteTags(Note *note, std::string* response, std::vector<Tag>& TagsList)
+{
+    msg_id++;
+    json send_message;
+    json receive_message;
+    send_message["ID"] = msg_id;
+    send_message["Action"] = "list note tags";
+    send_message["Data"] = note -> toJson();
+    clientConnection -> Send(send_message);
+    receive_message = clientConnection -> Receive();
+    *response = receive_message["Response"];
+    if(receive_message["Response"] == "list tags of note successfully")
+    {
+        json TagsArray = receive_message["Data"];
+        std::vector<Tag> Tags = TagsArray.get<std::vector<Tag>>();
+        for (Tag& item : Tags) {
+            TagsList.push_back(item);
+        }
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+bool ClientController::ClientUpdateUserData(User *user, std::string* response)
+{
+    msg_id++;
+    json send_message;
+    json receive_message;
+    send_message["ID"] = msg_id;
+    send_message["Action"] = "update user data";
+    send_message["Data"] = user -> toJson();
+    clientConnection -> Send(send_message);
+    receive_message = clientConnection -> Receive();
+    *response = receive_message["Response"];
+    if(receive_message["Response"] == "update user data successfully")
+    {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+void ClientController::ClientLogout(){
+    json endMessage;
+    endMessage["Action"] = "close";
+    clientConnection -> Send(endMessage);
+    clientConnection -> closeConnection();
 }

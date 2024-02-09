@@ -17,6 +17,9 @@ class TextEditComponent : public QWidget
 public:
     TextEditComponent(QWidget *parent = nullptr);
     TextEditComponent(int index, QWidget *parent = nullptr);
+    static NoteComponent toNoteComponent(Note *note, TextEditComponent& tec);
+
+
     textEdit *text;
     int index;
 
@@ -25,7 +28,7 @@ signals:
     void middleEnterKeyPressed(int index, const QString textToRight);
     void backspaceEmpty(int index);
     void backspaceNotEmpty(int index, const QString textToRight);
-    void tabKeyPressed(int index);
+    void tabKeyPressed(int index, bool forward);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;

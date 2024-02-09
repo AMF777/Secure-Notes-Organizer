@@ -4,12 +4,12 @@
 #include <QGraphicsBlurEffect>
 #include <QFileDialog>
 #include <QFileInfo>
+#include "qcoreevent.h"
+#include "qevent.h"
 
 add_note_dialog::add_note_dialog(QWidget *parent)
     : QDialog{parent}
 {
-
-
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     setProperty("class","white-background round-corners profile-dialog-border");
     setModal(true);
@@ -29,7 +29,7 @@ add_note_dialog::add_note_dialog(QWidget *parent)
         QLineEdit::Normal
     );
     fileName = new label_input_vlayout(
-        "File Name:",
+        "Note Title:",
         "user-label",
         FILEPATH_INPUT_WIDTH,
         "user-input",
@@ -59,6 +59,7 @@ add_note_dialog::add_note_dialog(QWidget *parent)
     mainLayout->addLayout(buttonLayout);
     mainLayout->setAlignment(Qt::AlignCenter);
 
+    installEventFilter(this);
 }
 
 add_note_dialog::add_note_dialog(const std::function<void (QString, QString)> initEditorFromFile, QWidget *parent) : add_note_dialog(parent)
@@ -77,7 +78,7 @@ void add_note_dialog::openFileDialog()
     if(filePath.isEmpty() ) return;
 
     QFileInfo fileInfo(filePath);
-    QString fileNameWithoutExtentsion =  fileInfo.baseName();
+    QString fileNameWithoutExtentsion = fileInfo.baseName();
 
 
     fileName->input->setText(fileNameWithoutExtentsion);
@@ -86,7 +87,8 @@ void add_note_dialog::openFileDialog()
 
 void add_note_dialog::showEvent(QShowEvent *event){
     // Calculate the desired width and height based on the parent widget's size
-    auto parent=parentWidget()->parentWidget();
+    // auto parent=parentWidget()->parentWidget();
+    auto parent=parentWidget();
     if (parent ) {
         QSize parentSize = parent->size();
         int dialogWidth = parentSize.width() * 0.8;
@@ -110,7 +112,8 @@ void add_note_dialog::showEvent(QShowEvent *event){
 void add_note_dialog::hideEvent(QHideEvent *event)
 {
     qDebug()<<"hide event";
-    auto parent=parentWidget()->parentWidget();
+    // auto parent=parentWidget()->parentWidget();
+    auto parent=parentWidget();
     if(parent ){
         parent->setGraphicsEffect(nullptr);
     }
@@ -125,16 +128,18 @@ void add_note_dialog::saveButtonClicked()
 
     close();
     initEditorFromFile(filePath, title);
-    // if (file.open(QIODevice::ReadOnly | QIODevice::Text) ) {
-        // QTextStream in(&file);
-        // QString fileContents = in.readAll();
+    notesCounter++;
+}
 
-        // QStringList lines = fileContents.split("\n", Qt::SkipEmptyParts);
-        // Print the contents using qDebug
-        // qDebug() << "Number of lines:" << lines.size();
-        // for (const QString &line : lines) {
-        //     qDebug() << line;
-        // }
-        // file.close();
-    // }
+
+bool add_note_dialog::eventFilter(QObject *obj, QEvent *event) {
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+        if (keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
+            saveButtonClicked();
+            return true; // Consume the event
+        }
+    }
+    // Pass the event to the base class
+    return QWidget::eventFilter(obj, event);
 }

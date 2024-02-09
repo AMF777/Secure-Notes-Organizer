@@ -1,3 +1,6 @@
+#ifndef TAG_H
+#define TAG_H
+
 #include <iostream>
 #include <string>
 #include "json.hpp"
@@ -25,3 +28,19 @@ class Tag{
         int noteId;
         int tagId;
 };
+
+// Provide a specialization of nlohmann::adl_serializer for Tag
+namespace nlohmann {
+template <>
+struct adl_serializer<Tag> {
+        static void to_json(json& j, const Tag& obj) {
+            j = obj.toJson();
+        }
+
+        static void from_json(const json& j, Tag& obj) {
+            Tag temp;
+            obj = temp.fromJson(j);
+        }
+};
+}  // namespace nlohmann
+#endif
