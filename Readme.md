@@ -1,6 +1,7 @@
+
 # Secure Notes Generator
 
-![instabug](https://logo-logos.com/2016/10/Siemens_logo.png)
+![Siemens_logo](https://logo-logos.com/2016/10/Siemens_logo.png)
 
 ## Description
 
@@ -30,7 +31,7 @@ allowing the users to login and see their notes, edit them or add new notes
 
 2. Search notes
 
-3. Sharing notes
+3. Sharing notes (Future work)
 
 ## Tools and languages used in Project
 
@@ -41,9 +42,73 @@ allowing the users to login and see their notes, edit them or add new notes
 | <img height="50" src="https://user-images.githubusercontent.com/25181517/183912952-83784e94-629d-4c34-a961-ae2ae795b662.png">        | Jira   |
 | <img height="50" src="https://user-images.githubusercontent.com/25181517/189715289-df3ee512-6eca-463f-a0f4-c10d94a06b2f.png">        | Figma  |
 | <img height="50" src="https://user-images.githubusercontent.com/25181517/192106073-90fffafe-3562-4ff9-a37e-c77a2da0ff58.png">        | C++    |
-| <img height="50" src="https://github.com/marwin1991/profile-technology-icons/assets/136815194/11e7dfe7-c1f6-483c-9d92-276f1fa9363b"> | Qt     |
-| <img height="50" src="https://user-images.githubusercontent.com/25181517/183896128-ec99105a-ec1a-4d85-b08b-1aa1620b2046.png">        | MySQL  |
+| <img height="50" src="https://github.com/marwin1991/profile-technology-icons/assets/136815194/11e7dfe7-c1f6-483c-9d92-276f1fa9363b"> | Qt Version 6    |
+| <img height="50" src="https://www.michaelstults.com/wp-content/uploads/2014/10/MySQLWorkbench.png">        | My SQL Workbench  |
 | <img height="50" src="https://www.incredibuild.com/wp-content/uploads/2020/10/gtest.jpg">                                            | GTest  |
+| <img height="50" src="https://user-images.githubusercontent.com/25181517/192108891-d86b6220-e232-423a-bf5f-90903e6887c3.png">                                            | Visual Studio Code  |
+| <img height="50" src="https://cdn-icons-png.flaticon.com/512/136/136525.png">                                            | JSON  |
+| <img height="50" src="https://static-00.iconduck.com/assets.00/cmake-icon-2048x2046-qsjo7g7r.png">                                            | cmake  |
+| <img height="50" src="https://user-images.githubusercontent.com/25181517/186884153-99edc188-e4aa-4c84-91b0-e2df260ebc33.png">                                            | Ubuntu  |
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/AMF777/Secure-Notes-Organizer
+```
+
+Install dependencies
+
+Set up My Sql Workbench 
+
+```bash
+  https://linuxhint.com/installing_mysql_workbench_ubuntu/
+```
+Download and Install C++ Connector for My Sql Workbench
+
+```bash
+  sudo apt-get install libmysqlcppconn-dev
+```
+Open my Sql Workbench
+
+Open the DB.sql file inside the Database directory
+```bash
+  cd Server/Database/
+```
+Create Database Schema inside My Sql Workbench
+```bash
+  CREATE SCHEMA SecureNoteOrganizer;
+```
+Then execute DB.Sql in My Sql Workbench
+
+Reconfigure the connection to Database with your username and password and Database Schema name in line 6 in the file ServerWithDC.cpp
+```bash
+  cd Server_with_cmake/Server/src/ServerWithDC/
+```
+Start the server
+
+```bash
+  cd Server_with_cmake/Server/
+
+  mkdir build
+
+  cd build 
+
+  cmake ..
+
+  make
+
+  ./Server
+```
+Run the integration testing of Clinet Controller with Server
+```bash
+  cd Gtest/ClientControllerForGtest/
+
+  g++ *.cpp -o client -I. -pthread -L/path/to/gtest/lib -lgtest -lgtest_main
+
+  ./client  
+```
 
 ## Authors
 
@@ -52,4 +117,5 @@ allowing the users to login and see their notes, edit them or add new notes
 - [Ahmed Hany](https://github.com/HNOONa-0)
 - [Ayman Ashraf](https://github.com/Mo3gz)
 - [Mary Magdy](https://github.com/MaryMagdyShinoda)
-- [Youssef Abdelmaksoud](https://github.com/Youssefhassan1717?tab=repositories)
+- [Youssef Abdelmaksoud](https://github.com/Youssefhassan1717)
+
