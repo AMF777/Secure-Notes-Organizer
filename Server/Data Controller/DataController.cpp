@@ -511,6 +511,38 @@ bool DataController::Dc_DeleteNoteComponent(int componentId,int userId,int noteI
         return false;
     }
 }
+/*bool DataController::Dc_DeleteNote(int noteId,int userId){
+    std::lock_guard<std::mutex> lock(mtx);
+    try{
+        // Check if the specified note_id exists in the notes table and belongs to the user
+        pstmt = con->prepareStatement("SELECT 1 FROM notes WHERE note_id = ? AND user_id = ?");
+        pstmt->setInt(1, noteId);
+        pstmt->setInt(2, userId);
+
+        res = pstmt->executeQuery();
+
+        if (!res->next()) {
+            std::cout << "Error: Note with note_id " << noteId << " does not exist or does not belong to the user." << std::endl;
+            return false;
+        }
+        // Prepare a SQL statement with placeholders and execute it
+        pstmt=con->prepareStatement("DELETE FROM Component_note WHERE note_id=?");
+        pstmt->setInt(1,noteId);
+        pstmt->execute();
+        std::cout << "Note components deleted successfully" << std::endl;
+        // Delete the note from the notes table
+        pstmt = con->prepareStatement("DELETE FROM notes WHERE note_id = ? AND user_id = ?");
+        pstmt->setInt(1, noteId);
+        pstmt->setInt(2, userId);
+        pstmt->execute();
+        std::cout << "Note deleted successfully" << std::endl;
+        return true;
+    }
+    catch(sql::SQLException &e){
+        std::cout << "Error: " << e.what() << std::endl;
+        return false;
+    }
+}*/
 bool DataController::Dc_DeleteNote(int noteId,int userId){
     std::lock_guard<std::mutex> lock(mtx);
     try{
@@ -530,6 +562,18 @@ bool DataController::Dc_DeleteNote(int noteId,int userId){
         pstmt->setInt(1,noteId);
         pstmt->execute();
         std::cout << "Note components deleted successfully" << std::endl;
+
+        // Delete the note-tag relations from the note_tags table
+        pstmt = con->prepareStatement("DELETE FROM note_tags WHERE note_id = ?");
+        pstmt->setInt(1, noteId);
+        pstmt->execute();
+        std::cout << "Note-tag relations deleted successfully" << std::endl;
+
+        // Delete the tags from the tags table that are not related to any notes
+        pstmt = con->prepareStatement("DELETE FROM tags WHERE tag_id NOT IN (SELECT tag_id FROM note_tags)");
+        pstmt->execute();
+        std::cout << "Unused tags deleted successfully" << std::endl;
+
         // Delete the note from the notes table
         pstmt = con->prepareStatement("DELETE FROM notes WHERE note_id = ? AND user_id = ?");
         pstmt->setInt(1, noteId);
